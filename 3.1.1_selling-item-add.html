@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="img/favicon.ico" rel="icon" type="image/x-icon">
+    <title>新增商品</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/flatpickr.css" rel="stylesheet">
+    <link href="css/vue-select.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/table.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+  </head>
+  <body>
+    <header class="navbar navbar-inverse fixed-top active" id="header">
+      <div class="navbar-brand"><a id="menu-toggle"><span class="material-icons">menu</span></a>
+        <h1><a href="./index.html"><span>fun市集</span>後台</a></h1>
+      </div>
+      <ul class="topbar-menu">
+        <li><span class="greeting">Have a Good Time</span></li>
+        <li>
+          <div class="btn-group">
+            <button class="dropdown-toggle topbar-btn" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="material-icons">notifications</span><span class="red-dot"></span></button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <ul class="dropdown-list">
+                <li class="dropdown-item"><a class="dropdown-info"><span class="b-caption">[審核通過] 小丸子帽子</span></a>
+                  <div class="date"><span>今天</span><span>16:55</span></div>
+                </li>
+                <li class="dropdown-item read">
+                  <div class="dropdown-info">
+                    <p class="b-caption">[審核通過] 小丸子鞋子</p>
+                  </div>
+                  <div class="date"><span>8-12</span></div>
+                </li>
+                <li class="dropdown-item read">
+                  <div class="dropdown-info">
+                    <p class="b-caption">[審核通過] 小丸子裙子</p>
+                  </div>
+                  <div class="date"><span>8-12</span></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="btn-group">
+            <button class="dropdown-toggle topbar-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="material-icons">person_outline</span></button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <ul class="dropdown-list">
+                <li class="dropdown-item read"><a class="dropdown-info" href="./login.html"><span class="b-caption">登出</span></a></li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </header>
+    <div class="container-fluid" id="main-content">
+      <div class="row">
+        <div class="expand" id="sidebar-wrapper">
+          <ul id="sidebar"></ul>
+          <div class="overlay show"></div>
+        </div>
+        <div class="col wrap">
+          <div class="row">
+            <div id="gotop"><span class="material-icons">arrow_upward</span></div>
+            <div class="col content-top">
+              <div class="breadcrum">fun市集後台>商品上架管理>上架清單>新增商品</div>
+            </div>
+          </div>
+          <div class="row" id="app">
+            <div class="content animated fadeIn">
+              <ul class="nav nav-tabs">
+              </ul>
+              <form class="form-wrap" id="basic-form" @submit.prevent="saveForm()" method="post">
+                <div class="form-top">
+                  <h2 class="text-h3">新增商品</h2>
+                </div>
+                <fieldset>
+                  <!-- 定義檔設定 -->
+                  <div class="text-h5">定義檔設定</div>
+                  <div class="b-text-field d-block">
+                    <label>供應商<span>*</span></label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <div class="b-input-wrap">
+                          <v-select class="b-select" :options="vendor.option" v-model="vendor.value" autocomplete="off" :clearable="false" placeholder="請選擇供應商" required></v-select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block" :class="asset.validation">
+                    <label>選擇資產<span>*</span></label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <div class="b-input-wrap">
+                          <v-select class="b-select" :options="categoryOption" v-model="category.value" :clearable="false"></v-select>
+                        </div>
+                        <div class="b-input-wrap">
+                          <v-select class="b-select" :options="category.value.option" v-model="subCategory.value" placeholder="請選擇次分類" :clearable="false"></v-select>
+                        </div>
+                        <v-select class="b-select" :options="assetList" v-model="formData.asset" placeholder="選擇資產"></v-select>
+                      </div>
+                      <div class="b-field-row mb-none">
+                        <div class="img-preview mb-md" data-type="marketSmall"><img src="./img/product-img.jpg" alt="" v-if="formData.asset" key="imgPriview">
+                          <div class="d-flex align-items-center justify-content-center h-100 text-A" v-else><span>商品預覽</span></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- 資產：票券 新增顯示欄位-->
+                  <template v-if="category.value.value === 'ticket'" key="ticketSetID" >
+                    <div class="b-text-field d-block" :class="attribute.validation" >
+                      <label>水位ID<span>*</span></label>
+                      <div class="b-input-wrap">
+                        <input class="b-input id" type="number" :placeholder="ticket.thirdPartyID" disabled>
+                      </div>
+                    </div>
+                  </template>
+                  <!-- 資產：收藏品 新增顯示欄位-->
+                  <template v-if="category.value.value === 'collection'" key="collectionSetID" >
+                    <div class="b-text-field d-block" :class="attribute.validation" >
+                      <label>水位ID<span>*</span></label>
+                      <div class="b-input-wrap">
+                        <input class="b-input id" type="number" :placeholder="collection.thirdPartyID" disabled>
+                      </div>
+                    </div>
+                  </template>
+                  <!-- 資產：道具 新增顯示欄位 -->
+                  <template v-if="category.value.value === 'item'" key="itemSetAttributes">
+                    <hr>
+                    <div class="text-h5">道具屬性設定</div>
+                    <div class="b-text-field d-block" :class="attribute.validation">
+                      <label>屬性組合<span>*</span></label>
+                      <div class="b-field-group">
+                        <template>
+                          <div class="b-field-row mb-xs pl-md" v-for="item,idx in formData.attribute.attribute">
+                            <label class="pt-xs pr-md">{{idx+1}}. {{ item.label }} {{ item.name }}</label>
+                            <div class="b-input-wrap inner-label width-150">
+                              <input class="b-input" type="text" placeholder="屬性數值" :disabled="!formData.asset" @change="customUpdate = true" required>
+                              <label>屬性數值</label>
+                            </div>
+                          </div>
+                          <div class="b-field-row mb-none pl-md animated fadeIn">
+                            <!-- <button class="b-btn-primary ml-none outline" data-size="md">更新組合</button><span class="b-caption p-sm">or</span> -->
+                            <div class="b-checkbox pt-xxs" :disabled="!formData.asset">
+                              <input type="checkbox" id="customName" checked disabled>
+                              <label class="pr-xs" for="customName">顯示於前台/背包</label>
+                            </div>
+                          </div>
+                        </template>
+                      </div>
+                    </div>
+                  </template>
+                  <!-- 資產：票券 新增顯示欄位 -->
+                  <template v-if="category.value.value === 'ticket'" key="ticketCheck">
+                    <hr>
+                    <div class="text-h5">票券核銷＆活動設定</div>
+                    <div class="b-text-field d-block">
+                      <!-- 票券核銷 -->
+                      <label>核銷方式<span>*</span></label>
+                      <div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-radio mb-none">
+                            <input type="radio" id="click" v-model="ticket.checkWay" value="click" name="click" :disabled="!formData.asset">
+                            <label for="click">點擊</label>
+                          </div>
+                        </div>
+                        <div class="b-field-row">
+                          <div class="b-radio mb-none">
+                            <input type="radio" id="qrCode" v-model="ticket.checkWay" value="qrCode" name="qrCode" :disabled="!formData.asset">
+                            <label for="qrCode">掃描 QRcode</label>
+                          </div>
+                        </div>
+                        <div class="b-field-row">
+                          <div class="b-radio mb-none">
+                            <input type="radio" id="noChcek" v-model="ticket.checkWay" value="noChcek" name="noChcek" :disabled="!formData.asset">
+                            <label for="noChcek">免核銷</label>
+                          </div>
+                        </div>
+                        <div class="b-field-row">
+                          <div class="b-radio mb-none">
+                            <input type="radio" id="insertCode" v-model="ticket.checkWay" value="insertCode" name="insertCode" :disabled="!formData.asset">
+                            <label for="insertCode">輸入代碼</label>
+                            <input class="b-input mb-none mx-sm" id="eventStart" type="text" maxlength="6" :disabled="ticket.checkWay !== 'insertCode'" placeholder="設置代碼共6位英數混合">
+                          </div>
+                        </div>
+                        <div class="b-field-row">
+                          <div class="b-radio mb-none">
+                            <input type="radio" id="fixedCode" v-model="ticket.checkWay" value="fixedCode" name="fixedCode" :disabled="!formData.asset">
+                            <label for="fixedCode">固定序號核銷</label>
+                          </div>
+                          <div class="b-field-row pl-lg">
+                            <label class="pr-sm pt-xxs">是否顯示 BarCode </label>
+                            <div class="b-radio mb-none">
+                              <input type="radio" id="fixNoBC" :disabled="ticket.checkWay !== 'fixedCode'" v-model="ticket.fixedCode" value="fixNoBC" name="fixNoBC">
+                              <label for="fixNoBC">否</label>
+                            </div>
+                            <div class="b-radio mb-none">
+                              <input type="radio" id="fixBC" :disabled="ticket.checkWay !== 'fixedCode'" v-model="ticket.fixedCode" value="fixBC" name="fixBC">
+                              <label for="fixBC">是</label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="b-field-row">
+                          <div class="b-radio mb-none">
+                            <input type="radio" id="thirdPartyCheck" v-model="ticket.checkWay" value="thirdPartyCheck" name="thirdPartyCheck" :disabled="!formData.asset">
+                            <label for="thirdPartyCheck">第三方序號核銷</label>
+                          </div>
+                          <div class="b-field-row pl-lg mb-none">
+                            <label class="pr-sm pt-xxs">是否顯示 BarCode </label>
+                            <div class="b-radio mb-none">
+                              <input type="radio" id="noBC" :disabled="ticket.checkWay !== 'thirdPartyCheck'" v-model="ticket.thirdPartyCheck.showBarCode" value="noBC" name="noBC">
+                              <label for="noBC">否</label>
+                            </div>
+                            <div class="b-radio mb-none">
+                              <input type="radio" id="showBC" :disabled="ticket.checkWay !== 'thirdPartyCheck'" v-model="ticket.thirdPartyCheck.showBarCode" value="showBC" name="showBC">
+                              <label for="showBC">是</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- 活動連結 -->
+                    <div class="b-text-field d-block">
+                      <label>設定活動連結<span>*</span></label>
+                      <div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-radio mb-none">
+                            <input type="radio" id="eventLinkF" v-model="ticket.eventLink.active" value="eventLinkF" name="eventLinkF" :disabled="!formData.asset">
+                            <label for="eventLinkF">不使用</label>
+                          </div>
+                        </div>
+                        <div class="b-field-row">
+                          <div class="b-radio mb-none">
+                            <input type="radio" id="eventLinkY" v-model="ticket.eventLink.active" value="eventLinkY" name="eventLinkY" :disabled="!formData.asset">
+                            <label for="eventLinkY">設定網址</label>
+                          </div>
+                          <div class="b-input-wrap">
+                            <input class="b-input width-350" type="text" :disabled="ticket.eventLink.active !== 'eventLinkY'" v-model="ticket.eventLink.value" :maxlength="ticket.eventLink.maxlength" :placeholder="ticket.eventLink.placeholder" required>
+                            <!-- <span class="b-input-hint">({{ ticket.eventLink.value.length }}/{{ticket.eventLink.maxlength}})</span> -->
+                          </div>
+                          <div class="b-field-row pl-lg">
+                            <label class="pr-sm pt-xxs">連結類型</label>
+                            <div class="b-radio mb-none" v-for="item in ticket.eventLinkOpenType">
+                              <input type="radio" :id="item.value" :disabled="ticket.eventLink.active !== 'eventLinkY'" v-model="ticket.eventLink.opentype" :value="item.value" :name="item.value" required>
+                              <label :for="item.value">{{item.label}}</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- 活動地址 -->
+                    <div class="b-text-field d-block">
+                      <label>活動地址<span>*</span></label>
+                      <div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-radio mb-none">
+                            <input type="radio" id="eventLocF" v-model="ticket.eventLoc" value="eventLocF" name="eventLocF" :disabled="!formData.asset">
+                            <label for="eventLocF">不使用</label>
+                          </div>
+                        </div>
+                        <div class="b-field-row">
+                          <div class="b-radio mb-none">
+                            <input type="radio" id="eventLocY" v-model="ticket.eventLoc" value="eventLocY" name="eventLocY" :disabled="!formData.asset">
+                            <label for="eventLocY">設定地址</label>
+                          </div>
+                          <input class="b-input width-350" type="text" :disabled="ticket.eventLoc !== 'eventLocY'" placeholder="請輸入活動地址">
+                          <input class="b-input width-350" type="text" :disabled="ticket.eventLoc !== 'eventLocY'" placeholder="請輸入活動地點輔助說明">
+                        </div>
+                      </div>
+                    </div>
+                    <!-- 活動公開 -->
+                    <div class="b-text-field d-block">
+                      <label>是否公開活動<span>*</span></label>
+                      <div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-radio mb-none">
+                            <input type="radio" id="publicY" v-model="ticket.public" value="publicY" name="publicY" :disabled="!formData.asset">
+                            <label for="publicY">公開</label>
+                          </div>
+                          <div class="b-radio mb-none">
+                            <input type="radio" id="publicF" v-model="ticket.public" value="publicF" name="publicF" :disabled="!formData.asset">
+                            <label for="publicF">不公開</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- 活動取票 -->
+                    <div class="b-text-field d-block">
+                      <label>是否公開取票<span>*</span></label>
+                      <div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-radio mb-none">
+                            <input type="radio" id="publicGetTicketY" v-model="ticket.publicGetTicket" value="publicGetTicketY" name="publicGetTicketY" :disabled="!formData.asset">
+                            <label for="publicGetTicketY">公開</label>
+                          </div>
+                          <div class="b-radio mb-none">
+                            <input type="radio" id="publicGetTicketF" v-model="ticket.publicGetTicket" value="publicGetTicketF" name="publicGetTicketF" :disabled="!formData.asset">
+                            <label for="publicGetTicketF">不公開</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+                  <hr>
+                  <!-- 商品資訊設定 -->
+                  <div class="text-h5">商品資訊設定</div>
+                  <div class="b-text-field d-block" :class="productName.validation">
+                    <label>商品顯示標題<span>*</span></label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <div class="b-input-wrap">
+                          <input class="b-input width-400 max-w-none mr-none" type="text" v-model="formData.productName" :maxlength="productName.maxlength" :placeholder="productName.placeholder" required><span class="b-input-hint">({{ formData.productName.length }}/{{productName.maxlength}})</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block pt-xs">
+                    <label>商品說明圖<span class="tooltip-btn pl-xs" data-toggle="tooltip" data-placement="right" data-html="true" title="&lt;p&gt;詳細說明中的圖檔&lt;/p&gt;&lt;img class='w-100' src='./img/demo/content-img.png' alt=''/&gt;"><span class="material-icons">info</span></span></label>
+                    <div class="b-field-group"> 
+                      <div class="b-field-row mb-xs">
+                        <label class="b-btn-primary outline ml-none" for="detailImgUpload" data-size="md">選擇檔案
+                          <input type="file" id="detailImgUpload" accept=".png, .jpg, .jpeg" multiple="multiple">
+                        </label>
+                        <p class="b-caption pt-xs">最多上傳五張，大小不得超過 1 MB</p>
+                      </div>
+                      <div class="b-field-row">
+                        <template v-for="(item,idx) in formData.productDescImg">
+                          <div class="upload-img-preview"><img class="preview" data-size="small" :src="item.src">
+                            <ul> 
+                              <li class="b-caption">{{item.name}}</li>
+                              <li class="b-caption">大小: {{item.size}} KB</li>
+                            </ul>
+                            <label class="b-btn-secondary outline imageChange" :for="'changeFile'+idx" data-size="xs" type="button">替換圖片
+                              <input type="file" :id="'changeFile'+idx" accept=".png, .jpg, .jpeg" :data-idx="idx" multiple="multiple">
+                            </label><br>
+                            <button class="b-btn-danger outline" data-size="xs" type="button" @click="removeImg(idx)">移除圖片</button>
+                          </div>
+                        </template>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block" :class="productDesc.validation">
+                    <label>商品詳細說明<span>*</span></label>
+                    <div class="b-field-row">
+                      <div class="b-input-wrap">
+                        <textarea class="b-textarea" rows="4" cols="48" v-model="formData.productDesc" :placeholder="productDesc.placeholder" :maxlength="productDesc.maxlength" required></textarea><span class="b-input-hint">({{ formData.productDesc.length }}/{{productDesc.maxlength}})</span>
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+                  <!-- 商品銷售設定 -->
+                  <div class="text-h5">商品銷售設定</div>
+                  <div class="b-text-field d-block" :class="publishStart.validation">
+                    <label>刊登開始時間<span>*</span><span class="tooltip-btn pl-xs" data-toggle="tooltip" data-placement="right" title="以台灣時間為準，最快可設定於五個工作天後"><span class="material-icons">info</span></span></label>
+                    <div class="b-field-row">
+                      <div class="b-input-wrap">
+                        <input class="b-input mr-none" id="dateStart" type="text" v-model="formData.publishStart" placeholder="刊登日期">
+                      </div>
+                      <div class="b-input-wrap">
+                        <input class="b-input mr-none" id="dateStartTime" type="text" v-model="formData.publishStartTime" placeholder="刊登時間">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block" :class="publishEnd.validation">
+                    <label>刊登結束時間<span>*</span><span class="tooltip-btn pl-xs" data-toggle="tooltip" data-placement="right" title="以台灣時間為準"><span class="material-icons">info</span></span></label>
+                    <div class="b-field-row">
+                      <div class="b-input-wrap">
+                        <input class="b-input mr-none" id="dateEnd" type="text" v-model="formData.publishEnd" placeholder="下架日期">
+                      </div>
+                      <div class="b-input-wrap">
+                        <input class="b-input mr-none" id="dateEndTime" type="text" v-model="formData.publishEndTime" placeholder="下架時間">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block" key="listingplace">
+                    <label>上架位置<span>*</span></label>
+                    <div class="b-field-group">
+                      <div class="b-field-row mb-none">
+                        <div class="b-checkbox">
+                          <input type="checkbox" id="webstore" v-model="formData.route.webstore" required>
+                          <label class="pr-xs" for="webstore">web 商城</label>
+                        </div>
+                      </div>
+                      <div class="b-field-row mb-none">
+                        <div class="b-checkbox">
+                          <input type="checkbox" id="inappstore" v-model="formData.route.inappstore" required>
+                          <label class="pr-xs" for="inappstore">in App 商城</label>
+                        </div>
+                        <div class="b-field-row pl-lg">
+                          <label class="pr-sm pt-xxs">支援 beanfun! Coin</label>
+                          <div class="b-radio mb-none">
+                            <input type="radio" id="bfCoinY" :disabled="formData.route.inappstore !== true"  v-model="formData.bfCoinUse" value="bfCoinY" name="bfCoinY" >
+                            <label for="bfCoinY">是</label>
+                          </div>
+                          <div class="b-radio mb-none">
+                            <input type="radio" id="bfCoinN" :disabled="formData.route.inappstore !== true" v-model="formData.bfCoinUse" value="bfCoinN" name="bfCoinN" >
+                            <label for="bfCoinN">否</label>
+                          </div>
+                        </div>
+                        <template v-if="formData.route.inappstore === true && formData.bfCoinUse === 'bfCoinY'" key="bfCoinFee">
+                          <div class="b-field-row pl-lg">
+                            <label class="pr-sm pt-xxs">手續費</label>
+                            <div class="b-input-wrap">
+                              <input class="b-input" type="number" v-model="formData.bfCoinUsePercentage" oninput="if(value>100)value=100;if(value.length>4)value=value.slice(0,4);if(value<0)value=0" required> %
+                            </div>
+                          </div>
+                          <div class="b-field-row pl-lg">
+                            <div class="alert alert-warning"><span class="material-icons">info </span>由於 IAP 議題，在 in App 商城內顯示的價格，將會額外加上 38% 手續費</div>
+                          </div>
+                        </template>
+                        <template v-if="formData.route.inappstore === true && formData.bfCoinUse === 'bfCoinN'" key="bfClubLink">
+                          <div class="b-field-row pl-lg">
+                            <label class="pr-sm pt-xxs">beanfun!社團網址</label>
+                            <div class="b-input-wrap">
+                              <input class="b-input width-350" type="text" v-model="formData.bfClubLink.value" :maxlength="formData.bfClubLink.maxlength" :placeholder="formData.bfClubLink.placeholder" required>
+                            </div>
+                          </div>
+                        </template>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block" :class="price.validation">
+                    <label>商品價格<span>*</span><span class="tooltip-btn pl-xs" data-toggle="tooltip" data-placement="right" title="因應支付方式，會有不同的價格區間限制。GamePay:$30-3,000;信用卡:$45-10,000;全家代收:$100-2,000"><span class="material-icons">info</span></span></label>
+                    <div class="b-field-row mb-none">
+                      <div class="b-input-wrap gamapay">新台幣</div>
+                      <input class="b-input mr-none" type="number" v-model="formData.price2" placeholder="設定價格">
+                      <div class="b-input-wrap gamapay pl-xs">元</div>
+                    </div>
+                    <div class="b-field-row pb-none">
+                      <div class="b-input-wrap"><span class="b-caption">※ 應收金額 = 設定售價 - PA 成本({{gamaCost}}%) - fun市集平台費({{platformCost}}%)</span></div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block" :class="official.validation">
+                    <label>所屬官方旗艦店</label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <div class="b-input-wrap">
+                          <v-select class="b-select" :options="official.option" v-model="official.value" autocomplete="off" :clearable="false" placeholder="請選擇所屬旗艦店"></v-select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block" :class="groupOption.validation">
+                    <label>商品組合</label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <div class="b-input-wrap">
+                          <v-select class="b-select" :options="groupOptionSelect" v-model="groupOption.value" autocomplete="off" :clearable="false" :placeholder="groupOption.placeholder"></v-select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- 商品組合：實體物品 新增顯示欄位-->
+                  <template v-if="groupOption.value.value === 'goods'" key="goodsGroup">
+                    <div class="b-text-field d-block">
+                      <label>包含實體物品</label>
+                      <div class="b-field-group"> 
+                        <div class="b-field-row">
+                          <div class="b-input-wrap inner-label">
+                            <input class="b-input mb-none" type="text" v-model="formData.toReal.input" placeholder="請輸入實體物品名稱" maxlength="20" required>
+                            <label>物品名稱<span>*</span></label>
+                            <span class="b-input-hint">({{formData.toReal.input.length}}/20)</span>
+                          </div>
+                          <div class="b-input-wrap inner-label">
+                            <input class="b-input mb-none" type="number" v-model.lazy="formData.toReal.price" placeholder="實體物品售價" required>
+                            <label>物品售價<span>*</span></label>
+                            <span class="b-input-hint">不可高於上架商品售價</span>
+                          </div>
+                        </div>
+                        <div class="b-field-row">
+                          <div class="b-input-wrap inner-label">
+                            <input class="b-input" type="text" v-model="formData.toReal.cp" placeholder="請輸入實體物品拆帳供應商" maxlength="20" required>
+                            <label>物品拆帳供應商<span>*</span></label>
+                          </div>
+                          <div class="b-input-wrap inner-label">
+                            <input class="b-input" type="number" v-model="formData.toReal.percent" placeholder="請輸入實體物品拆帳％數" required>
+                            <label>物品拆帳％數<span>*</span></label>
+                          </div>
+                        </div>
+                        <div class="b-field-row">
+                          <div class="b-input-wrap inner-label">
+                            <input class="b-input" type="text" v-model="formData.toReal.goodsID" placeholder="請輸入實體物品料號">
+                            <label>物品料號</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+                  <!-- 商品組合：GASH點數 新增顯示欄位-->
+                  <template v-if="groupOption.value.value === 'gash'" key="gashGroup">
+                    <div class="b-text-field d-block">
+                      <label>包含GASH點數<span>*</span></label>
+                      <div class="b-field-group"> 
+                        <div class="b-field-row">
+                          <div class="b-input-wrap inner-label">
+                            <input class="b-input mb-none" type="number" v-model="formData.toGash.input" placeholder="請輸入點數數量" required>
+                            <label>點數數量</label>
+                          </div>
+                          <div class="b-input-wrap inner-label">
+                            <input class="b-input mb-none" type="number" v-model="formData.toGash.gashID" placeholder="請輸入點數料號" required>
+                            <label>點數料號</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+                  <div class="b-text-field d-block" :class="eventFreebie.validation">
+                    <label>贈獎活動<span class="tooltip-btn pl-xs" data-toggle="tooltip" data-placement="right" title="現階段由開發建置活動，提供所需欄位資料。手動填入活動名稱、活動期間、MPS event key對應MPS欄位"><span class="material-icons">info</span></span></label>
+                    <div class="b-field-group">
+                      <template v-for="item, idx in itemProperty">
+                        <div class="d-flex mb-none">
+                          <div class="p-xs text-A">{{idx+1}}.</div>
+                          <div class="b-field-row">
+                            <div class="b-input-wrap inner-label">
+                              <input class="b-input" type="text" placeholder="活動名稱">
+                              <label>活動名稱</label>
+                            </div>
+                            <input class="b-input mr-none" id="dateRangeStart" type="text" placeholder="活動開始時間" v-model="searchDateStart"><span class="p-xs">~</span>
+                            <input class="b-input" id="dateRangeEnd" type="text" placeholder="活動結束時間" v-model="searchDateEnd">
+                            <div class="b-input-wrap inner-label">
+                              <input class="b-input" type="text" placeholder="MPS event key">
+                              <label>MPS event key</label>
+                            </div>  
+                            <div class="button-icon" @click="removeField('itemProperty',idx)"><span class="material-icons">delete</span></div>
+                          </div>
+                        </div>
+                      </template><span class="b-btn-primary text pl-sm mb-lg" size="md" @click="addField('itemProperty')"><span class="material-icons">add</span>增加</span>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label>上架數量<span class="tooltip-btn pl-xs" data-toggle="tooltip" data-placement="right" title="請先填寫預計上架數量，於審核通過後，再上傳相應 PIN 碼才會列入商品庫存。如果資產不需 PIN 碼核銷，則後續不需上傳。"><span class="material-icons">info</span></span></label>
+                    <div class="b-field-group">
+                      <div class="b-field-row mb-none">
+                        <input class="b-input m-none" type="number" v-model="formData.stock" placeholder="請輸入上架數量">
+                      </div>
+                    </div>
+                  </div>
+                  <!-- 資產：道具&票券(第三方序號核銷) 新增顯示欄位-->
+                  <template v-if="category.value.value === 'item'" key="itemSet" >
+                    <div class="b-text-field d-block">
+                      <label>上傳PIN碼<span>*</span><span class="tooltip-btn pl-xs" data-toggle="tooltip" data-placement="right" title="銷貨序號"><span class="material-icons">info</span></span></label>
+                      <div class="b-field-group"> 
+                        <div class="b-field-row">
+                          <label class="b-btn-primary outline ml-none" for="pinUpload" data-size="md">上傳檔案
+                            <input type="file" :disabled="!formData.asset" id="pinUpload" accept=".csv" @change="replenishmentFile">
+                          </label>
+                          <p class="b-caption pt-xs" v-if="fileName">{{ fileName }}</p>
+                          <p class="b-caption pt-xs">.csv 檔案大小 < 1MB</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="b-text-field d-block">
+                      <label>上傳PIN碼數量</label>
+                      <div class="b-input-wrap">
+                        <p class="readonly pt-sm pb-none" v-if="uploadPinCount">{{ uploadPinCount.length }}</p>
+                        <p class="readonly text-A pt-sm pb-non" v-else>-</p>
+                      </div>
+                    </div>
+                  </template>
+                  <div class="b-text-field d-block mb-md" :class="limitation.validation">
+                    <label>購買限制<span>*</span></label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <div class="b-radio">
+                          <input type="radio" id="all" name="limitation" value="all" v-model="formData.limitation.value" value="all" name="all">
+                          <label for="all">不限</label>
+                        </div>
+                        <div class="b-radio d-flex">
+                          <input type="radio" id="limited" name="limitation" value="limited" v-model="formData.limitation.value" value="limited" name="limited">
+                          <label for="limited">
+                            <input class="b-input m-none" type="number" :disabled="formData.limitation.value !== 'limited'" v-model="formData.limitation.count" placeholder="總共最多數量"><span class="pl-xs">個/會員</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- 背包活動連結設定 -->
+                  <!-- 資產：收藏品 新增顯示欄位 -->
+                  <template v-if="category.value.value === 'collection'" key="collectionSetBackpack" >
+                    <hr>
+                    <div class="text-h5">背包活動連結設定</div>
+                    <div class="b-text-field d-block">
+                      <label>收藏品活動連結<span>*</span></label>
+                      <div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-radio mb-none">
+                            <input type="radio" :disabled="!formData.asset" id="backpackLinkF" v-model="collection.backpackLink.active" value="backpackLinkF" name="backpackLinkF">
+                            <label for="backpackLinkF">不使用</label>
+                          </div>
+                        </div>
+                        <div class="b-field-row">
+                          <div class="b-radio mb-none">
+                            <input type="radio" :disabled="!formData.asset" id="backpackLinkY" v-model="collection.backpackLink.active" value="backpackLinkY" name="backpackLinkY">
+                            <label for="backpackLinkY">設定網址</label>
+                          </div>
+                          <div class="b-input-wrap">
+                            <input class="b-input width-350" type="text" :disabled="collection.backpackLink.active !== 'backpackLinkY'" v-model="collection.backpackLink.value" :maxlength="collection.backpackLink.maxlength" :placeholder="collection.backpackLink.placeholder" required>
+                            <!-- <span class="b-input-hint">({{ collection.backpackLink.value.length }}/{{collection.backpackLink.maxlength}})</span> -->
+                          </div>
+                          <div class="b-field-row pl-lg">
+                            <label class="pr-sm pt-xxs">連結類型</label>
+                            <div class="b-radio mb-none" v-for="item in collection.backpackLinkOpenType">
+                              <input type="radio" :id="item.value" :disabled="collection.backpackLink.active !== 'backpackLinkY'" v-model="collection.backpackLink.opentype" :value="item.value" :name="item.value" required>
+                              <label :for="item.value">{{item.label}}</label>
+                            </div>
+                          </div>
+                          <div class="b-field-row pl-lg">
+                            <label class="pr-sm pt-xxs">按鈕名稱</label>
+                            <div class="b-input-wrap">
+                              <input class="b-input" type="text" :disabled="collection.backpackLink.active !== 'backpackLinkY'" v-model="collection.backpackLink2.value" :maxlength="collection.backpackLink2.maxlength" :placeholder="collection.backpackLink2.placeholder" required>
+                              <span class="b-input-hint">({{ collection.backpackLink2.value.length }}/{{collection.backpackLink2.maxlength}})</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+                  <!-- 資產：票券 新增顯示欄位-->
+                  <template v-if="category.value.value === 'ticket'" key="ticketSetBackpack" >
+                    <hr>
+                    <div class="text-h5">背包活動連結設定</div>
+                    <div class="b-text-field d-block">
+                      <label>票券活動連結<span>*</span></label>
+                      <div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-radio mb-none">
+                            <input type="radio" :disabled="!formData.asset" id="ticketLinkF" v-model="ticket.ticketLink.active" value="ticketLinkF" name="ticketLinkF" checked>
+                            <label for="ticketLinkF">不使用</label>
+                          </div>
+                        </div>
+                        <div class="b-field-row">
+                          <div class="b-radio mb-none">
+                            <input type="radio" :disabled="!formData.asset" id="ticketLinkY" v-model="ticket.ticketLink.active" value="ticketLinkY" name="ticketLinkY">
+                            <label for="ticketLinkY">設定網址</label>
+                          </div>
+                          <div class="b-input-wrap">
+                            <input class="b-input width-350" type="text" :disabled="ticket.ticketLink.active !== 'ticketLinkY'" v-model="ticket.ticketLink.value" :maxlength="ticket.ticketLink.maxlength" :placeholder="ticket.ticketLink.placeholder" required>
+                            <!-- <span class="b-input-hint">({{ ticket.ticketLink.value.length }}/{{ticket.ticketLink.maxlength}})</span> -->
+                          </div>
+                          <div class="b-field-row pl-lg">
+                            <label class="pr-sm pt-xxs">連結類型</label>
+                            <div class="b-radio mb-none" v-for="item in ticket.ticketLinkOpenType">
+                              <input type="radio" :id="item.value" :disabled="ticket.ticketLink.active !== 'ticketLinkY'" v-model="ticket.ticketLink.opentype" :value="item.value" :name="item.value" required>
+                              <label :for="item.value">{{item.label}}</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+                </fieldset>
+                <div class="b-form-button">
+                  <button class="b-btn-secondary outline" data-size="lg" type="button" onclick="window.location.href='./3.1_selling-list.html'">取消</button>
+                  <!-- 草稿建立成功用 -->
+                  <button class="b-btn-primary" data-size="lg" type="button" :disabled="saveBtnStatus.disabled" data-toggle="modal" @click="saveForm" >{{saveBtnStatus.label}}</button>
+                  <!-- 草稿建立失敗用 -->
+                  <!-- <button class="b-btn-primary" data-size="lg" type="button" :disabled="saveBtnStatus.disabled" data-toggle="modal" data-target="#failConfirm" @click="saveForm">{{saveBtnStatus.label}}</button> -->
+                </div>
+              </form>
+              <!-- popup 草稿建立成功 -->
+              <div class="modal fade" id="successConfirm" data-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm" role="document">
+                  <div class="modal-img" data-type="warning"></div>
+                  <div class="modal-content">
+                    <div class="modal-body text-center">
+                      <h3 class="modal-title">草稿建立成功</h3>
+                      <p>儲存後將於設定的刊登開始發布。</p>
+                    </div>
+                    <div class="modal-footer justify-content-center pt-none">
+                      <button class="b-btn-default" data-size="lg" type="button" onclick="window.location= './3.1_selling-list.html'">確定</button>
+                      <button class="b-btn-default text no-underline" data-size="md" type="button" data-dismiss="modal">關閉</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- popup 草稿建立失敗 -->
+              <div class="modal fade" id="failConfirm" data-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm" role="document">
+                  <div class="modal-img" data-type="warning"></div>
+                  <div class="modal-content">
+                    <div class="modal-body text-center">
+                      <h3 class="modal-title">草稿建立失敗</h3>
+                      <p>請於確認失敗原因後，重新再次儲存草稿</p>
+                    </div>
+                    <div class="modal-footer justify-content-center pt-none">
+                      <button class="b-btn-danger" data-size="lg" type="button" onclick="window.location.href='./3.1_selling-list.html'" data-dismiss="modal">確認</button>
+                      <button class="b-btn-default text no-underline" data-size="md" type="button" onclick="closeModal('#failConfirm', 'Y')">取消</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="footer">
+            <div class="copyright">&copy;2021 GASH Co, Ltd. All Right Reserved. </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/vue.min.js"></script>
+    <!-- jQuery-->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap Core JavaScript-->
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/flatpickr.js"></script>
+    <!-- multiselector-->
+    <script src="js/vue-select.js"></script>
+    <!-- Custom JavaScript-->
+    <script src="js/sidebar.js"></script>
+    <script src="js/custom.js"></script>
+    <script>
+      currentPage('上架清單');
+      var jQfn = function (){
+          // 商品說明圖預覽圖片
+          $("#main-content").on("change", "#detailImgUpload", function (e){
+              let file = e.target.files;
+              for(let i=0;i< 5; i++) {
+                  if(vm.formData.productDescImg.length< 5 ) {
+                      if(e.target.files === undefined) {return}
+                      let imgData = {}
+                      imgData.name = file[i].name
+                      imgData.size = size_format_float(file[i].size / 1024, 2);
+                      imgData.src = URL.createObjectURL(file[i]);
+                      vm.formData.productDescImg.push(imgData)
+                  }
+              }
+          })
+          
+          //刊登時間
+          flatpickr('#dateStart',{
+              static: true,
+              dateFormat: "Y/m/d",
+              minDate: new Date().fp_incr(5),
+          })
+          flatpickr('#dateEnd',{
+              static: true,
+              dateFormat: "Y/m/d",
+              minDate: vm.formData.publishStart,
+          })
+          flatpickr('#dateStartTime',{
+              enableTime: true,
+              enableSecond: true,
+              noCalendar: true,
+              dateFormat: "H:i",
+              time_24hr: true
+          })
+          flatpickr('#dateEndTime',{
+              enableTime: true,
+              enableSecond: true,
+              noCalendar: true,
+              dateFormat: "H:i",
+              time_24hr: true
+          })
+          flatpickr('#dateRangeStart',{
+              static: true,
+              enableTime: true,
+              enableSeconds: true,
+              dateFormat: "Y/m/d H:i:ss",
+              minDate: new Date().fp_incr(5),
+          })
+          flatpickr('#dateRangeEnd',{
+              static: true,
+              enableSeconds: true,
+              enableTime: true,
+              dateFormat: "Y/m/d H:i:ss",
+              minDate: vm.searchDateStart,
+          })
+      }
+      
+      var vm = new Vue({
+          el: '#app',
+          data() {
+              return {
+                  fileName:'', //pin碼檔名
+                  uploadPinCount: 0, //pin數量
+                  gamaCost: 3, //PA 成本
+                  platformCost: 10, //fun市集平台費
+                  searchDateStart:'',
+                  searchDateEnd:'',
+
+                  vendor: {
+                      option: [
+                          {label: 'OO供應商1', value: 'OO供應商1'},
+                          {label: 'OO供應商2', value: 'OO供應商2'},
+                          {label: 'OO供應商3', value: 'OO供應商3'},
+                          {label: 'OO供應商4', value: 'OO供應商4'},
+                      ],
+                  },
+                  category: {
+                      value: {
+                          // value: 'item', 
+                          // label: '道具',
+                          value: 'ticket', 
+                          label: '票券',
+                          option: [
+                              {value: 'ticket1', label: '票券分類一'},
+                              {value: 'ticket2', label: '票券分類二'},
+                              {value: 'ticket3', label: '票券分類三'}
+                          ]
+                          // value: 'collection', 
+                          // label: '收藏品',
+                      },
+                      validation: ''
+                  },
+                  subCategory: {
+                      // value: {value: 'maruko', label: '小丸子'},
+                  },
+                  categoryOption: [
+                      { 
+                          value: 'item', label: '道具',
+                          option: [
+                              {value: 'maruko', label: '小丸子'},
+                              {value: 'game2', label: '遊戲二'},
+                              {value: 'game3', label: '遊戲三'}
+                          ]  
+                      },
+                      { 
+                          value: 'ticket', label: '票券',
+                          option: [
+                              {value: 'ticket1', label: '票券分類一'},
+                              {value: 'ticket2', label: '票券分類二'},
+                              {value: 'ticket3', label: '票券分類三'}
+                          ] 
+                      },
+                      { 
+                          value: 'collection', label: '收藏品',
+                          option: [
+                              {value: 'collection1', label: '收藏品類別一'},
+                              {value: 'collection2', label: '收藏品類別二'},
+                              {value: 'collection3', label: '收藏品類別三'}
+                          ]  
+                      }
+                  ],
+                  assetList: [
+                      {value: 'itemId01',label: '小丸子帽子',state: 1},
+                      {value: 'itemId02',label: '小丸子鞋子',state: 1},
+                      {value: 'itemId03',label: '小丸子裙子',state: 1},
+                      {value: 'itemId04',label: '小丸子褲子',state: 1},
+                      {value: 'itemId05',label: '小丸子襪子',state: 1},
+                      {value: 'itemId06',label: '小丸子碎片',state: 1},
+                      {value: 'itemId07',label: '小丸子鉛筆盒',state: 1},
+                      {value: 'itemId08',label: '小丸子書包',state: 1},
+                      {value: 'itemId09',label: '小丸子爺爺',state: 1},
+                      {value: 'itemId10',label: '小丸子奶奶',state: 1},
+                  ],
+                  groupOption: {
+                      value: {
+                          value: 'none', 
+                          label: '無',
+                      },
+                      validation: ''
+                  },
+                  ticket: {
+                      thirdPartyID: '12789137987163871537861791',
+                      eventType: 'normal',
+                      eventRange: {
+                          start: '2022/1/8 23:59',
+                          end: '2022/12/23 23:59'
+                      },
+                      eventStart: '2022/1/10 12:00',
+                      eventGroup: {
+                          value: '活動群組',
+                          option: [
+                              {value: 'event1', label: '活動群組一'},
+                              {value: 'event2', label: '活動群組二'}
+                          ]
+                      },
+                      ticketNameSame: false,
+                      thirdPartyCheck: {
+                          showBarCode: 'noBC',
+                          processGet: 'nosetProcess',
+                      },
+                      checkWay: 'click',
+                      eventWebsite: 'eventWebsiteF',
+                      eventWebsiteLink: '',
+                      eventLoc: 'eventLocF',
+                      areaAnno: 'areaAnnoF',
+                      annoStart: '',
+                      annoEnd: '',
+                      fixedCode: 'fixNoBC',
+                      public: 'publicY',
+                      publicGetTicket: 'publicGetTicketY',
+                      agreement: 'agreementF',
+                      water: '',
+                      checkPath: '',
+                      eventLink: { //票券活動連結設定
+                          value: '',
+                          active: 'eventLinkF',
+                          placeholder: '請輸入活動網址',
+                          maxlength: 1000,
+                          opentype: 'eventInner'
+                      },
+                      eventLinkOpenType: [ 
+                          {label: 'bf! 內開啟', value: 'eventInner'},
+                          {label: '外部開啟', value: 'eventOut'},
+                          {label: 'Deeplink', value: 'eventDeeplink'},
+                      ],
+                      ticketLink: {
+                          value: '',
+                          active: 'ticketLinkF',
+                          placeholder: '請輸入活動網址',
+                          maxlength: 1000,
+                          opentype: 'ticketInner',
+                      },
+                      ticketLinkOpenType: [ //背包：票券活動連結類型
+                          {label: 'bf! 內開啟', value: 'ticketInner'},
+                          {label: '外部開啟', value: 'ticketOut'},
+                          {label: 'Deeplink', value: 'ticketDeeplink'},
+                      ],
+                  },
+                  collection: {
+                    thirdPartyID: '2635675762e87q0r90q',
+                      blindbox: {
+                          value: 'noblind',   
+                      },
+                      blindFiles: {
+                          name: '',
+                          size: '',
+                          alert: false,
+                      },
+                      blindImg: {
+                          name: '',
+                          size: '',
+                          alert: false,
+                      },
+                      backpackLink: {
+                          value: '',
+                          active: 'backpackLinkF',
+                          placeholder: '請輸入活動網址',
+                          maxlength: 1000,
+                          opentype: 'inner'
+                      },
+                      backpackLinkOpenType: [ //背包：收藏品活動連結類型
+                          {label: 'bf! 內開啟', value: 'inner'},
+                          {label: '外部開啟', value: 'out'},
+                          {label: 'Deeplink', value: 'deeplink'},
+                      ],
+                      backpackLink2: {
+                          value: '',
+                          active: 'backpackLinkF',
+                          placeholder: '請輸入按鈕顯示名稱',
+                          maxlength: 4,
+                      },
+                  },
+                  // subCategoryOption: [
+                  //     {value: 'maruko', label: '小丸子'},
+                  //     {value: 'game2', label: '遊戲二2'},
+                  //     {value: 'game3', label: '遊戲三'}
+                  // ],
+                  
+                  formData: {
+                      asset: '', //選擇資產
+                      productName: '[熱門] 可愛小丸子小學生帽', //商品顯示標題
+                      productDesc: '包含行銷文字的上架描述的說明會顯示在這裡。每次上架描述不同的行銷用語或者注意事項可以打在這裡。', //商品詳細說明
+                      productDescImg: [ //商品說明圖
+                          // {
+                          //     src: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/maxresdefault-1590898973.jpg',
+                          //     name: '小丸子圖片.jpg',
+                          //     size: 123
+                          // },
+                      ],
+                      stock: '', //上架數量
+                      attribute: '',
+                      bfCoinUse: 'bfCoinY',
+                      bfCoinUsePercentage: '38',
+                      attribute: { //道具屬性：屬性組合
+                          name: '預設',
+                          default: true,
+                          attribute: [
+                              {label: '等級',name:'level', value: "1"},
+                              {label: '顏色',name:'color', value: "黃色"},
+                              {label: '天賦',name:'given', value: "呼朋引伴"}
+                          ]
+                      },
+                      toReal: { //包含實體商品
+                          type: false,
+                          input: '',
+                          price: '',
+                          cp: '',
+                          percent: '',
+                          goodsID: '',
+                      },
+                      toGash: { //包含gash點數
+                          type: false,
+                          input: '',
+                          gashID: '',
+                      },
+                      // path: 'gmall',
+                      route: { //上架位置
+                          webstore: false,
+                          inappstore: false,
+                      },
+                      bfCoinOpenType: [ //bfCoin
+                          {label: '是', value: 'bfCoinY'},
+                          {label: '否', value: 'bfCoinN'},
+                      ],
+                      bfClubLink: {
+                          value: '',
+                          placeholder: '請輸入beanfun!社團網址',
+                          maxlength: 1000,
+                      },
+                      // detailImg: [],
+                      // tag:[],
+                      publishStart: '',
+                      publishStartTime: '',
+                      publishEnd: '',
+                      publishEndTime: '',
+
+                      // price: '3000', //設定價格
+                      price2: '300',
+                      official: '',
+                      groupOption: '',
+                      eventFreebie: '',
+                      // limitation: {
+                      //     value: 'limitationF',
+                      //     count: 1
+                      // },
+                      limitation: { //購買限制
+                          value: 'all',
+                          count: 1
+                      },
+                      // uploadPin: '', //上pin碼數量
+                      groupOptionSelect: { //
+                          value: 'none',
+                          placeholder: '無',
+                          opentype: 'eventInner'
+                      },
+                  },
+                  // assetData: {
+                  //     category: '道具',
+                  //     subCategory: '小丸子',
+                  //     img: 'background-image:url(https://i.kfs.io/article5_cover/global/6009451v2/fit/800x420.jpg)',
+                  //     imgType: "small",
+                  //     info: '這裡會顯示註冊時寫在定義檔中的商品描述內容，關於內容的商品描述內容。'
+                  // },
+                  submitBtnStatus: {
+                      disabled: false,
+                      loading: false,
+                  },
+                  // sentBtnStatus: { //資料送審
+                  //     disabled: true,
+                  //     loading: false,
+                  // },
+                  saveBtnStatus: { //儲存草稿 btn
+                      disabled: false,
+                      loading: false,
+                      label: '儲存草稿'
+                  },
+                  errorClass:'validate-error', //未填錯誤訊息
+                  // itemProperty: [ //贈獎活動
+                  //     {attrName:'等級',attrKey:'lv',attrDefault:'1', validation:''},
+                  //     {attrName:'顏色',attrKey:'color',attrDefault:'黃色', validation:''},
+                  // ],
+                  asset: { //選擇資產
+                      validation: ''
+                  },
+                  attribute:{ //票券ID、道具屬性設定
+                      validation: ''
+                  },
+                  limitation: { //購買限制
+                      validation: '',
+                  },
+                  publishStart: { //刊登開始時間
+                      validation: '',
+                  },
+                  publishEnd: { //刊登結束時間
+                      validation: '',
+                  },
+                  price: {
+                      validation: '',
+                  },
+                  official: {
+                      validation: '',
+                  },
+                  groupOption: {
+                      validation: 'none',
+                  },
+                  eventFreebie: {
+                      validation: '',
+                  },
+                  price2: {
+                      validation: '',
+                  },
+                  // previewImg:{
+                  //     value: '',
+                  //     validation: true,
+                  // },
+                  productName: { //商品顯示標題
+                      placeholder: '請輸入商品顯示名稱',
+                      maxlength: 22,
+                      validation: ''
+                  },
+                  productDesc: { //商品詳細說明
+                      placeholder: '請輸入商品詳細說明',
+                      maxlength: 1000,
+                      validation: ''
+                  },
+                  // pin: {
+                  //     validation: '',
+                  //     name: '',
+                  //     size: '',
+                  //     uploading: '',
+                  //     file: '',
+                  //     length: 0
+                  // },
+                  official: { //所屬官方旗艦店
+                      option: [
+                          {label: '小丸子', value: '小丸子'},
+                          {label: '大丸子', value: '大丸子'},
+                      ],
+                      // validation: true
+                  },
+                  groupOptionSelect: [ //商品組合
+                      { 
+                          value: 'none', label: '無',
+                      },
+                      { 
+                          value: 'goods', label: '實體物品',
+                      },
+                      { 
+                          value: 'gash', label: 'GASH點數',
+                      },
+                  ],
+                  groupOption:{
+                      value: {
+                        label: '無',
+                        value: 'none',
+                          option: [
+                              {label: '無', value: 'none'},
+                              {label: '實體商品', value: 'goods'},
+                              {label: 'GASH點數', value: 'gash'},
+                          ]
+                      },
+                  },
+                  itemProperty: [ //贈獎活動
+                      {attrName:'',attrKey:'',attrDefault:'', validation:''},
+                  ],
+                  hostorySetting: false,
+                  attributeCustom: '',
+                  customUpdate: false,
+              }
+          },
+          watch: {
+              // "formData.toReal.price": function(){
+              //     if (this.formData.toReal.price > this.formData.price2 ) {
+              //         this.formData.toReal.price = this.formData.price2
+              //     }
+              // },
+              // category: {
+              //     handler: function() {
+              //         this.subCategoryOption = this.category.option;
+              //         this.subCategory = {}
+              //     },
+              //     deep: true
+              // },
+              "formData.asset": function(){
+                  if(this.formData.asset && this.formData.asset.state) {
+                      this.hostorySetting = true
+                  }else {
+                      this.hostorySetting = false
+                  }
+              },
+              "formData.attribute": function (){
+                  if(this.formData.attribute.type == 'custom') {
+                      this.attributeCustom = true
+                  } else {
+                      this.attributeCustom = false
+                  }
+              },
+              "formData.limitation.count": function(){
+                  if(this.formData.limitation.count) {
+                      this.formData.limitation.value = 'limited'
+                  } 
+              },
+              "formData.price": function(newValue, oldValue){
+                  let str = this.formData.price.toString()
+                  if(str === '0') {
+                      this.formData.limitation.value = 'limited'
+                      this.formData.limitation.count = 1
+                      console.log(this.formData.price)
+                  }
+                  if (str.charAt(0) === '0' && str.charAt(1) !== '.') {
+                      //- str.slice(0)
+                  }
+              },
+              "pin.length": function(){
+                  this.pin.length ?  this.pin.validation = '' : ''
+              },
+              formData: {
+                  handler: function(){
+                      this.formData.attribute.value?  this.attribute.validation = '': ''
+                      this.formData.asset?  this.asset.validation = '': ''
+      
+                      if (this.formData.publishStart && this.formData.publishStartTime) {
+                          this.publishStart.validation = ""
+                      } 
+                      if (this.formData.publishEnd && this.formData.publishEndTime) {
+                          this.publishEnd.validation = ""
+                      } 
+                      // this.formData.price.toString() ?  this.price.validation = '': ''
+                      
+                      // 選的是否是審核中商品
+                      // if ( this.formData.asset && !this.formData.asset.state) {
+                      //     this.submitBtnStatus.disabled = true
+                      // } else {
+                      //     this.submitBtnStatus.disabled = false
+                      // }
+                  },
+                  deep: true
+              },
+          },
+          methods: {
+            replenishmentFile(e) {
+                  const file = e.target.files[0];
+                  const reader = new FileReader();
+                  reader.onload = (e) => {
+                      vm.fileName = file.name;
+                      vm.fileinput = reader.result;
+                      vm.fileinput = vm.fileinput.split('\r\n')
+                      vm.uploadPinCount = vm.fileinput.filter(function(item, index, array){
+                          return item !== "" && item !== "UUID"; 
+                      })
+                  }
+                  reader.readAsText(file);
+              },
+              uploadPin: function(e) {
+                  this.pin.uploading = true 
+                  const file = e.target.files[0];
+                  const reader = new FileReader();
+                  reader.onload = (e) => {
+                      vm.pin.uploading = false 
+                      vm.pin.name = file.name;
+                      vm.pin.file = reader.result.split('\r\n');
+                      vm.pin.file = vm.pin.file.filter(function(item, index, array){
+                          return item !== "" && item !== "UUID"; 
+                      })
+                      vm.pin.length = vm.pin.file.length
+                  }
+                  reader.readAsText(file);
+      
+              },
+              removeImg: function(idx, type){
+                  if (type) {
+                      vm.collection.blindFiles.splice(idx,1)
+                  } else {
+                      vm.formData.productDescImg.splice(idx,1)
+                  }
+              },
+              // showSaved: function() {
+              //     this.saveBtnStatus.disabled = true
+              //     this.saveBtnStatus.label = '儲存中'
+              //     this.saveBtnStatus.loading = true
+              //     window.setTimeout(function(){
+              //         vm.saveBtnStatus.label = '儲存變更'
+              //         vm.saveBtnStatus.loading = false
+              //         vm.saveBtnStatus.disabled = false
+              //     }, 3000);
+              // },
+              openSentDialog: function(){ //資料送審
+                  this.sentBtnStatus.disabled = true
+                  this.sentBtnStatus.loading = true
+                  window.setTimeout(function(){
+                      $('#previewModal').modal('hide')
+                      $('#productSent').modal('show')
+                  }, 2000);
+              },
+              validationEmpty: function(cb){
+                  // 要填寫
+                  this.formData.asset? '':this.asset.validation = this.errorClass 
+                  this.formData.productName? '':this.productName.validation = this.errorClass 
+                  this.formData.productDesc? '':this.productDesc.validation = this.errorClass
+                  this.formData.attribute.attribute ? '': this.attribute.validation = this.errorClass 
+                  this.formData.publishStart? '': this.publishStart.validation = this.errorClass 
+                  this.formData.publishEnd? '': this.publishEnd.validation = this.errorClass 
+                  this.formData.price2? '': this.price2.validation = this.errorClass
+                  //- this.pin.length? '': this.pin.validation = this.errorClass 
+      
+                  // 購買限制
+                  if (this.formData.limitation.value === 'limited') {
+                      this.formData.limitation.count ?  '': this.limitation.validation = this.errorClass
+                  }
+      
+                  // 屬性
+                  let dataPass = this.formData.attribute.attribute.every(function(item, index, array){
+                      return item.value
+                  });
+                  dataPass?'': this.attribute.validation = this.errorClass 
+      
+      
+                  window.setTimeout(function(){
+                      if( typeof cb === 'function' ){
+                          cb();
+                      }
+                  }, 500)
+              },
+              showAlert: function(){
+                  if(document.querySelectorAll('.validate-error').length>0) {
+                      // 捲動到錯誤的欄位位置 
+                      let top = document.querySelectorAll('.validate-error')[0].offsetTop
+                      //- console.log(top.scrollY, top.scorllTop, top.offsetTop)
+                      window.scrollTo({
+                          top: top,
+                          left: 0,
+                          behavior: 'smooth'
+                      })
+                      this.submitBtnStatus.loading = false  
+                      this.submitBtnStatus.disabled = false  
+                  } else {
+                      this.submitBtnStatus.disabled = false  
+                      $('#previewModal').modal('show')
+                  }
+              },
+              saveForm: function (){
+                  this.submitBtnStatus.disabled = true  
+                  this.submitBtnStatus.loading = true  
+                  // this.validationEmpty(this.showAlert)
+                  window.setTimeout(function(){
+                      $('#successConfirm').modal('show')
+                  }, 500);
+              },
+              addField:function(item) {
+                  if(item === 'itemProperty') {
+                      let item = {attrName:'',attrKey:'',attrDefault:''}
+                      this.itemProperty.push(item)
+                  }
+                  // if(item === 'serverList') {
+                  //     let item = {attrName:'',attrKey:''}
+                  //     this.serverList.push(item)
+                  // }
+              },
+              removeField: function(item,idx) {
+                  if(item === 'itemProperty') {
+                      this.itemProperty.splice(idx, 1); 
+                  }
+                  // if(item === 'serverList') {
+                  //     this.serverList.splice(idx, 1); 
+                  // }
+              },
+          },
+          mounted: function () {
+              this.$nextTick(function () {
+                  jQfn()
+              })
+          },
+          updated: function () {
+              this.$nextTick(function () {
+                  jQfn()
+              })
+          }
+      })
+    </script>
+  </body>
+</html>

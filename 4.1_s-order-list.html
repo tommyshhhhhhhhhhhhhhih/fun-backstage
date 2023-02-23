@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="img/favicon.ico" rel="icon" type="image/x-icon">
+    <title>訂單總覽</title>
+    <!--  Bootstrap Core CSS-->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- datepicker-->
+    <link href="css/flatpickr.css" rel="stylesheet">
+    <!-- DataTables-->
+    <link href="css/datatables.min.css" rel="stylesheet">
+    <!-- vue select-->
+    <link href="css/vue-select.css" rel="stylesheet">
+    <!--  Custom CSS -->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/table.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+  </head>
+  <body>
+    <header class="navbar navbar-inverse fixed-top active" id="header">
+      <div class="navbar-brand"><a id="menu-toggle"><span class="material-icons">menu</span></a>
+        <h1><a href="./index.html"><span>fun市集</span>後台</a></h1>
+      </div>
+      <ul class="topbar-menu">
+        <li><span class="greeting">Have a Good Time</span></li>
+        <li>
+          <div class="btn-group">
+            <button class="dropdown-toggle topbar-btn" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="material-icons">notifications</span><span class="red-dot"></span></button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <ul class="dropdown-list">
+                <li class="dropdown-item"><a class="dropdown-info" href="3.1.1_selling-item.html"><span class="b-caption">[商品審核] [熱門]超可愛小丸子帽子</span></a>
+                  <div class="date"><span>今天</span><span>16:55</span></div>
+                </li>
+                <li class="dropdown-item"><a class="dropdown-info" href="2.1.1_asset-detail.html"><span class="b-caption">[資產審核] 小丸子帽子</span></a>
+                  <div class="date"><span>今天</span><span>09:55</span></div>
+                </li>
+                <li class="dropdown-item read">
+                  <div class="dropdown-info">
+                    <p class="b-caption">[資產審核] 小丸子鞋子</p>
+                  </div>
+                  <div class="date"><span>8-12</span></div>
+                </li>
+                <li class="dropdown-item read">
+                  <div class="dropdown-info">
+                    <p class="b-caption">[資產審核] 小丸子裙子</p>
+                  </div>
+                  <div class="date"><span>8-12</span></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="btn-group">
+            <button class="dropdown-toggle topbar-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="material-icons">person_outline</span></button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <ul class="dropdown-list">
+                <li class="dropdown-item read"><a class="dropdown-info" href="./login.html"><span class="b-caption">登出</span></a></li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </header>
+    <!-- container-->
+    <div class="container-fluid" id="main-content">
+      <div class="row">
+        <div class="expand" id="sidebar-wrapper">
+          <ul id="sidebar"></ul>
+          <div class="overlay show"></div>
+        </div>
+        <div class="col wrap animated fadeIn" id="app">
+          <div class="row">
+            <div id="gotop"><span class="material-icons">arrow_upward</span></div>
+            <div class="col content-top">
+              <div class="breadcrum">fun市集後台>訂單管理>訂單總覽</div>
+              <div class="title-wrap">
+                <div class="info">
+                  <h2 class="text-h2">訂單總覽</h2>
+                </div>
+                <div class="toolbar"> 
+                </div>
+                <div class="b-caption w-100">訂單紀錄一覽</div>
+              </div>
+<!-- 查詢區塊 -->
+              <div class="b-search-group">
+                <div class="b-text-field">
+                  <label>訂單編號</label>
+                  <div class="b-field-group"> 
+                    <div class="b-field-row">
+                      <input class="b-input" type="text" placeholder="請輸入訂單編號" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="b-text-field">
+                  <label>GP單號</label>
+                  <div class="b-field-group"> 
+                    <div class="b-field-row">
+                      <input class="b-input" type="text" placeholder="請輸入GP單號" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="b-text-field">
+                  <label>商品ID</label>
+                  <div class="b-field-group"> 
+                    <div class="b-field-row">
+                      <input class="b-input id" type="text" placeholder="請輸入商品ID" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="b-text-field">
+                  <label>商品名稱</label>
+                  <div class="b-field-group"> 
+                    <div class="b-field-row">
+                      <input class="b-input" type="text" placeholder="請輸入商品名稱" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="b-text-field">
+                  <label>bf!openID</label>
+                  <div class="b-field-group"> 
+                    <div class="b-field-row">
+                      <input class="b-input" type="text" maxlength="18" placeholder="請輸入bf!openID" required>
+                    </div>
+                  </div>
+                </div>
+                <!-- 請針對客服權限 國碼＆手機為必填欄位 -->
+                <div class="b-text-field">
+                  <label>國碼<span>*</span></label>
+                  <div class="b-field-group">
+                    <div class="b-field-row">
+                      <div class="b-input-wrap">
+                        <v-select class="b-select country-codes" :options="countryCodes.option" v-model="countryCodes.value" :clearable="false" required></v-select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="b-text-field"> 
+                  <label>手機<span>*</span></label>
+                  <div class="b-field-group"> 
+                    <div class="b-field-row">
+                      <input class="b-input" type="text" maxlength="14" pattern="09\d{2}-\d{6}" placeholder="請輸入手機號碼" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="b-text-field">
+                  <label>訂單成立時間<span>*</span></label>
+                  <div class="b-field-group">
+                    <div class="b-field-row">
+                      <input class="b-input mr-none" id="dateRangeStart" type="text" placeholder="開始時間" v-model="searchDateStart" required><span class="p-xs">~</span>
+                      <input class="b-input" id="dateRangeEnd" type="text" placeholder="結束時間" v-model="searchDateEnd" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="b-text-field">
+                  <label class="mb-xxs">訂單類型</label>
+                  <div class="b-field-group"> 
+                    <div class="b-field-row">
+                      <div class="b-radio">
+                        <input type="radio" id="all" name="訂單類型" value="全部" checked>
+                        <label for="all">全部</label>
+                      </div>
+                      <div class="b-radio">
+                        <input type="radio" id="virtual" name="訂單類型" value="虛">
+                        <label for="virtual">虛</label>
+                      </div>
+                      <div class="b-radio">
+                        <input type="radio" id="bundle" name="訂單類型" value="虛+實">
+                        <label for="bundle">虛+實</label>
+                      </div>
+                      <div class="b-radio">
+                        <input type="radio" id="point" name="訂單類型" value="虛+點數">
+                        <label for="point">虛+點數</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="b-text-field">
+                  <label class="mb-xxs">訂單狀態</label>
+                  <div class="b-field-group"> 
+                    <div class="b-field-row">
+                      <div class="b-radio">
+                        <input type="radio" id="all1" name="訂單狀態" value="全部" checked>
+                        <label for="all1">全部</label>
+                      </div>
+                      <div class="b-radio">
+                        <input type="radio" id="wait-pay" name="訂單狀態" value="等待處理">
+                        <label for="wait-pay">等待處理</label>
+                      </div>
+                      <div class="b-radio">
+                        <input type="radio" id="success" name="訂單狀態" value="成功">
+                        <label for="success">成功</label>
+                      </div>
+                      <div class="b-radio">
+                        <input type="radio" id="fail" name="訂單狀態" value="失敗">
+                        <label for="fail">失敗</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="b-text-field">
+                  <label class="mb-xxs">出貨狀態</label>
+                  <div class="b-field-group"> 
+                    <div class="b-field-row">
+                      <div class="b-radio">
+                        <input type="radio" id="all2" name="出貨狀態" value="全部" checked>
+                        <label for="all2">全部</label>
+                      </div>
+                      <div class="b-radio">
+                        <input type="radio" id="wait-ship" name="出貨狀態" value="等待處理">
+                        <label for="wait-ship">待出貨</label>
+                      </div>
+                      <div class="b-radio">
+                        <input type="radio" id="shipped" name="出貨狀態" value="成功">
+                        <label for="shipped">已出貨</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="b-search-buttons">
+                  <button class="b-btn-default ladda-button" data-size="md" data-style="slide-left" type="button"><span class="ladda-label"><i class="fa fa-search"></i>查詢</span><span class="ladda-spinner"></span>
+                    <div class="ladda-progress" style="width:0"></div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+<!-- 清單 list -->
+          <div class="row">
+            <div class="content">
+              <div class="b-table-wrap">
+                <div class="p-md d-flex justify-content-end" style="margin-bottom: -4.5rem;">
+                  <button class="b-btn-primary outline position-relative" data-size="md" style="z-index:1">訂單匯出</button>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-hover" id="orderList">
+                    <thead>
+                      <th>訂單狀態</th>
+                      <th>商品類型</th>
+                      <th>出貨狀態</th>
+                      <th>訂單編號</th>
+                      <th>GP單號</th>
+                      <th>商品名稱</th>
+                      <th>訂單途徑</th>
+                      <th>賣家 bf!openID</th>
+                      <th>買家 bf!openID</th>
+                      <th>賣家手機</th>
+                      <th>買家手機</th>
+                      <th>訂單成立時間＆付款狀態</th>
+                      <th>金額</th>
+                      <th>支付方式</th>
+                      <th>操作功能</th>
+                    </thead>
+                    <tbody>
+                      <template> 
+                        <tr v-for="item in dataGrid">
+                          <td><span class="b-caption">{{item.state}}</span></td>
+                          <td><span>{{item.type}}</span></td>
+                          <td>
+                            <template v-if="item.sent === 1" key="productNeedlessSent"><span class="badge-info">{{item.shipment}}</span></template>
+                            <template v-if="item.sent === 2" key="productSent"><span class="b-caption">{{item.shipment}}</span></template>
+                          </td>
+                          <td><span>{{item.orderID}}</span></td>
+                          <td><span>{{item.gpID}}</span></td>
+                          <td>
+                            <p>{{item.goodsName}}</p>
+                            <p class="b-caption">{{item.goodsID}}</p>
+                          </td>
+                          <td><span>{{item.path}}</span></td>
+                          <td><span>{{item.sellerOpenID}}</span></td>
+                          <td><span>{{item.buyerOpenID}}</span></td>
+                          <td><span>{{item.sellerTel}}</span></td>
+                          <td><span>{{item.buyerTel}}</span></td>
+                          <td>
+                            <p>{{item.orderDataTime}}</p>
+                            <span class="b-caption">{{item.payDataTime}} {{item.payStatus}}</span>
+                          </td>
+                          <td class="t-r"><span>{{item.price}}</span></td>
+                          <td><span>{{item.payment}}</span></td>
+                          <td>
+                            <button class="b-btn-default text m-none px-xs" data-size="sm" onclick="window.location.href='./4.1.1_s-order-item-read.html'">查看</button>
+                            <!-- <button class="b-btn-default text m-none px-xs" data-size="sm" onclick="window.location.href='./4.1.2_s-order-item-edit.html'">編輯</button> -->
+                          </td>
+                        </tr>
+                      </template>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="footer">
+            <div class="copyright">&copy;2021 GASH Co, Ltd. All Right Reserved.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Vue-->
+    <script src="js/vue.min.js"></script>
+    <!-- jQuery-->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap Core JavaScript-->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- input plugin-->
+    <script src="js/datatables.min.js"></script>
+    <!-- input plugin-->
+    <script src="js/flatpickr.js"></script>
+    <!-- multiselector-->
+    <script src="js/vue-select.js"></script>
+    <!-- number-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+    <!-- Custom JavaScript-->
+    <script src="js/sidebar.js"></script>
+    <script src="js/custom.js"></script>
+    <script>
+      currentPage('訂單總覽'); 
+      var jQfn = function (){
+          flatpickr('#dateRangeStart',{
+              static: true,
+              enableTime: true,
+              enableSeconds: true,
+              dateFormat: "Y/m/d H:i:ss",
+          })
+          flatpickr('#dateRangeEnd',{
+              static: true,
+              enableSeconds: true,
+              enableTime: true,
+              dateFormat: "Y/m/d H:i:ss",
+              minDate: vm.searchDateStart,
+          })
+      }
+      var vm = new Vue({
+          el: '#app',
+          data: {
+              assets: {
+                  value:'全部',
+                  option: [
+                    {value: 'all', label: '全部'},
+                    {value: 'sock', label: '襪子'},
+                    {value: 'nose', label: '鼻子'},
+                    {value: 'son', label: '兒子'}
+                  ]
+              },
+              searchDateStart:'',
+              searchDateEnd:'',
+              countryCodes: {
+                  value:{value: '+886', label: '台灣 +886' },
+                  option: [
+                      {value: '+886', label: '台灣 +886',},
+                      {value: '+86', label: '中國 +86'},
+                      {value: '+853', label: '澳門 +853'},
+                      {value: '+852', label: '香港 +852'},
+                      {value: '+850', label: '北韓 +850'},
+                      {value: '+84', label: '越南 +84'},
+                      {value: '+82', label: '南韓 +82'},
+                      {value: '+81', label: '日本 +81'},
+                      {value: '+66', label: '泰國 +66'},
+                      {value: '+65', label: '新加坡 +65'},
+                      {value: '+63', label: '菲律賓 +63'},
+                      {value: '+62', label: '印尼 +62'},
+                      {value: '+61', label: '澳洲 +61'},
+                      {value: '+60', label: '馬來西亞 +60'},
+                      {value: '+49', label: '德國 +49'},
+                      {value: '+44', label: '英國 +44'},
+                      {value: '+39', label: '義大利 +39'},
+                      {value: '+33', label: '法國 +33'},
+                      {value: '+32', label: '比利時 +32'},
+                      {value: '+31', label: '荷蘭 +31'},
+                      {value: '+1', label: '加拿大 +1'},
+                      {value: '+1', label: '美國 +1'},
+                  ]
+              },
+              dataGrid: [
+                  {
+                    state: '等待處理',
+                    type: '虛',
+                    sent: 2,
+                    shipment: '-',
+                    orderID: 'KJHEO7823029357',
+                    gpID: 'GP-1234567890',
+                    goodsName: '[熱門] 經典特色小丸子帽子',
+                    goodsID: '876cec91876cec91',
+                    path: 'C2C',
+                    sellerOpenID: '397670859105374201',
+                    buyerOpenID: '397670859105374202',
+                    sellerTel: '+886 912345678',
+                    buyerTel: '+886 912345678',
+                    orderDataTime: '2022/02/23 16:18',
+                    payDataTime: '',
+                    payStatus: '待付款',
+                    price: '1,600',
+                    payment: 'GamaPay',
+                  },
+                  {
+                    state: '成功',
+                    type: '虛＋實',
+                    sent: 1,
+                    shipment: '待出貨',
+                    orderID: 'KJHEO7823029357',
+                    gpID: 'GP-1234567891',
+                    goodsName: '[熱門] 經典特色小丸子帽子',
+                    goodsID: '876cec91876cec91',
+                    path: 'B2C',
+                    sellerOpenID: '-',
+                    buyerOpenID: '-',
+                    sellerTel: '-',
+                    buyerTel: '+886 912345678',
+                    orderDataTime: '2022/02/23 16:18',
+                    payDataTime: '2022/02/23 17:18',
+                    payStatus: '付款成功',
+                    price: '1,600',
+                    payment: 'GamaPay',
+                  },
+                  {
+                    state: '失敗',
+                    type: '虛＋實',
+                    sent: 2,
+                    shipment: '-',
+                    orderID: 'KJHEO7823029357',
+                    gpID: 'GP-1234567893',
+                    goodsName: '[熱門] 經典特色小丸子帽子',
+                    goodsID: '876cec91876cec91',
+                    path: 'B2C',
+                    sellerOpenID: '-',
+                    buyerOpenID: '397670859105374205',
+                    sellerTel: '-',
+                    buyerTel: '+886 912345678',
+                    orderDataTime: '2022/02/22 16:18',
+                    payDataTime: '2022/02/23 16:18',
+                    payStatus: '付款失敗',
+                    price: '1,600',
+                    payment: '全家繳款',
+                  },
+                  {
+                    state: '成功',
+                    type: '虛＋實',
+                    sent: 2,
+                    shipment: '已出貨',
+                    orderID: 'KJHEO7823029357',
+                    gpID: 'GP-1234567894',
+                    goodsName: '[熱門] 經典特色小丸子帽子',
+                    goodsID: '876cec91876cec91',
+                    path: 'B2C',
+                    sellerOpenID: '-',
+                    buyerOpenID: '397670859105374206',
+                    sellerTel: '-',
+                    buyerTel: '+886 912345678',
+                    orderDataTime: '2022/02/22 16:18',
+                    payDataTime: '2022/02/23 16:18',
+                    payStatus: '付款成功',
+                    price: '1,600',
+                    payment: '全家繳款',
+                  },
+                  {
+                    state: '成功',
+                    type: '虛＋點數',
+                    sent: 2,
+                    shipment: '-',
+                    orderID: 'KJHEO7823029357',
+                    gpID: 'GP-1234567896',
+                    goodsName: '[熱門] 經典特色小丸子帽子',
+                    goodsID: '876cec91876cec91',
+                    path: 'B2C',
+                    sellerOpenID: '-',
+                    buyerOpenID: '397670859105374208',
+                    sellerTel: '-',
+                    buyerTel: '+886 912345678',
+                    orderDataTime: '2022/02/22 16:18',
+                    payDataTime: '2022/02/23 16:18',
+                    payStatus: '付款成功',
+                    price: '1,600',
+                    payment: '信用卡',
+                  },
+              ],
+          },
+          watch: {
+            // category: {
+            //   handler: function() {
+            //       this.subCategoryOption = this.category.option;
+            //       this.subCategory = {}
+            //   },
+            //   deep: true
+            // },
+          },
+          methods: {
+          },
+          mounted: function () {
+              this.$nextTick(function () {
+                  jQfn()
+              })
+          },
+          updated: function () {
+              this.$nextTick(function () {
+                  jQfn()
+              })
+          }
+      })
+      $(document).ready(function() {
+          $('#orderList').DataTable({
+              "pagingType": "full_numbers",
+              "language": {
+                  "decimal":        "",
+                  "emptyTable":     "沒有可顯示的資料",
+                  "info":           "顯示從 _START_ 到 _END_ 共 _TOTAL_ 筆資料",
+                  "infoEmpty":      "顯示從 0 到 0 共 0 筆資料",
+                  "infoFiltered":   "(從 _MAX_ 筆篩選出)",
+                  "infoPostFix":    "",
+                  "thousands":      ",",
+                  "lengthMenu":     "顯示 _MENU_ 筆資料",
+                  "loadingRecords": "載入中...",
+                  "processing":     "執行中...",
+                  "search":         "篩選資料: ",
+                  "zeroRecords":    "查無符合資料",
+                  "paginate": {
+                      "first":      "第一筆",
+                      "last":       "最後一筆",
+                      "next":       "下一筆",
+                      "previous":   "上一筆"
+                  },
+                  "aria": {
+                      "sortAscending":  ": activate to sort column ascending",
+                      "sortDescending": ": activate to sort column descending"
+                  }
+              },
+              "order": [[ 0, "desc" ]],
+              scrollY:        '25rem',
+              scrollX:        true, 
+              searching:      false,
+              scrollCollapse: true,
+              fixedColumns:   {
+                  left: 3,
+                  right: 1,
+              }
+          });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="img/favicon.ico" rel="icon" type="image/x-icon">
+    <title>撥款詳情</title>
+    <!--  Bootstrap Core CSS-->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- datepicker-->
+    <link href="css/flatpickr.css" rel="stylesheet">
+    <!-- DataTables-->
+    <link href="css/datatables.min.css" rel="stylesheet">
+    <!-- vue select-->
+    <link href="css/vue-select.css" rel="stylesheet">
+    <!--  Custom CSS -->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/table.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+  </head>
+  <body>
+    <header class="navbar navbar-inverse fixed-top active" id="header">
+      <div class="navbar-brand"><a id="menu-toggle"><span class="material-icons">menu</span></a>
+        <h1><a href="./index.html"><span>fun市集</span>後台</a></h1>
+      </div>
+      <ul class="topbar-menu">
+        <li><span class="greeting">Have a Good Time</span></li>
+        <li>
+          <div class="btn-group">
+            <button class="dropdown-toggle topbar-btn" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="material-icons">notifications</span><span class="red-dot"></span></button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <ul class="dropdown-list">
+                <li class="dropdown-item"><a class="dropdown-info"><span class="b-caption">[審核通過] 小丸子帽子</span></a>
+                  <div class="date"><span>今天</span><span>16:55</span></div>
+                </li>
+                <li class="dropdown-item read">
+                  <div class="dropdown-info">
+                    <p class="b-caption">[審核通過] 小丸子鞋子</p>
+                  </div>
+                  <div class="date"><span>8-12</span></div>
+                </li>
+                <li class="dropdown-item read">
+                  <div class="dropdown-info">
+                    <p class="b-caption">[審核通過] 小丸子裙子</p>
+                  </div>
+                  <div class="date"><span>8-12</span></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="btn-group">
+            <button class="dropdown-toggle topbar-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="material-icons">person_outline</span></button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <ul class="dropdown-list">
+                <li class="dropdown-item read"><a class="dropdown-info" href="./login.html"><span class="b-caption">登出</span></a></li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </header>
+    <div class="container-fluid" id="main-content">
+      <div class="row">
+        <div class="expand" id="sidebar-wrapper">
+          <ul id="sidebar"></ul>
+          <div class="overlay show"></div>
+        </div>
+        <div class="col wrap">
+          <div class="row">
+            <div id="gotop"><span class="material-icons">arrow_upward</span></div>
+            <div class="col content-top">
+              <div class="breadcrum">fun市集後台>C2C管理>撥款提領紀錄>撥款詳情</div>
+            </div>
+          </div>
+          <div class="row" id="app">
+            <div class="content animated fadeIn">
+              <ul class="nav nav-tabs">
+              </ul>
+              <form class="form-wrap" id="basic-form" @submit.prevent="saveForm()" method="post">
+                <div class="form-top">
+                  <h2 class="text-h3">撥款詳情</h2>
+                </div>
+                <div class="detail-head" style="text-align:left;">
+                    <div class="b-text-field border-right">
+                    <label>bf!openID</label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <div class="b-input-wrap">
+                          <p class="readonly">{{openId}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field border-right">
+                    <label>手機</label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <div class="b-input-wrap">
+                          <p class="readonly">{{countryCodes}} {{tel}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field border-right">
+                    <label>信箱</label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <div class="b-input-wrap">
+                          <p class="readonly">{{mail}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field">
+                    <label>可提領金額</label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <div class="b-input-wrap">
+                          <p class="readonly">${{balance}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<!-- 清單 list -->
+                <div class="row">
+                  <div class="content">
+                    <div class="b-table-wrap">
+                      <div class="table-responsive">
+                        <table style="text-align:left;" class="table table-hover" id="productList" width="100%">
+                          <thead> 
+                            <th>撥款狀態</th>
+                            <th>撥款時間</th>
+                            <th>訂單編號</th>
+                            <th>商品名稱</th>
+                            <th>撥款金額</th>
+                          </thead>
+                          <tbody>
+                            <template>
+                              <tr v-for="item in orderDetail">
+                                <td><span class="b-caption">{{state[item.state].label}}</span></td>
+                                <td><span>{{item.date}}</span></td>
+                                <td><span>{{item.orderID}}</span></td>
+                                <td><span>{{item.goodsName}}</span></td>
+                                <td><span>${{item.amount}}</span></td>
+                              </tr>
+                            </template>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <template v-if="loading">
+                      <div class="loading animated fadeIn">
+                        <div class="loading-card">
+                          <div class="loading-img"><img src="./img/loading.gif" alt=""></div><span>資料讀取中</span>
+                        </div>
+                      </div>
+                    </template>
+                  </div>
+                </div>
+                <div class="b-form-button">
+                  <button class="b-btn-secondary text" data-size="lg" type="button" onclick="window.location.href='8.1_payment-list.html'">返回撥款提領紀錄</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="footer">
+            <div class="copyright">&copy;2021 GASH Co, Ltd. All Right Reserved. </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/vue.min.js"></script>
+    <!-- jQuery-->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap Core JavaScript-->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <!-- table plugin-->
+    <script src="js/datatables.min.js"></script>
+    <!-- input plugin-->
+    <script src="js/flatpickr.js"></script>
+    <!-- multiselector-->
+    <script src="js/vue-select.js"></script>
+    <!-- Custom JavaScript-->
+    <script src="js/sidebar.js"></script>
+    <script src="js/custom.js"></script>
+    <script>
+      currentPage('撥款提領紀錄');
+      var jQfn = function (){
+
+      }
+      var vm = new Vue({
+          el: '#app',
+          data: {
+            loading: false,
+
+            openId: '397670859105374201',
+            countryCodes: '+886',
+            tel: '0988000000',
+            mail: 'aaa@gashpoint.com',
+            balance: '2,900',
+            state: [
+              {label: '撥款成功', markColor: 'success'},
+              {label: '撥款失敗', markColor: 'draft'},
+            ],
+            orderDetail:[
+              {
+                state: 0,
+                date: '2021/08/09 19:00',
+                orderID: '123456789465',
+                goodsName: '經典特色小丸子帽子',
+                amount: '900',
+              },
+              {
+                state: 0,
+                date: '2021/08/20 19:00',
+                orderID: '123456789466',
+                goodsName: '經典特色小丸子帽子',
+                amount: '900',
+              },
+              {
+                state: 1,
+                date: '2021/09/20 19:00',
+                orderID: '123456789467',
+                goodsName: '經典特色小丸子帽子',
+                amount: '1,300',
+              },
+            ]
+          },
+          methods: {
+          },
+          watch: {
+          },
+          methods: {
+          },
+      })
+      $(document).ready(function() {
+        $('#productList').DataTable({
+            "pagingType": "full_numbers",
+            "language": {
+              "decimal":        "",
+              "emptyTable":     "沒有可顯示的資料",
+              "info":           "顯示從 _START_ 到 _END_ 共 _TOTAL_ 筆資料",
+              "infoEmpty":      "顯示從 0 到 0 共 0 筆資料",
+              "infoFiltered":   "(從 _MAX_ 筆篩選出)",
+              "infoPostFix":    "",
+              "thousands":      ",",
+              "lengthMenu":     "顯示 _MENU_ 筆資料",
+              "loadingRecords": "載入中...",
+              "processing":     "執行中...",
+              "search":         "篩選資料: ",
+              "zeroRecords":    "查無符合資料",
+              "paginate": {
+                  "first":      "第一筆",
+                  "last":       "最後一筆",
+                  "next":       "下一筆",
+                  "previous":   "上一筆"
+              },
+              "aria": {
+                "sortAscending":  ": activate to sort column ascending",
+                "sortDescending": ": activate to sort column descending"
+              }
+            },
+            "order": [[ 1, "desc" ]],
+            scrollY:        '25rem',
+            scrollX:        true,
+            searching:      false,
+            scrollCollapse: true,
+            fixedColumns:   {
+                left: 0,
+            }
+        });
+      });
+    </script>
+  </body>
+</html>

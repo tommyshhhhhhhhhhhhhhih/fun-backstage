@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="img/favicon.ico" rel="icon" type="image/x-icon">
+    <title>訂單編輯</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/flatpickr.css" rel="stylesheet">
+    <link href="css/vue-select.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/table.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+  </head>
+  <body>
+    <header class="navbar navbar-inverse fixed-top active" id="header">
+      <div class="navbar-brand"><a id="menu-toggle"><span class="material-icons">menu</span></a>
+        <h1><a href="./index.html"><span>fun市集</span>後台</a></h1>
+      </div>
+      <ul class="topbar-menu">
+        <li><span class="greeting">Have a Good Time</span></li>
+        <li>
+          <div class="btn-group">
+            <button class="dropdown-toggle topbar-btn" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="material-icons">notifications</span><span class="red-dot"></span></button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <ul class="dropdown-list">
+                <li class="dropdown-item"><a class="dropdown-info"><span class="b-caption">[審核通過] 小丸子帽子</span></a>
+                  <div class="date"><span>今天</span><span>16:55</span></div>
+                </li>
+                <li class="dropdown-item read">
+                  <div class="dropdown-info">
+                    <p class="b-caption">[審核通過] 小丸子鞋子</p>
+                  </div>
+                  <div class="date"><span>8-12</span></div>
+                </li>
+                <li class="dropdown-item read">
+                  <div class="dropdown-info">
+                    <p class="b-caption">[審核通過] 小丸子裙子</p>
+                  </div>
+                  <div class="date"><span>8-12</span></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="btn-group">
+            <button class="dropdown-toggle topbar-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="material-icons">person_outline</span></button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <ul class="dropdown-list">
+                <li class="dropdown-item read"><a class="dropdown-info" href="./login.html"><span class="b-caption">登出</span></a></li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </header>
+    <div class="container-fluid" id="main-content">
+      <div class="row">
+        <div class="expand" id="sidebar-wrapper">
+          <ul id="sidebar"></ul>
+          <div class="overlay show"></div>
+        </div>
+        <div class="col wrap">
+          <div class="row">
+            <div id="gotop"><span class="material-icons">arrow_upward</span></div>
+            <div class="col content-top">
+              <div class="breadcrum">fun市集後台>訂單管理>訂單總覽>訂單編輯</div>
+            </div>
+          </div>
+          <div class="row" id="app">
+            <div class="content animated fadeIn">
+              <ul class="nav nav-tabs">
+              </ul>
+              <form class="form-wrap" id="basic-form" @submit.prevent="saveForm()" method="post">
+                <div class="form-top">
+                  <h2 class="text-h3">訂單編輯</h2>
+                </div>
+                <fieldset>
+                  <!-- 訂單基本資訊 -->
+                  <div class="detail-head">
+                    <div class="b-text-field">
+                      <label>商品類型</label>
+                      <div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-input-wrap">
+                            <p class="readonly">{{orderDetail.type}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="b-text-field">
+                      <label>訂單編號</label>
+                      <div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-input-wrap">
+                            <p class="readonly">{{orderDetail.orderID}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="b-text-field">
+                      <label>GP單號</label>
+                      <div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-input-wrap">
+                            <p class="readonly">{{orderDetail.gpID}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="b-text-field">
+                      <label>訂單成立時間</label>
+                      <div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-input-wrap">
+                            <p class="readonly">{{orderDetail.orderDataTime}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="b-text-field">
+                      <label>訂單途徑</label>
+                      <div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-input-wrap">
+                            <p class="readonly">{{orderDetail.path}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="b-text-field">
+                      <label>訂單狀態</label>
+                      <div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-input-wrap">
+                            <p class="readonly">{{orderDetail.orderStatus}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="b-text-field">
+                      <label>付款狀態</label>
+                      <div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-input-wrap">
+                            <p class="readonly">{{orderDetail.payStatus}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="b-text-field">
+                      <label>出貨狀態</label>
+                      <div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-input-wrap">
+                            <p class="readonly"><span class="badge-info">{{orderDetail.shipStatus}}</span></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+                  <!-- 訂單歷程 -->
+                  <div class="text-h5">訂單歷程</div>
+                  <div class="b-text-field d-block">
+                    <div class="b-field-row">
+                      <div class="dot-list-wrap">
+                        <div class="more" id="more" @click="toggle">
+                          <template v-if="isShow">
+                            展開完整記錄
+                            <span class="material-icons">expand_more</span>
+                          </template>
+                          <template v-else>
+                            收合記錄
+                            <span class="material-icons">expand_less</span>
+                          </template>
+                        </div>
+                        <ul class="box">
+                          <template v-for="item,idx in orderDetail.item.history" >
+                            <li class="dot-list first" v-if="idx === 0"><span class="dot-list-label">{{item.activity}}</span><span class="b-caption dot-list-caption">{{item.time}}</span></li>
+                            <li class="dot-list last" v-else-if="(idx+1) === orderDetail.item.history.length"><span class="dot-list-label">{{item.activity}}</span><span class="b-caption dot-list-caption">{{item.time}}</span></li>
+                            <li class="dot-list" v-else><span class="dot-list-label">{{item.activity}}</span><span class="b-caption dot-list-caption">{{item.time}}</span></li>
+                          </template>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+                  <!-- 商品資訊 -->
+                  <div class="text-h5">商品資訊</div>
+                  <div class="table m-bottom-30">
+                    <table width="100%"> 
+                      <thead class="bg-gray"> 
+                        <tr> 
+                          <td class="w-3">商品名稱</td>
+                          <td class="w-3">商品金額</td>
+                          <td class="w-3"></td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="w-3"><a href="https://stage-funmart.beanfun.com/Product/Detail?id=268" target="_blank">{{orderDetail.goodsName}}</a></td>
+                          <td class="w-3">{{orderDetail.goodsPrice}}</td>
+                          <td class="w-3"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- 商品組合：虛＋實 顯示欄位 -->
+                  <div class="table">
+                    <table width="100%"> 
+                      <thead class="bg-gray"> 
+                        <tr> 
+                          <td class="w-3">物品名稱</td>
+                          <td class="w-3">物品料號</td>
+                          <td class="w-3"></td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="w-3">{{orderDetail.shipName}}</td>
+                          <td class="w-3">{{orderDetail.shipID}}</td>
+                          <td class="w-3"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- 商品組合：虛＋點數 顯示欄位 -->
+                  <!-- <div class="table">
+                    <table width="100%"> 
+                      <thead class="bg-gray"> 
+                        <tr> 
+                          <td class="w-3">Gash點數</td>
+                          <td class="w-3">點數料號</td>
+                          <td class="w-3"></td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="w-3">{{orderDetail.gashPoint}}</td>
+                          <td class="w-3">{{orderDetail.gashPointID}}</td>
+                          <td class="w-3"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div> -->
+                  <!-- 贈品活動 顯示欄位 -->
+                  <div class="table">
+                    <table width="100%"> 
+                      <thead class="bg-gray"> 
+                        <tr> 
+                          <td class="w-3">贈品活動</td>
+                          <td class="w-3">活動起迄時間</td>
+                          <td class="w-3"></td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="w-3">{{orderDetail.activity}}</td>
+                          <td class="w-3">{{orderDetail.activityStartTime}} - {{orderDetail.activityEndTime}}</td>
+                          <td class="w-3"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="b-text-field d-block m-top-30">
+                    <label>ItemCode</label>
+                    <div class="b-field-row mb-none">
+                      <div class="d-flex align-items-start">
+                        <input class="b-input id" id="copyContent" readonly :value="orderDetail.item.id" v-model="orderDetail.item.id">
+                        <button class="b-btn-default outline mb-none" data-size="sm" type="button" @click="copyID('#copyContent')"> 
+                          <template v-if="copyBtn"><span>已複製 </span></template>
+                          <template v-else> <span class="material-icons ml-none mr-xxs fz-sm">copy</span><span>複製</span></template>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label>商品ID</label>
+                    <div class="b-field-row mb-none">
+                      <div class="d-flex align-items-start">
+                        <input class="b-input id" id="copyContent2" readonly :value="orderDetail.item.id2" v-model="orderDetail.item.id2">
+                        <button class="b-btn-default outline mb-none" data-size="sm" type="button" @click="copyID('#copyContent2')"> 
+                          <template v-if="copyBtn2"><span>已複製 </span></template>
+                          <template v-else> <span class="material-icons ml-none mr-xxs fz-sm">copy</span><span>複製</span></template>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+                  <!-- 賣家＆款項資訊 -->
+                  <div class="text-h5">賣家＆款項資訊</div>
+                  <!-- 訂單：B2C 顯示欄位 -->
+                  <div class="table">
+                    <table width="100%"> 
+                      <thead class="bg-gray"> 
+                        <tr> 
+                          <td class="w-3">供應商</td>
+                          <td class="w-3">電話</td>
+                          <td class="w-3">信箱</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>{{orderDetail.sellerID}}</td>
+                          <td>{{orderDetail.sellerTel}}</td>
+                          <td>{{orderDetail.sellerMail}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <table width="100%" class="marginTop-1rem"> 
+                      <thead class="bg-gray"> 
+                        <tr>
+                          <td>商品金額</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>${{orderDetail.goodsPrice}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- 訂單：C2C 顯示欄位 -->
+                  <!-- <div class="table">
+                    <table width="100%"> 
+                      <thead class="bg-gray"> 
+                        <tr> 
+                          <td class="w-3">bf!openID</td>
+                          <td class="w-3">電話</td>
+                          <td class="w-3">信箱</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>{{orderDetail.sellerOpenID}}</td>
+                          <td>{{orderDetail.sellerTel}}</td>
+                          <td>{{orderDetail.sellerMail}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <table width="100%" class="marginTop-1rem"> 
+                      <thead class="bg-gray"> 
+                        <tr> 
+                          <td class="w-3">平台費用</td>
+                          <td class="w-3">收益金額</td>
+                          <td></td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>${{orderDetail.sellerCharge}}</td>
+                          <td>${{orderDetail.sellerIncome}}</td>
+                          <td></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div> -->
+                  <hr>
+                  <!-- 買家＆款項資訊 -->
+                  <div class="text-h5">買家＆款項資訊</div>
+                  <div class="table">
+                    <table width="100%"> 
+                      <thead class="bg-gray"> 
+                        <tr> 
+                          <td class="w-3">bf!openID</td>
+                          <td class="w-3">電話</td>
+                          <td class="w-3">信箱</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="w-3">{{orderDetail.buyerID}}</td>
+                          <td class="w-3">{{orderDetail.buyerTel}}</td>
+                          <td class="w-3">{{orderDetail.buyerMail}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <table width="100%" class="marginTop-1rem"> 
+                      <thead class="bg-gray"> 
+                        <tr> 
+                          <td class="w-3">付款金額</td>
+                          <td class="w-3">支付方式</td>
+                          <td class="w-3"></td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="w-3">${{orderDetail.buyerPay}}</td>
+                          <td class="w-3">{{orderDetail.payment}}</td>
+                          <td class="w-3"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <hr>
+                  <!-- 收件資訊 -->
+                  <div class="text-h5">收件資訊</div>
+                  <div class="table">
+                    <table width="100%"> 
+                      <thead class="bg-gray"> 
+                        <tr> 
+                          <td>收件人</td>
+                          <td>電話</td>
+                          <td>信箱</td>
+                          <td>地址</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>{{orderDetail.receiverName}}</td>
+                          <td>{{orderDetail.receiverTel}}</td>
+                          <td>{{orderDetail.receiverMail}}</td>
+                          <td>{{orderDetail.receiverAdd}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <hr>
+                  <!-- 發票資訊 -->
+                  <div class="text-h5">發票資訊</div>
+                  <!-- 個人電子發票:手機載具 -->
+                  <div class="b-text-field">
+                    <label>發票類型</label>
+                    <div class="b-field-row">
+                      <p class="readonly">個人電子發票 - 手機載具</p>
+                    </div>
+                  </div>
+                  <div class="b-text-field">
+                    <label>手機條碼</label>
+                    <div class="b-field-row">
+                      <p class="readonly">/84LT14S</p>
+                    </div>
+                  </div>
+                  <div class="b-text-field">
+                    <label>發票編號</label>
+                    <div class="b-field-row">
+                      <p class="readonly">AB-12223486</p>
+                    </div>
+                  </div>
+                  <div class="b-text-field">
+                    <label>買受人信箱</label>
+                    <div class="b-field-row">
+                      <p class="readonly">aaa@gmail.com</p>
+                    </div>
+                  </div>
+                  <div class="b-text-field">
+                    <label>寄送地址</label>
+                    <div class="b-field-row">
+                      <p class="readonly">台北市內湖區OO路OO號O樓</p>
+                    </div>
+                  </div>
+                  <!-- 個人電子發票:未持有 -->
+                  <!-- <div class="b-text-field">
+                    <label>發票類型</label>
+                    <div class="b-field-row">
+                      <p class="readonly">個人電子發票 - 未持有</p>
+                    </div>
+                  </div>
+                  <div class="b-text-field">
+                    <label>發票編號</label>
+                    <div class="b-field-row">
+                      <p class="readonly">AB-12223486</p>
+                    </div>
+                  </div>
+                  <div class="b-text-field">
+                    <label>買受人信箱</label>
+                    <div class="b-field-row">
+                      <p class="readonly">aaa@gmail.com</p>
+                    </div>
+                  </div>
+                  <div class="b-text-field">
+                    <label>寄送地址</label>
+                    <div class="b-field-row">
+                      <p class="readonly">台北市內湖區OO路OO號O樓</p>
+                    </div>
+                  </div> -->
+                  <!-- 個人電子發票:自然人憑證 -->
+                  <!-- <div class="b-text-field">
+                    <label>發票類型</label>
+                    <div class="b-field-row">
+                      <p class="readonly">個人電子發票 - 自然人憑證</p>
+                    </div>
+                  </div>
+                  <div class="b-text-field">
+                    <label>自然人條碼</label>
+                    <div class="b-field-row">
+                      <p class="readonly">TP03000001234567</p>
+                    </div>
+                  </div>
+                  <div class="b-text-field">
+                    <label>發票編號</label>
+                    <div class="b-field-row">
+                      <p class="readonly">AB-12223486</p>
+                    </div>
+                  </div>
+                  <div class="b-text-field">
+                    <label>買受人信箱</label>
+                    <div class="b-field-row">
+                      <p class="readonly">aaa@gmail.com</p>
+                    </div>
+                  </div>
+                  <div class="b-text-field">
+                    <label>寄送地址</label>
+                    <div class="b-field-row">
+                      <p class="readonly">台北市內湖區OO路OO號O樓</p>
+                    </div>
+                  </div> -->
+                  <!-- 我要捐贈:社團法人台灣一起夢想公益協會 -->
+                  <!-- <div class="b-text-field">
+                    <label>發票類型</label>
+                    <div class="b-field-row">
+                      <p class="readonly">我要捐贈</p>
+                    </div>
+                  </div>
+                  <div class="b-text-field">
+                    <label>捐贈單位</label>
+                    <div class="b-field-row">
+                      <p class="readonly">社團法人台灣一起夢想公益協會</p>
+                    </div>
+                  </div>
+                  <div class="b-text-field">
+                    <label>發票編號</label>
+                    <div class="b-field-row">
+                      <p class="readonly">AB-12223486</p>
+                    </div>
+                  </div> -->
+                  <!-- 我要捐贈:其他機關團體 -->
+                  <!-- <div class="b-text-field">
+                    <label>發票類型</label>
+                    <div class="b-field-row">
+                      <p class="readonly">我要捐贈</p>
+                    </div>
+                  </div>
+                  <div class="b-text-field">
+                    <label>捐贈碼</label>
+                    <div class="b-field-row">
+                      <p class="readonly">5260</p>
+                    </div>
+                  </div>
+                  <div class="b-text-field">
+                    <label>捐贈單位</label>
+                    <div class="b-field-row">
+                      <p class="readonly">門諾基金會</p>
+                    </div>
+                  </div>
+                  <div class="b-text-field">
+                    <label>發票編號</label>
+                    <div class="b-field-row">
+                      <p class="readonly">AB-12223486</p>
+                    </div>
+                  </div> -->
+                  <!-- 三聯式發票 -->
+                  <!-- <div class="b-text-field">
+                    <label>發票類型</label>
+                    <div class="b-field-row">
+                      <p class="readonly">三聯式發票</p>
+                    </div>
+                  </div>
+                  <div class="b-text-field">
+                    <label>公司抬頭/姓名</label>
+                    <div class="b-field-row">
+                      <p class="readonly">OO科技有限公司</p>
+                    </div>
+                  </div>
+                  <div class="b-text-field">
+                    <label>統一編號</label>
+                    <div class="b-field-row">
+                      <p class="readonly">00000000</p>
+                    </div>
+                  </div>
+                  <div class="b-text-field">
+                    <label>發票編號</label>
+                    <div class="b-field-row">
+                      <p class="readonly">AB-12223486</p>
+                    </div>
+                  </div>
+                  <div class="b-text-field">
+                    <label>買受人信箱</label>
+                    <div class="b-field-row">
+                      <p class="readonly">aaa@gmail.com</p>
+                    </div>
+                  </div>
+                  <div class="b-text-field">
+                    <label>寄送地址</label>
+                    <div class="b-field-row">
+                      <p class="readonly">台北市內湖區OO路OO號O樓</p>
+                    </div>
+                  </div> -->
+                  <hr>
+                  <!-- 物流資訊 -->
+                  <div class="text-h5">物流資訊</div>
+                  <div class="b-text-field">
+                    <label>物流商</label>
+                    <div class="b-field-row mb-none">
+                      <input class="b-input" placeholder="請輸入物流公司" required>
+                    </div>
+                  </div>
+                  <div class="b-text-field">
+                    <label>物流編號</label>
+                    <div class="b-field-row mb-none">
+                      <input class="b-input" placeholder="請輸入物流編號" required>
+                    </div>
+                  </div>
+                  <div class="b-text-field">
+                    <label>出貨時間</label>
+                    <div class="b-field-row mb-none">
+                      <input class="b-input mr-xs" id="dateRange" type="text" placeholder="請輸入出貨時間" required>
+                    </div>
+                  </div>
+                  <div class="b-text-field">
+                    <label>物流查詢網址</label>
+                    <div class="b-field-row mb-none">
+                      <input class="b-input" required placeholder="請輸入編號查詢網址">
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="b-text-field d-block">
+                    <label>資產狀態</label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <div class="b-input-wrap">
+                          <p class="readonly">買家持有中</p>
+                          <!-- <p class="readonly">買家未持有該資產</p> -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <!-- 凍結資產-->
+                    <label>凍結資產</label>
+                    <div class="b-field-row">
+                      <!-- [訂單可多筆時的計畫]-->
+                      <button class="b-btn-primary ml-none mb-md outline" data-size="md" type="button" data-toggle="modal" data-target="#assetFreze"> 
+                        <template v-if="!assetFreze">凍結資產</template>
+                        <template v-else>解除凍結</template>
+                      </button>
+                      <p class="b-caption text-danger pt-xs" v-if="!orderDetail.assetState">※請先確認資產是否為該使用者持有中</p>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label>訂單狀態轉為調退單</label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <div class="b-radio">
+                          <input type="radio" id="radio1" name="調退單" value="no" v-model="form.radio1" @input="onChanged('radio1', $event)" checked>
+                          <label for="radio1">否</label>
+                        </div>
+                        <div class="b-radio">
+                          <input type="radio" id="radio2" name="調退單" value="yes" v-model="form.radio1" @input="onChanged('radio2', $event)">
+                          <label for="radio2">是</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label>調退說明<span>*</span></label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <div class="b-input-wrap">
+                          <textarea class="b-textarea m-none" style="width: 60vw;" rows="4" placeholder="輸入調退說明" maxlength="1000" :disabled="form.radio1 !== 'yes'" required></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+                <div class="b-form-button">
+                  <button class="b-btn-secondary text" data-size="lg" type="button" onclick="window.location.href='./4.1_s-order-list.html'">返回訂單總覽</button>
+                  <!-- 當物流資訊無修改 請針對下方 btn 改為 data-target="#success" -->
+                  <button class="b-btn-primary" data-size="lg" type="button" data-target="#sentComfirm" data-toggle="modal">儲存變更</button>
+                </div>
+              </form> 
+              <!-- popup 儲存:有填寫物流資訊 -->
+              <div class="modal fade" id="sentComfirm" data-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm" role="document">
+                  <div class="modal-img" data-type="warning"></div>
+                  <div class="modal-content">
+                    <div class="modal-body text-center">
+                      <h3 class="modal-title">確認儲存？</h3>
+                      <p class="t-c">儲存後物流狀態將更新至使用者購買紀錄</p>
+                    </div>
+                    <div class="modal-footer justify-content-center pt-none">
+                      <button class="b-btn-primary" data-size="lg" type="button" @click="sendResult">確認</button>
+                      <button class="b-btn-default text no-underline" data-size="md" type="button" data-dismiss="modal">取消</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- popup 儲存:無填寫物流資訊 -->
+              <div class="modal fade" id="success" data-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm" role="document">
+                  <div class="modal-img" data-type="success"></div>
+                  <div class="modal-content">
+                    <div class="modal-body text-center">
+                      <h3 class="modal-title">送出成功</h3>
+                    </div>
+                    <div class="modal-footer justify-content-center pt-none">
+                      <button class="b-btn-default outline" data-size="lg" type="button" onclick="window.location.href='./4.1_s-order-list.html'" data-dismiss="modal">關閉</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- popup 凍結資產/解除凍結 -->
+              <div class="modal fade" id="assetFreze" data-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm" role="document">
+                  <div class="modal-img" data-type="warning"></div>
+                  <div class="modal-content">
+                    <div class="modal-body text-center">
+                      <template v-if="!assetFreze">
+                        <h3 class="modal-title">確定凍結資產？</h3>
+                        <p>確認後此玩家背包內該商品將無法進行任何操作</p>
+                      </template>
+                      <template v-else>
+                        <h3 class="modal-title">確定解除凍結？</h3>
+                        <p>確認後此玩家可自由對該商品進行操作功能</p>
+                      </template>
+                    </div>
+                    <div class="modal-footer justify-content-center pt-none">
+                      <button class="b-btn-primary" data-size="lg" type="button" @click="frezeAsset">確認</button>
+                      <button class="b-btn-default text no-underline" data-size="md" type="button" data-dismiss="modal">取消</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="footer">
+            <div class="copyright">&copy;2021 GASH Co, Ltd. All Right Reserved. </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/vue.min.js"></script>
+    <!-- jQuery-->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap Core JavaScript-->
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- input plugin-->
+    <script src="js/flatpickr.js"></script>
+    <!-- multiselector-->
+    <script src="js/vue-select.js"></script>
+    <!-- Custom JavaScript-->
+    <script src="js/sidebar.js"></script>
+    <script src="js/custom.js"></script>
+    <script>
+      currentPage('訂單總覽');
+      var jQfn = function (){
+      };
+      var vm = new Vue({
+          el: '#app',
+          data() {
+              return {
+                  isShow: true,
+
+                  orderDetail: {
+                      type: '虛＋實',
+                      orderID: 'KJHEO7823029357',
+                      gpID: 'GP-1234567890',
+                      orderDataTime: '2022/02/22 16:18',
+                      path: 'B2C',
+                      orderStatus: '成功',
+                      payStatus: '付款成功',
+                      shipStatus: '待出貨',
+
+                      goodsName: '[熱門] 經典特色小丸子帽子',
+                      // goodsID: '123456789465',
+                      category: '道具',
+                      subCategory: '小丸子',
+                      assets: '襪子',
+                      goodsPrice: '1,600',
+                      shipName: '小丸子扇子',
+                      shipID: 'ATOM001',
+                      gashPoint: '500',
+                      gashPointID: '1126173571638719808090876',
+                      activity: '小丸子週年慶-環遊世界趣',
+                      activityStartTime: '2022/02/22 16:18',
+                      activityEndTime: '2022/05/22 16:18 ',
+                      // paCost: '169',
+                      // cpCost: '1,063',
+                      // gashCost: '456',
+                      // returnCost: '0',
+
+                      sellerID: 'OO供應商',
+                      sellerOpenID: '397670859105374201',
+                      sellerTel: '+886 912345678',
+                      sellerMail: 'aaa@gmail.com',
+                      sellerCharge: '169',
+                      // paCost: '200',
+                      // shipPrice: '500',
+                      sellerIncome: '1,431',
+
+                      
+                      buyerID: '1016509000913002524',
+                      buyerTel: '+886 912345678',
+                      buyerMail: 'aaa@gmail.com',
+                      buyerPay: '1,600',
+                      payment: 'GamaPay',
+                      // payStatus: '付款成功',
+
+                      receiverName: '王OO',
+                      receiverTel: '0912345678',
+                      receiverMail: 'aaa@gmail.com',
+                      receiverAdd: '台北市內湖區OO路OO號O樓',
+
+                      logisticsName: '新竹物流',
+                      logisticsNo: '131235535315',
+                      logisticsLink: 'aaa@gmail.com',
+
+                      item: {
+                        id: '2bcace46-c2c8-11ea-b3de-0242ac130004',
+                        id2: '2bcac024230004',
+                        history: [
+                              {
+                                activity: '已調退',
+                                time: '2021-10-29 04:03 AM',
+                              },
+                              {
+                                activity: '凍結資產',
+                                time: '2021-10-30 12:23 AM ',
+                              },
+                              {
+                                activity: '已派送',
+                                time: '2021-10-29 04:03 AM',
+                              },
+                              {
+                                activity: '付款成功',
+                                time: '2021-10-25 09:06 AM',
+                              },
+                              {
+                                activity: '訂單成立',
+                                time: '2021-10-24 09:06 AM',
+                              },
+                          ]
+                      },
+                  },
+                  form: {
+                    radio1: 'no',
+                    radio2: 'yes',
+                  },
+                  btnLoading: {
+                      search: false,
+                      refund: false,
+                      sendRefund: false,
+                  },
+                  copyBtn: false,
+                  copyBtn2: false,
+                  assetFreze: false,
+                  refundSent: false,
+              }
+          },
+          watch: {
+            "orderDetail.limitation.count": function(){
+                  if(this.orderDetail.limitation.count) {
+                      this.orderDetail.limitation.value = 'limited'
+                  } 
+              },
+          },
+          methods: {
+              copyID: function(id) {
+                  let copyText = document.querySelector(id);
+                  console.log(copyText);
+                  if (id === '#copyContent') {
+                      vm.copyBtn = true
+                  }else {
+                      vm.copyBtn2 = true
+                  }
+                  copyText.select();
+                  document.execCommand("copy");
+                  window.setTimeout(function(){
+                      vm.copyBtn = false
+                      vm.copyBtn2 = false
+                  }, 2000);
+              },
+              sendResult: function(){
+                  $('#sentComfirm').modal('hide')
+                  $('#success').modal('show')
+              },
+              sendRefund: function(){
+                  this.btnLoading.sendRefund = true
+                  window.setTimeout(function(){
+                      vm.btnLoading.sendRefund = false
+                      vm.refundSent = true
+                      $('#refund').modal('hide')
+                      $('#success').modal('show')
+                  }, 2000);
+              },
+              frezeAsset: function(){
+                  this.assetFreze = !this.assetFreze
+                  $('#assetFreze').modal('hide')
+              },
+              saveForm: function (){
+                  this.submitBtnStatus.disabled = true  
+              },
+              onChanged(nextRadio, newValue) {
+                if(newValue === 'no'){
+                  this.form[nextRadio] = 'no'
+                }
+              },
+              toggle: function() {
+                this.isShow = !this.isShow;
+                var box = document.querySelector('.box');
+                if (box.style.height === "auto") {
+                  box.style.height = "50px";
+                } else {
+                  box.style.height = "auto";
+                }
+              }
+          },
+          mounted: function () {
+              this.$nextTick(function () {
+                  jQfn()
+              })
+          },
+          updated: function () {
+              this.$nextTick(function () {
+                  jQfn()
+              })
+          }
+      })
+      $(document).ready(function() {
+          $("#dateRange").flatpickr({
+              static: true,
+              enableTime: true,
+              enableSeconds: true,
+              dateFormat: "Y/m/d H:i:ss",
+          });
+       });
+    </script>
+  </body>
+</html>

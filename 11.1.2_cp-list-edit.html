@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="img/favicon.ico" rel="icon" type="image/x-icon">
+    <title>供應商編輯</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/flatpickr.css" rel="stylesheet">
+    <link href="css/vue-select.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/table.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+  </head>
+  <body>
+    <header class="navbar navbar-inverse fixed-top active" id="header">
+      <div class="navbar-brand"><a id="menu-toggle"><span class="material-icons">menu</span></a>
+        <h1><a href="./index.html"><span>fun市集</span>後台</a></h1>
+      </div>
+      <ul class="topbar-menu">
+        <li><span class="greeting">Have a Good Time</span></li>
+        <li>
+          <div class="btn-group">
+            <button class="dropdown-toggle topbar-btn" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="material-icons">notifications</span><span class="red-dot"></span></button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <ul class="dropdown-list">
+                <li class="dropdown-item"><a class="dropdown-info"><span class="b-caption">[審核通過] 小丸子帽子</span></a>
+                  <div class="date"><span>今天</span><span>16:55</span></div>
+                </li>
+                <li class="dropdown-item read">
+                  <div class="dropdown-info">
+                    <p class="b-caption">[審核通過] 小丸子鞋子</p>
+                  </div>
+                  <div class="date"><span>8-12</span></div>
+                </li>
+                <li class="dropdown-item read">
+                  <div class="dropdown-info">
+                    <p class="b-caption">[審核通過] 小丸子裙子</p>
+                  </div>
+                  <div class="date"><span>8-12</span></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="btn-group">
+            <button class="dropdown-toggle topbar-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="material-icons">person_outline</span></button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <ul class="dropdown-list">
+                <li class="dropdown-item read"><a class="dropdown-info" href="./login.html"><span class="b-caption">登出</span></a></li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </header>
+    <div class="container-fluid" id="main-content">
+      <div class="row">
+        <div class="expand" id="sidebar-wrapper">
+          <ul id="sidebar"></ul>
+          <div class="overlay show"></div>
+        </div>
+        <div class="col wrap">
+          <div class="row">
+            <div id="gotop"><span class="material-icons">arrow_upward</span></div>
+            <div class="col content-top">
+              <div class="breadcrum">fun市集後台>供應商管理>供應商清單>供應商編輯</div>
+            </div>
+          </div>
+          <div class="row" id="app">
+            <div class="content animated fadeIn">
+              <ul class="nav nav-tabs">
+              </ul>
+              <form class="form-wrap" id="basic-form" @submit.prevent="saveForm()" method="post">
+                <div class="form-top">
+                  <h2 class="text-h3">供應商編輯</h2>
+                </div>
+                <fieldset>
+                  <div class="b-text-field d-block">
+                    <label>供應商名稱<span>*</span></label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <div class="b-input-wrap">
+                          <input class="b-input width-400 max-w-none mr-none" type="text" v-model="cpName" placeholder="請輸入供應商" required></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label>營業人名稱<span>*</span></label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <div class="b-input-wrap">
+                          <input class="b-input width-400 max-w-none mr-none" type="text" v-model="businessName" placeholder="請輸入營業人名稱" required></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label>統一編號<span>*</span></label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <div class="b-input-wrap">
+                          <input class="b-input width-400 max-w-none mr-none" type="number" v-model="taxID" placeholder="請輸入統一編號" maxlength="8" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" autocomplete="off" onchange="this.value = this.value.toUpperCase();" required></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label>資產類別<span>*</span></label>
+                    <div class="b-field-group">
+                      <div class="b-field-row mb-none">
+                        <div class="b-checkbox">
+                          <input type="checkbox" id="item" v-model="assets.item" required>
+                          <label class="pr-xs" for="item">道具</label>
+                        </div>
+                        <div class="b-checkbox">
+                          <input type="checkbox" id="ticket" v-model="assets.ticket" required>
+                          <label class="pr-xs" for="ticket">票券</label>
+                        </div>
+                        <div class="b-checkbox">
+                          <input type="checkbox" id="collection" v-model="assets.collection" required>
+                          <label class="pr-xs" for="collection">收藏品</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="b-field-row">
+                      <div class="alert alert-warning"><span class="material-icons">info </span>廠商實收金額 = ( 商品售價 - 平台手續費 - PA手續費 ) + 廠商平台手續費分潤 - 廠商PA手續費負擔<br>※ PA手續費依不同支付方式、拆分比設定調整</div>
+                    </div>
+                  </div>
+                  <!-- 分潤：道具 顯示欄位 -->
+                  <template v-if="assets.item === true" key="itemAssets">
+                    <hr>
+                    <div class="text-h4">道具分潤設定</div>
+                    <div class="text-h5">B2C</div>
+                    <div class="b-text-field d-block">
+                      <div class="b-field-row mb-none">
+                        <div class="b-input-wrap gamapay">平台手續費<span>*</span></div>
+                        <input class="b-input mr-none" type="number" v-model="itemData.B2CplatformFee" placeholder="0-100" oninput="if(value>100)value=100;if(value.length>3)value=value.slice(0,3);if(value<0)value=0" required>
+                        <div class="b-input-wrap gamapay pl-xs">%</div>
+                      </div>
+                    </div>
+                    <div class="b-text-field d-block">
+                      <div class="b-field-row mb-none">
+                        <div class="b-input-wrap gamapay">PA手續費<span>*</span></div>
+                        <input class="b-input mr-none" type="number" v-model="itemData.B2CpaFee" placeholder="0-100" oninput="if(value>100)value=100;if(value.length>3)value=value.slice(0,3);if(value<0)value=0" required>
+                        <div class="b-input-wrap gamapay pl-xs">%</div>
+                      </div>
+                    </div>
+                    <div class="b-text-field d-block">
+                      <div class="b-field-row mb-none">
+                        <div class="b-input-wrap gamapay">廠商平台服務費分潤<span>*</span></div>
+                        <input class="b-input mr-none" type="number" v-model="itemData.B2CshareFee" placeholder="0-100" oninput="if(value>100)value=100;if(value.length>3)value=value.slice(0,3);if(value<0)value=0">
+                        <div class="b-input-wrap gamapay pl-xs">%</div>
+                      </div>
+                    </div>
+                    <div class="b-text-field d-block">
+                      <div class="b-field-row mb-none">
+                        <div class="b-input-wrap gamapay">廠商PA手續費負擔<span>*</span></div>
+                        <input class="b-input mr-none" type="number" v-model="itemData.B2CexpenseFee" placeholder="0-100" oninput="if(value>100)value=100;if(value.length>3)value=value.slice(0,3);if(value<0)value=0" required>
+                        <div class="b-input-wrap gamapay pl-xs">%</div>
+                      </div>
+                    </div>
+                    <div class="text-h5">C2C</div>
+                    <div class="b-text-field d-block">
+                      <div class="b-field-row mb-none">
+                        <div class="b-input-wrap gamapay">平台手續費<span>*</span></div>
+                        <input class="b-input mr-none" type="number" v-model="itemData.C2CplatformFee" placeholder="0-100" oninput="if(value>100)value=100;if(value.length>3)value=value.slice(0,3);if(value<0)value=0" required>
+                        <div class="b-input-wrap gamapay pl-xs">%</div>
+                      </div>
+                    </div>
+                    <div class="b-text-field d-block">
+                      <div class="b-field-row mb-none">
+                        <div class="b-input-wrap gamapay">PA手續費<span>*</span></div>
+                        <input class="b-input mr-none" type="number" v-model="itemData.C2CpaFee" placeholder="0-100" oninput="if(value>100)value=100;if(value.length>3)value=value.slice(0,3);if(value<0)value=0" required>
+                        <div class="b-input-wrap gamapay pl-xs">%</div>
+                      </div>
+                    </div>
+                    <div class="b-text-field d-block">
+                      <div class="b-field-row mb-none">
+                        <div class="b-input-wrap gamapay">廠商平台服務費分潤<span>*</span></div>
+                        <input class="b-input mr-none" type="number" v-model="itemData.C2CshareFee" placeholder="0-100" oninput="if(value>100)value=100;if(value.length>3)value=value.slice(0,3);if(value<0)value=0">
+                        <div class="b-input-wrap gamapay pl-xs">%</div>
+                      </div>
+                    </div>
+                    <div class="b-text-field d-block">
+                      <div class="b-field-row mb-none">
+                        <div class="b-input-wrap gamapay">廠商PA手續費負擔<span>*</span></div>
+                        <input class="b-input mr-none" type="number" v-model="itemData.C2CexpenseFee" placeholder="0-100" oninput="if(value>100)value=100;if(value.length>3)value=value.slice(0,3);if(value<0)value=0" required>
+                        <div class="b-input-wrap gamapay pl-xs">%</div>
+                      </div>
+                    </div>
+                  </template>
+                  <!-- 分潤：票券 顯示欄位 -->
+                  <template v-if="assets.ticket === true" key="ticketAssets">
+                    <hr>
+                    <div class="text-h4">票券分潤設定</div>
+                    <div class="text-h5">B2C</div>
+                    <div class="b-text-field d-block">
+                      <div class="b-field-row mb-none">
+                        <div class="b-input-wrap gamapay">平台手續費<span>*</span></div>
+                        <input class="b-input mr-none" type="number" v-model="ticketData.B2CplatformFee" placeholder="0-100" oninput="if(value>100)value=100;if(value.length>3)value=value.slice(0,3);if(value<0)value=0" required>
+                        <div class="b-input-wrap gamapay pl-xs">%</div>
+                      </div>
+                    </div>
+                    <div class="b-text-field d-block">
+                      <div class="b-field-row mb-none">
+                        <div class="b-input-wrap gamapay">PA手續費<span>*</span></div>
+                        <input class="b-input mr-none" type="number" v-model="ticketData.B2CpaFee" placeholder="0-100" oninput="if(value>100)value=100;if(value.length>3)value=value.slice(0,3);if(value<0)value=0" required>
+                        <div class="b-input-wrap gamapay pl-xs">%</div>
+                      </div>
+                    </div>
+                    <div class="b-text-field d-block">
+                      <div class="b-field-row mb-none">
+                        <div class="b-input-wrap gamapay">廠商平台服務費分潤<span>*</span></div>
+                        <input class="b-input mr-none" type="number" v-model="ticketData.B2CshareFee" placeholder="0-100" oninput="if(value>100)value=100;if(value.length>3)value=value.slice(0,3);if(value<0)value=0">
+                        <div class="b-input-wrap gamapay pl-xs">%</div>
+                      </div>
+                    </div>
+                    <div class="b-text-field d-block">
+                      <div class="b-field-row mb-none">
+                        <div class="b-input-wrap gamapay">廠商PA手續費負擔<span>*</span></div>
+                        <input class="b-input mr-none" type="number" v-model="ticketData.B2CexpenseFee" placeholder="0-100" oninput="if(value>100)value=100;if(value.length>3)value=value.slice(0,3);if(value<0)value=0" required>
+                        <div class="b-input-wrap gamapay pl-xs">%</div>
+                      </div>
+                    </div>
+                    <div class="text-h5">C2C</div>
+                    <div class="b-text-field d-block">
+                      <div class="b-field-row mb-none">
+                        <div class="b-input-wrap gamapay">平台手續費<span>*</span></div>
+                        <input class="b-input mr-none" type="number" v-model="ticketData.C2CplatformFee" placeholder="0-100" oninput="if(value>100)value=100;if(value.length>3)value=value.slice(0,3);if(value<0)value=0" required>
+                        <div class="b-input-wrap gamapay pl-xs">%</div>
+                      </div>
+                    </div>
+                    <div class="b-text-field d-block">
+                      <div class="b-field-row mb-none">
+                        <div class="b-input-wrap gamapay">PA手續費<span>*</span></div>
+                        <input class="b-input mr-none" type="number" v-model="ticketData.C2CpaFee" placeholder="0-100" oninput="if(value>100)value=100;if(value.length>3)value=value.slice(0,3);if(value<0)value=0" required>
+                        <div class="b-input-wrap gamapay pl-xs">%</div>
+                      </div>
+                    </div>
+                    <div class="b-text-field d-block">
+                      <div class="b-field-row mb-none">
+                        <div class="b-input-wrap gamapay">廠商平台服務費分潤<span>*</span></div>
+                        <input class="b-input mr-none" type="number" v-model="ticketData.C2CshareFee" placeholder="0-100" oninput="if(value>100)value=100;if(value.length>3)value=value.slice(0,3);if(value<0)value=0">
+                        <div class="b-input-wrap gamapay pl-xs">%</div>
+                      </div>
+                    </div>
+                    <div class="b-text-field d-block">
+                      <div class="b-field-row mb-none">
+                        <div class="b-input-wrap gamapay">廠商PA手續費負擔<span>*</span></div>
+                        <input class="b-input mr-none" type="number" v-model="ticketData.C2CexpenseFee" placeholder="0-100" oninput="if(value>100)value=100;if(value.length>3)value=value.slice(0,3);if(value<0)value=0" required>
+                        <div class="b-input-wrap gamapay pl-xs">%</div>
+                      </div>
+                    </div>
+                  </template>
+                  <!-- 分潤：收藏品 顯示欄位 -->
+                  <template v-if="assets.collection === true" key="collectionAssets">
+                    <hr>
+                    <div class="text-h4">收藏品分潤設定</div>
+                    <div class="text-h5">B2C</div>
+                    <div class="b-text-field d-block">
+                      <div class="b-field-row mb-none">
+                        <div class="b-input-wrap gamapay">平台手續費<span>*</span></div>
+                        <input class="b-input mr-none" type="number" v-model="collectionData.B2CplatformFee" placeholder="0-100" oninput="if(value>100)value=100;if(value.length>3)value=value.slice(0,3);if(value<0)value=0" required>
+                        <div class="b-input-wrap gamapay pl-xs">%</div>
+                      </div>
+                    </div>
+                    <div class="b-text-field d-block">
+                      <div class="b-field-row mb-none">
+                        <div class="b-input-wrap gamapay">PA手續費<span>*</span></div>
+                        <input class="b-input mr-none" type="number" v-model="collectionData.B2CpaFee" placeholder="0-100" oninput="if(value>100)value=100;if(value.length>3)value=value.slice(0,3);if(value<0)value=0" required>
+                        <div class="b-input-wrap gamapay pl-xs">%</div>
+                      </div>
+                    </div>
+                    <div class="b-text-field d-block">
+                      <div class="b-field-row mb-none">
+                        <div class="b-input-wrap gamapay">廠商平台服務費分潤<span>*</span></div>
+                        <input class="b-input mr-none" type="number" v-model="collectionData.B2CshareFee" placeholder="0-100" oninput="if(value>100)value=100;if(value.length>3)value=value.slice(0,3);if(value<0)value=0">
+                        <div class="b-input-wrap gamapay pl-xs">%</div>
+                      </div>
+                    </div>
+                    <div class="b-text-field d-block">
+                      <div class="b-field-row mb-none">
+                        <div class="b-input-wrap gamapay">廠商PA手續費負擔<span>*</span></div>
+                        <input class="b-input mr-none" type="number" v-model="collectionData.B2CexpenseFee" placeholder="0-100" oninput="if(value>100)value=100;if(value.length>3)value=value.slice(0,3);if(value<0)value=0" required>
+                        <div class="b-input-wrap gamapay pl-xs">%</div>
+                      </div>
+                    </div>
+                    <div class="text-h5">C2C</div>
+                    <div class="b-text-field d-block">
+                      <div class="b-field-row mb-none">
+                        <div class="b-input-wrap gamapay">平台手續費<span>*</span></div>
+                        <input class="b-input mr-none" type="number" v-model="collectionData.C2CplatformFee" placeholder="0-100" oninput="if(value>100)value=100;if(value.length>3)value=value.slice(0,3);if(value<0)value=0" required>
+                        <div class="b-input-wrap gamapay pl-xs">%</div>
+                      </div>
+                    </div>
+                    <div class="b-text-field d-block">
+                      <div class="b-field-row mb-none">
+                        <div class="b-input-wrap gamapay">PA手續費<span>*</span></div>
+                        <input class="b-input mr-none" type="number" v-model="collectionData.C2CpaFee" placeholder="0-100" oninput="if(value>100)value=100;if(value.length>3)value=value.slice(0,3);if(value<0)value=0" required>
+                        <div class="b-input-wrap gamapay pl-xs">%</div>
+                      </div>
+                    </div>
+                    <div class="b-text-field d-block">
+                      <div class="b-field-row mb-none">
+                        <div class="b-input-wrap gamapay">廠商平台服務費分潤<span>*</span></div>
+                        <input class="b-input mr-none" type="number" v-model="collectionData.C2CshareFee" placeholder="0-100" oninput="if(value>100)value=100;if(value.length>3)value=value.slice(0,3);if(value<0)value=0">
+                        <div class="b-input-wrap gamapay pl-xs">%</div>
+                      </div>
+                    </div>
+                    <div class="b-text-field d-block">
+                      <div class="b-field-row mb-none">
+                        <div class="b-input-wrap gamapay">廠商PA手續費負擔<span>*</span></div>
+                        <input class="b-input mr-none" type="number" v-model="collectionData.C2CexpenseFee" placeholder="0-100" oninput="if(value>100)value=100;if(value.length>3)value=value.slice(0,3);if(value<0)value=0" required>
+                        <div class="b-input-wrap gamapay pl-xs">%</div>
+                      </div>
+                    </div>
+                  </template>
+                </fieldset>
+                <div class="b-form-button">
+                  <button class="b-btn-secondary outline" data-size="lg" type="button" onclick="window.location.href='./11.1_cp-list.html'">取消</button>
+                  <button class="b-btn-primary" data-size="lg" type="button" :disabled="saveBtnStatus.disabled" data-toggle="modal" @click="saveForm" >{{saveBtnStatus.label}}</button>
+                </div>
+              </form>
+             <!-- 送出確認 popup -->
+              <div class="modal fade" id="successConfirm" data-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm" role="document">
+                  <div class="modal-img" data-type="warning"></div>
+                  <div class="modal-content">
+                    <div class="modal-body text-center">
+                      <h3 class="modal-title">送出確認</h3>
+                      <p>儲存後，商品販售將於各項手續費、分潤計算。確定執行？</p>
+                    </div>
+                    <div class="modal-footer justify-content-center pt-none">
+                      <button class="b-btn-default" data-size="lg" type="button" onclick="window.location= './11.1_cp-list.html'">確定</button>
+                      <button class="b-btn-default text no-underline" data-size="md" type="button" data-dismiss="modal">關閉</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="footer">
+            <div class="copyright">&copy;2021 GASH Co, Ltd. All Right Reserved. </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/vue.min.js"></script>
+    <!-- jQuery-->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap Core JavaScript-->
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/flatpickr.js"></script>
+    <!-- multiselector-->
+    <script src="js/vue-select.js"></script>
+    <!-- Custom JavaScript-->
+    <script src="js/sidebar.js"></script>
+    <script src="js/custom.js"></script>
+    <script>
+      currentPage('供應商清單');
+      var jQfn = function (){
+
+      }
+      
+      var vm = new Vue({
+          el: '#app',
+          data() {
+              return {
+                  cpName: '樂點股份有限公司(我不是胖虎2022)',
+                  businessName: 'OOO',
+                  taxID: '53209324',
+                  assets: { 
+                    item: true,
+                    ticket: false,
+                    collection: false,
+                  },
+                  
+                  itemData:{
+                    B2CplatformFee: '0',
+                    B2CpaFee: '0',
+                    B2CshareFee: '5',
+                    B2CexpenseFee: '50',
+                    C2CplatformFee: '10',
+                    C2CpaFee: '5',
+                    C2CshareFee: '40',
+                    C2CexpenseFee: '50',
+                  },
+                  ticketData:{
+                    B2CplatformFee: '',
+                    B2CpaFee: '0',
+                    B2CshareFee: '',
+                    B2CexpenseFee: '',
+                    C2CplatformFee: '',
+                    C2CpaFee: '5',
+                    C2CshareFee: '',
+                    C2CexpenseFee: '',
+                  },
+                  collectionData:{
+                    B2CplatformFee: '',
+                    B2CpaFee: '0',
+                    B2CshareFee: '',
+                    B2CexpenseFee: '',
+                    C2CplatformFee: '',
+                    C2CpaFee: '5',
+                    C2CshareFee: '',
+                    C2CexpenseFee: '',
+                  },
+
+                  submitBtnStatus: {
+                      disabled: false,
+                      loading: false,
+                  },
+                  saveBtnStatus: { //儲存變更 btn
+                      disabled: false,
+                      loading: false,
+                      label: '儲存變更'
+                  },
+              }
+          },
+          watch: {
+          },
+          methods: {
+              saveForm: function (){
+                  this.submitBtnStatus.disabled = true  
+                  this.submitBtnStatus.loading = true  
+                  // this.validationEmpty(this.showAlert)
+                  window.setTimeout(function(){
+                      $('#successConfirm').modal('show')
+                  }, 500);
+              },
+          },
+          mounted: function () {
+
+          },
+          updated: function () {
+
+          }
+      })
+    </script>
+  </body>
+</html>

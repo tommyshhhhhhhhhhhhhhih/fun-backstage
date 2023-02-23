@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="img/favicon.ico" rel="icon" type="image/x-icon">
+    <title>商品詳情</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/flatpickr.css" rel="stylesheet">
+    <link href="css/vue-select.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/table.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+  </head>
+  <body>
+    <header class="navbar navbar-inverse fixed-top active" id="header">
+      <div class="navbar-brand"><a id="menu-toggle"><span class="material-icons">menu</span></a>
+        <h1><a href="./index.html"><span>fun市集</span>後台</a></h1>
+      </div>
+      <ul class="topbar-menu">
+        <li><span class="greeting">Have a Good Time</span></li>
+        <li>
+          <div class="btn-group">
+            <button class="dropdown-toggle topbar-btn" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="material-icons">notifications</span><span class="red-dot"></span></button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <ul class="dropdown-list">
+                <li class="dropdown-item"><a class="dropdown-info"><span class="b-caption">[審核通過] 小丸子帽子</span></a>
+                  <div class="date"><span>今天</span><span>16:55</span></div>
+                </li>
+                <li class="dropdown-item read">
+                  <div class="dropdown-info">
+                    <p class="b-caption">[審核通過] 小丸子鞋子</p>
+                  </div>
+                  <div class="date"><span>8-12</span></div>
+                </li>
+                <li class="dropdown-item read">
+                  <div class="dropdown-info">
+                    <p class="b-caption">[審核通過] 小丸子裙子</p>
+                  </div>
+                  <div class="date"><span>8-12</span></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="btn-group">
+            <button class="dropdown-toggle topbar-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="material-icons">person_outline</span></button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <ul class="dropdown-list">
+                <li class="dropdown-item read"><a class="dropdown-info" href="./login.html"><span class="b-caption">登出</span></a></li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </header>
+    <div class="container-fluid" id="main-content">
+      <div class="row">
+        <div class="expand" id="sidebar-wrapper">
+          <ul id="sidebar"></ul>
+          <div class="overlay show"></div>
+        </div>
+        <div class="col wrap">
+          <div class="row">
+            <div id="gotop"><span class="material-icons">arrow_upward</span></div>
+            <div class="col content-top">
+              <div class="breadcrum">fun市集後台>商品上架管理>上架清單>商品詳情</div>
+            </div>
+          </div>
+          <div class="row" id="app">
+            <div class="content animated fadeIn">
+              <ul class="nav nav-tabs">
+              </ul>
+              <form class="form-wrap" id="basic-form" @submit.prevent="saveForm()" method="post">
+                <div class="form-top">
+                  <h2 class="text-h3">商品詳情</h2>
+                </div>
+                <fieldset>
+                  <!-- 定義檔設定 -->
+                  <div class="text-h5">定義檔設定</div>
+                  <div class="b-text-field d-block">
+                    <label>供應商<span>*</span></label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <p class="readonly">OO供應商</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label>資產類別<span>*</span></label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <p class="readonly">收藏品 / 收藏品類別1 / 小丸子鞋子</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- 資產：票券、收藏品 新增顯示欄位-->
+                  <div class="b-text-field d-block">
+                    <label>水位ID<span>*</span></label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <p class="readonly">12789137987163871537861791</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label>ItemCode</label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <p class="readonly">204eff96-dc6b-40f7-8692-18ab9e55321a</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label>商品ID</label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <p class="readonly">1111111</p>
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+                  <!-- 資產：道具 新增顯示欄位-->
+                  <div class="text-h5">道具屬性設定</div>
+                  <div class="b-text-field d-block">
+                    <label>屬性</label>
+                    <div class="b-field-group">
+                      <div class="b-field-row mb-none"></div>
+                      <template v-if="typeof(formData.attribute.value) === 'number' ">
+                        <div class="b-field-row"> 
+                          <ul class="p-md bg-gray-1">
+                            <li v-for="item in attributeSet[formData.attribute.value].attribute">{{ item.label }} {{ item.name }} : {{ item.value }}</li>
+                          </ul>
+                        </div>
+                      </template>
+                    </div>
+                  </div>
+                  <!-- 資產：票券 新增顯示欄位 -->
+                  <div class="text-h5">票券核銷＆活動設定</div>
+                  <div class="b-text-field d-block">
+                    <label>核銷方式<span>*</span></label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <p class="readonly">第三方序號核銷 / 不顯示 BarCode</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label>活動連結<span>*</span></label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <p class="readonly">網址設定： https://www.google.com/</p>
+                        <p class="readonly">連結類型：bf!內開啟</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label>活動地址<span>*</span></label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <p class="readonly">地址設定：台北市內湖區OO路OO號O樓</p>
+                        <p class="readonly">地點輔助說明：在榕樹下</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label>是否公開活動<span>*</span></label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <p class="readonly">公開</p>
+                      </div>
+                    </div>
+                  </div>        
+                  <div class="b-text-field d-block">
+                    <label>是否公開取票<span>*</span></label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <p class="readonly">不公開</p>
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+                  <!-- 商品資訊設定 -->
+                  <div class="text-h5">商品資訊設定</div>
+                  <div class="b-text-field d-block">
+                    <label>商品顯示標題<span>*</span></label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <div class="b-input-wrap">
+                          <p class="readonly">{{ formData.productName }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label class="d-flex align-items-center">商品說明圖片<span class="tooltip-btn pl-xs" data-toggle="tooltip" data-placement="right" data-html="true" title="&lt;p&gt;詳細說明中的圖檔&lt;/p&gt;&lt;img class='w-100' src='./img/demo/content-img.png' alt=''/&gt;"><span class="material-icons">info</span></span></label>
+                    <div class="b-field-group pl-xs"> 
+                      <div class="b-field-row">
+                        <template v-for="(item,idx) in formData.productDescImg">
+                          <div class="upload-img-preview"><img class="preview" data-size="small" :src="item.src">
+                            <ul> 
+                              <li class="b-caption">{{item.name}}</li>
+                              <li class="b-caption">大小: {{item.size}} KB</li>
+                            </ul>
+                          </div>
+                        </template>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label class="d-flex align-items-center">商品詳細說明<span>*</span></label>
+                    <div class="b-field-row">
+                      <div class="b-input-wrap">
+                        <p class="readonly">{{ formData.productDesc }}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+                  <!-- 商品銷售設定 -->
+                  <div class="text-h5">商品銷售設定</div>
+                  <div class="b-text-field d-block">
+                    <label class="d-flex align-items-center">刊登開始時間<span>*</span></label>
+                    <div class="b-field-row">
+                      <div class="b-input-wrap">
+                        <p class="readonly">{{ formData.publishStart }}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label class="d-flex align-items-center">刊登結束時間<span>*</span></label>
+                    <div class="b-field-row">
+                      <div class="b-input-wrap">
+                        <p class="readonly">{{ formData.publishEnd }}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block" key="listingplace">
+                    <label>上架位置<span>*</span></label>
+                    <div class="b-field-group">
+                      <div class="b-field-row mb-none">
+                        <div class="b-checkbox">
+                          <input type="checkbox" id="webstore" v-model="formData.route.webstore" disabled>
+                          <label class="pr-xs" for="webstore">web 商城</label>
+                        </div>
+                      </div>
+                      <div class="b-field-row mb-none">
+                        <div class="b-checkbox">
+                          <input type="checkbox" id="inappstore" v-model="formData.route.inappstore" disabled>
+                          <label class="pr-xs" for="inappstore">in App 商城</label>
+                        </div>
+                        <div class="b-field-row pl-lg">
+                          <label class="pr-sm pt-xxs">支援 beanfun! Coin</label>
+                          <div class="b-radio mb-none">
+                            <input type="radio" id="bfCoinY" v-model="formData.bfCoinUse" value="bfCoinY" name="bfCoinY" disabled>
+                            <label for="bfCoinY">是</label>
+                          </div>
+                          <div class="b-radio mb-none">
+                            <input type="radio" id="bfCoinN" v-model="formData.bfCoinUse" value="bfCoinN" name="bfCoinN" disabled>
+                            <label for="bfCoinN">否</label>
+                          </div>
+                        </div>
+                        <template v-if="formData.route.inappstore === true && formData.bfCoinUse === 'bfCoinY'" key="bfCoinFee">
+                          <div class="b-field-row pl-lg">
+                            <label class="pr-sm pt-xxs">手續費</label>
+                            <div class="b-input-wrap">
+                              <input class="b-input" type="number" v-model="formData.bfCoinUsePercentage" oninput="if(value>100)value=100;if(value.length>4)value=value.slice(0,4);if(value<0)value=0" disabled> %
+                            </div>
+                          </div>
+                          <div class="b-field-row pl-lg">
+                            <div class="alert alert-warning"><span class="material-icons">info </span>由於 IAP 議題，在 in App 商城內顯示的價格，將會額外加上 38% 手續費</div>
+                          </div>
+                        </template>
+                        <template v-if="formData.route.inappstore === true && formData.bfCoinUse === 'bfCoinN'" key="bfClubLink">
+                          <div class="b-field-row pl-lg">
+                            <label class="pr-sm pt-xxs">beanfun!社團網址</label>
+                            <div class="b-input-wrap">
+                              <input class="b-input width-350" type="text" v-model="formData.bfClubLink.value" :maxlength="formData.bfClubLink.maxlength" :placeholder="formData.bfClubLink.placeholder" disabled required>
+                            </div>
+                          </div>
+                        </template>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label>設定價格<span>*</span></label>
+                    <div class="b-field-row">
+                      <div class="b-input-wrap">
+                        <p class="readonly">新台幣 ${{ formData.price2 }}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label>所屬官方旗艦店</label>
+                    <div class="b-field-row">
+                      <div class="b-input-wrap">
+                        <p class="readonly">小丸子</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- 商品組合：實體物品 新增顯示欄位-->
+                  <div class="b-text-field d-block">
+                    <label>包含實體物品</label>
+                    <div class="b-field-row">
+                      <div class="b-input-wrap">
+                        <p class="readonly">物品名稱*：小丸子小學生帽</p>
+                        <p class="readonly">物品售價*：$300</p>
+                        <p class="readonly">物品拆帳廠商*：OO廠商</p>
+                        <p class="readonly">物品拆帳％數*：10%</p>
+                        <p class="readonly">物品料號：</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- 商品組合：Gash點數 新增顯示欄位-->
+                  <div class="b-text-field d-block">
+                    <label>包含GASH點數<span>*</span></label>
+                    <div class="b-field-row">
+                      <div class="b-input-wrap">
+                        <p class="readonly">點數數量：300 點</p>
+                        <p class="readonly">點數料號：11111836876478264918</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label>贈獎活動<span class="tooltip-btn pl-xs" data-toggle="tooltip" data-placement="right" title="現階段由開發建置活動，提供所需欄位資料。手動填入活動名稱、活動期間、MPS event key對應MPS欄位"><span class="material-icons">info</span></span></label>
+                    <div class="b-field-row">
+                      <div class="b-input-wrap">
+                        <div class="eventFreebie">
+                          <div class="number">1.</div>
+                          <div class="content-box">
+                            <p class="readonly">活動名稱：買千送票券</p>
+                            <p class="readonly">活動期間：2021/12/23 23:59:00 - 2021/12/25 23:59:00</p>
+                            <p class="readonly">MPS event key：173816ydus8uudp61753uojp</p>
+                          </div>
+                        </div>
+                        <div class="eventFreebie">
+                          <div class="number">2.</div>
+                          <div class="content-box">
+                            <p class="readonly">活動名稱：原子少年大逃殺</p>
+                            <p class="readonly">活動期間：2021/12/23 23:59:00 - 2021/12/25 23:59:00</p>
+                            <p class="readonly">MPS event key：11oi2o13o8173861371537</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label>目前庫存數量</label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <p class="readonly">50</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- 資產：道具&票券(第三方序號核銷) 新增顯示欄位 -->
+                  <div class="b-text-field d-block">
+                    <label>上傳PIN碼<span>*</span><span class="tooltip-btn pl-xs" data-toggle="tooltip" data-placement="right" title="點選以下載核對銷貨序號"><span class="material-icons">info</span></span></label>
+                    <div class="b-field-group pl-xs"> 
+                      <div class="b-field-row mb-none">
+                        <button class="b-btn-secondary text px-none" data-size="sm" type="button">event1112.csv</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label>上傳 PIN 碼數量</label>
+                    <div class="b-field-group">
+                      <p class="readonly">88</p>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label>購買限制<span>*</span></label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <p class="readonly">限制每會員 2 個</p>
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+                  <!-- 背包活動連結設定 -->
+                  <div class="text-h5">背包活動連結設定</div>
+                  <!-- 資產：收藏品 新增顯示欄位 -->
+                  <div class="b-text-field d-block">
+                    <label>收藏品活動連結</label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <p class="readonly">設定網址：https://www.google.com/</p>
+                        <p class="readonly">連結類型：bf!內開啟網頁</p>
+                        <p class="readonly">按鈕名稱：前往網站</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- 資產：票券 新增顯示欄位 -->
+                  <div class="b-text-field d-block">
+                    <label>票券活動連結</label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <p class="readonly">設定網址：https://www.google.com/</p>
+                        <p class="readonly">連結類型：bf!內開啟網頁</p>
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+                <div class="b-form-button">
+                  <button class="b-btn-secondary text" data-size="lg" type="button" onclick="window.location.href='./3.1_selling-list.html'">返回上架清單</button>
+                </div>
+              </form>              
+            </div>
+          </div>
+          <div class="footer">
+            <div class="copyright">&copy;2021 GASH Co, Ltd. All Right Reserved. </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/vue.min.js"></script>
+    <!-- jQuery-->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap Core JavaScript-->
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/flatpickr.js"></script>
+    <!-- multiselector-->
+    <script src="js/vue-select.js"></script>
+    <!-- Custom JavaScript-->
+    <script src="js/sidebar.js"></script>
+    <script src="js/custom.js"></script>
+    <script>
+      currentPage('上架清單');
+      // 預覽圖片
+      var jQfn = function (){
+          
+      }
+      
+      var vm = new Vue({
+          el: '#app',
+          data() {
+              return {
+                  replenishmentLabel: '',
+                  uploadPinCount: 0,
+                  uploadPinInsert:0,
+                  fileinput:'',
+                  checkText: '已確認內容',
+                  fileName:'',
+                  replenishmentLabel: '',
+                  formData: {
+                      productName: '[熱門] 可愛小丸子小學生帽',
+                      productDesc: '包含行銷文字的上架描述的說明會顯示在這裡。每次上架描述不同的行銷用語或者注意事項可以打在這裡。',
+                      productDescImg: [
+                          {
+                              src: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/maxresdefault-1590898973.jpg',
+                              name: '小丸子圖片.jpg',
+                              size: 123
+                          },
+                      ],
+                      path: 'gmall',
+                      bfCoinUse: 'bfCoinY',
+                      bfCoinUsePercentage: '38',
+                      route: {
+                          webstore: false,
+                          inappstore: true,
+                      },
+                      bfCoinOpenType: [ //bfCoin
+                          {label: '是', value: 'bfCoinY'},
+                          {label: '否', value: 'bfCoinN'},
+                      ],
+                      bfClubLink: {
+                          value: '',
+                          placeholder: '請輸入beanfun!社團網址',
+                          maxlength: 1000,
+                      },
+                      attribute: {
+                          value: 1,
+                          dataset: [
+                              {label: '等級',name:'level', value: ''},
+                              {label: '顏色',name:'color', value: ""},
+                              {label: '天賦',name:'given', value: ""}
+                          ]
+                      },
+                      path: 'gmall',
+                      detailImg: [],
+                      tag:[],
+                      publishStart: '2021/5/23 12:00',
+                      publishEnd: '2021/5/29 12:00',
+                      price: '1,000',
+                      price2: '3,000',
+                      currency: '新台幣',
+                      currency2: '新台幣',
+                      limitation: {
+                          value: 'all',
+                          count: ''
+                      },
+                      uploadPin: '',
+                  },
+                  assetData: {
+                      category: '道具',
+                      subCategory: '小丸子',
+                      img: 'background-image:url(https://i.kfs.io/article5_cover/global/6009451v2/fit/800x420.jpg)',
+                      imgType: "small",
+                      info: '這裡會顯示註冊時寫在定義檔中的商品描述內容，關於內容的商品描述內容。'
+                  },
+                  submitBtnStatus: {
+                      disabled: false,
+                  },
+                  saveBtnStatus: {
+                      disabled: false,
+                      loading: false,
+                      label: '儲存變更'
+                  },
+                  currency:[
+                      {value:'TWD', label: '新台幣'},
+                  ],
+                  attributeSet: [
+                      { 
+                          name: '紅色lv5',
+                          attribute: [
+                              {label: '等級',name:'level', value: 5},
+                              {label: '顏色',name:'color', value: "紅色"},
+                              {label: '天賦',name:'given', value: "舉一反三"}
+                          ]
+                      },
+                      { 
+                          name: '預設',
+                          default: true,
+                          attribute: [
+                              {label: '等級',name:'level', value: 1},
+                              {label: '顏色',name:'color', value: "黃色"},
+                              {label: '天賦',name:'given', value: "呼朋引伴"}
+                          ]
+                      },
+                  ],
+                  rejectReson: '',
+              }
+          },
+          watch: {
+              "formData.limitation.count": function(){
+                  if(this.formData.limitation.count) {
+                      this.formData.limitation.value = 'limited'
+                  } 
+              },
+          },
+          methods: {
+              replenishmentFile(e) {
+                  const file = e.target.files[0];
+                  const reader = new FileReader();
+                  reader.onload = (e) => {
+                      vm.fileName = file.name;
+                      vm.fileinput = reader.result;
+                      vm.fileinput = vm.fileinput.split('\r\n')
+                      vm.uploadPinCount = vm.fileinput.filter(function(item, index, array){
+                          return item !== "" && item !== "UUID"; 
+                      })
+                  }
+                  reader.readAsText(file);
+              },
+              replenishmentSent(){
+                  $('#replenishment').modal('hide')
+                  $('#replenishmentSent').modal('show')
+              },
+              openReplenishment() {
+                  $('#replenishment').modal('show')
+              },
+              showAlert: function(){
+                  if(document.querySelectorAll('.validate-error').length>0) {
+                      this.submitBtnStatus.disabled = false  
+                  } else {
+                  }
+              },
+              saveForm: function (){
+                  $('#productSent').modal('show')
+              }
+          },
+          mounted: function () {
+              this.$nextTick(function () {
+                  jQfn()
+              })
+          },
+          updated: function () {
+              this.$nextTick(function () {
+                  jQfn()
+              })
+          }
+      })
+    </script>
+  </body>
+</html>

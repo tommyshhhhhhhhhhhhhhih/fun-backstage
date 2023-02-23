@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="img/favicon.ico" rel="icon" type="image/x-icon">
+    <title>行銷票券清單</title>
+    <!--  Bootstrap Core CSS-->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- datepicker-->
+    <link href="css/flatpickr.css" rel="stylesheet">
+     <!-- DataTables-->
+    <link href="css/datatables.min.css" rel="stylesheet">
+    <!-- vue select-->
+    <link href="css/vue-select.css" rel="stylesheet">
+    <!--  Custom CSS -->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/table.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+  </head>
+  <body>
+    <header class="navbar navbar-inverse fixed-top active" id="header">
+      <div class="navbar-brand"><a id="menu-toggle"><span class="material-icons">menu</span></a>
+        <h1><a href="./index.html"><span>fun市集</span>後台</a></h1>
+      </div>
+      <ul class="topbar-menu">
+        <li><span class="greeting">Have a Good Time</span></li>
+        <li>
+          <div class="btn-group">
+            <button class="dropdown-toggle topbar-btn" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="material-icons">notifications</span><span class="red-dot"></span></button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <ul class="dropdown-list">
+                <li class="dropdown-item"><a class="dropdown-info"><span class="b-caption">[審核通過] 小丸子帽子</span></a>
+                  <div class="date"><span>今天</span><span>16:55</span></div>
+                </li>
+                <li class="dropdown-item read">
+                  <div class="dropdown-info">
+                    <p class="b-caption">[審核通過] 小丸子鞋子</p>
+                  </div>
+                  <div class="date"><span>8-12</span></div>
+                </li>
+                <li class="dropdown-item read">
+                  <div class="dropdown-info">
+                    <p class="b-caption">[審核通過] 小丸子裙子</p>
+                  </div>
+                  <div class="date"><span>8-12</span></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="btn-group">
+            <button class="dropdown-toggle topbar-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="material-icons">person_outline</span></button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <ul class="dropdown-list">
+                <li class="dropdown-item read"><a class="dropdown-info" href="./login.html"><span class="b-caption">登出</span></a></li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </header>
+    <div class="container-fluid" id="main-content">
+      <div class="row">
+        <div class="expand" id="sidebar-wrapper">
+          <ul id="sidebar"></ul>
+          <div class="overlay show"></div>
+        </div>
+        <div class="col wrap animated fadeIn" id="app">
+          <div class="row">
+            <div id="gotop"><span class="material-icons">arrow_upward</span></div>
+            <div class="col content-top">
+              <div class="breadcrum">fun市集後台>行銷票券管理>行銷票券清單</div>
+              <div class="title-wrap">
+                <div class="info">
+                  <h2 class="text-h2">行銷票券清單</h2>
+                </div>
+                <div class="b-caption w-100">查詢行銷票券設定檔及訂單使用狀況</div>
+              </div>
+<!-- 查詢區塊 -->
+              <div class="b-search-group">
+                <div class="b-text-field">
+                  <label>行銷票券ID</label>
+                  <div class="b-field-group"> 
+                    <div class="b-field-row">
+                      <input class="b-input" type="text" placeholder="搜尋行銷票券ID" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="b-text-field">
+                  <label>行銷票券名稱</label>
+                  <div class="b-field-group"> 
+                    <div class="b-field-row">
+                      <input class="b-input" type="text" placeholder="搜尋行銷票券名稱" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="b-text-field">
+                  <label>票券ID</label>
+                  <div class="b-field-group"> 
+                    <div class="b-field-row">
+                      <input class="b-input" type="text" placeholder="搜尋票券ID" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="b-text-field">
+                  <label>bf! 贈品ID</label>
+                  <div class="b-field-group"> 
+                    <div class="b-field-row">
+                      <input class="b-input" type="text" placeholder="搜尋票券ID" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="b-text-field">
+                  <label>行銷票券時效期</label>
+                  <div class="b-field-group">
+                    <div class="b-field-row">
+                      <input class="b-input mr-none" id="dateRangeStart" type="text" placeholder="開始時間" v-model="searchDateStart"><span class="p-xs">~</span>
+                      <input class="b-input" id="dateRangeEnd" type="text" placeholder="結束時間" v-model="searchDateEnd">
+                    </div>
+                  </div>
+                </div>
+                <div class="b-text-field">
+                  <label>資產類別</label>
+                  <div class="b-field-group">
+                    <div class="b-field-row">
+                      <div class="b-input-wrap">
+                        <v-select class="b-select" :options="['全部','道具', '票券', '收藏品']" v-model="searchCategory" :clearable="false"></v-select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="b-text-field">
+                  <label>官方旗艦店</label>
+                  <div class="b-field-group">
+                    <div class="b-field-row">
+                      <div class="b-input-wrap">
+                        <v-select class="b-select" :options="['全部','小丸子', '便利商店', '原子少年']" v-model="searchShop" :clearable="false"></v-select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="b-text-field">
+                  <label class="mb-xxs">狀態</label>
+                  <div class="b-field-group"> 
+                    <div class="b-field-row">
+                      <div class="b-radio">
+                        <input type="radio" id="all" name="狀態" value="全部" checked>
+                        <label for="all">全部</label>
+                      </div>
+                      <div class="b-radio">
+                        <input type="radio" id="enable" name="狀態" value="啟用">
+                        <label for="enable">啟用</label>
+                      </div>
+                      <div class="b-radio">
+                        <input type="radio" id="disable" name="狀態" value="停用">
+                        <label for="disable">停用</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="b-text-field">
+                  <label class="mb-xxs">資產途徑</label>
+                  <div class="b-field-group"> 
+                    <div class="b-field-row">
+                      <div class="b-radio">
+                        <input type="radio" id="all2" name="資產途徑" value="全部" checked>
+                        <label for="all2">全部</label>
+                      </div>
+                      <div class="b-radio">
+                        <input type="radio" id="b2c" name="資產途徑" value="B2C">
+                        <label for="b2c">B2C</label>
+                      </div>
+                      <div class="b-radio">
+                        <input type="radio" id="c2c" name="資產途徑" value="C2C">
+                        <label for="c2c">C2C</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="b-text-field">
+                  <label class="mb-xxs">限定前N筆</label>
+                  <div class="b-field-group"> 
+                    <div class="b-field-row">
+                      <div class="b-radio">
+                        <input type="radio" id="unlimit" name="限定筆數" value="不限" checked>
+                        <label for="unlimit">不限</label>
+                      </div>
+                      <div class="b-radio">
+                        <input type="radio" id="limit" name="限定筆數" value="限制">
+                        <label for="limit">限制</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="b-search-buttons">
+                  <button class="b-btn-default ladda-button" data-size="md" data-style="slide-left" type="button"><span class="ladda-label"><i class="fa fa-search"></i>查詢</span><span class="ladda-spinner"></span>
+                    <div class="ladda-progress" style="width:0"></div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+<!-- 清單 list -->
+          <div class="row">
+            <div class="content">
+              <div class="b-table-wrap">
+                <div class="table-responsive">
+                  <table class="table table-hover" id="productList">
+                    <thead> 
+                      <th>狀態</th>
+                      <th>行銷票券ID</th>
+                      <th>行銷票券名稱</th>
+                      <th>票券ID</th>
+                      <th>bf! 贈品ID</th>
+                      <th>資產途徑</th>
+                      <th>資產類別</th>
+                      <th>限定前N筆</th>
+                      <th>效期起日</th>
+                      <th>效期迄日</th>
+                      <th>數量</th>
+                      <th>已使用數量</th>
+                      <th>官方旗艦店</th>
+                      <th>操作功能</th>
+                    </thead>
+                    <tbody>
+                      <template>
+                        <tr v-for="item,idx in dataGrid">
+							            <td><span class="b-caption">{{item.status}}</span></td>
+                          <td><span class="b-caption-1">{{item.orderID}}</span></td>
+                          <td><span class="b-caption-1">{{item.orderName}}</span></td>
+                          <td><span class="b-caption-1">{{item.ticketID}}</span></td>
+                          <td><span class="b-caption-1">{{item.bfID}}</span></td>
+                          <td><span class="b-caption-1">{{item.path}}</span></td>
+                          <td><span class="b-caption-1">{{item.category}}</span></td>
+                          <td><span class="b-caption-1">{{item.count}}</span></td>
+                          <td><span class="b-caption-1">{{item.publishStart}}</span></td>
+                          <td><span class="b-caption-1">{{item.publishEnd}}</span></td>
+                          <td><span class="b-caption-1">{{item.amount}}</span></td>
+                          <td><span class="b-caption-1">{{item.used}}</span></td>
+                          <td><span class="b-caption-1">{{item.shop}}</span></td>
+                          <td>
+                            <button class="b-btn-default text m-none px-xs" data-size="sm" onclick="window.location.href='6.1.1_ticket-item-read.html'">查看</button>
+                            <button class="b-btn-default text m-none px-xs" data-size="sm" onclick="window.location.href='6.1.2_ticket-used.html'">已使用明細</button>
+                          </td>
+                        </tr>
+                      </template>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <template v-if="loading">
+                <div class="loading animated fadeIn">
+                  <div class="loading-card">
+                    <div class="loading-img"><img src="./img/loading.gif" alt=""></div><span>資料讀取中</span>
+                  </div>
+                </div>
+              </template>
+            </div>
+          </div>
+          <div class="footer">
+            <div class="copyright">&copy;2021 GASH Co, Ltd. All Right Reserved. </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Vue-->
+    <script src="js/vue.min.js"></script>
+    <!-- jQuery-->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap Core JavaScript-->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- table plugin-->
+    <script src="js/datatables.min.js"></script>
+    <!-- input plugin-->
+    <script src="js/flatpickr.js"></script>
+    <!-- multiselector-->
+    <script src="js/vue-select.js"></script>
+    <!-- Custom JavaScript-->
+    <script src="js/sidebar.js"></script>
+    <script src="js/custom.js"></script>
+    <script>
+      currentPage('行銷票券清單');
+      var jQfn = function (){
+        flatpickr('#dateRangeStart',{
+            static: true,
+            enableTime: true,
+            enableSeconds: true,
+            dateFormat: "Y/m/d H:i:ss",
+        })
+        flatpickr('#dateRangeEnd',{
+            static: true,
+            enableSeconds: true,
+            enableTime: true,
+            dateFormat: "Y/m/d H:i:ss",
+            minDate: vm.searchDateStart,
+        })
+      }
+      var vm = new Vue({
+          el: '#app',
+          data: {
+            searchShop:'全部',
+            searchCategory: '全部',
+            loading: false,
+            searchDateStart:'',
+            searchDateEnd:'',
+            dataGrid: [
+              {
+                status: '啟用',
+                orderID: 'FDFDFSF',
+                orderName: '七月折扣票券',
+                ticketID: '234523452345',
+                bfID: '1010005000818002013',
+                path: 'B2C',
+                category: '道具',
+                count: '限制',
+                publishStart: '2022/07/01',
+                publishEnd: '2022/07/31',
+                amount: '300',
+                used: '300',
+                shop: '便利店',
+              },
+              {
+                status: '啟用',
+                orderID: 'FDFDFSF',
+                orderName: '原子少年票券',
+                ticketID: '234523452343',
+                bfID: '1010005000818002013',
+                path: 'B2C',
+                category: '票券',
+                count: '不限',
+                publishStart: '2022/07/01',
+                publishEnd: '2022/07/31',
+                amount: '1,000',
+                used: '36',
+                shop: '原子少年',
+              },
+              {
+                status: '停用',
+                orderID: 'FDFDFSF',
+                orderName: 'GASH特惠票',
+                ticketID: '234523452343',
+                bfID: '1010005000818002013',
+                path: 'C2C',
+                category: '票券',
+                count: '不限',
+                publishStart: '2022/07/01',
+                publishEnd: '2022/07/31',
+                amount: '200',
+                used: '0',
+                shop: 'GASH 店',
+              },
+            ],
+          },
+          methods: {
+          },
+          mounted: function () {
+            this.$nextTick(function () {
+                jQfn()
+            })
+          },
+          updated: function () {
+            this.$nextTick(function () {
+                jQfn()
+            })
+          }
+      })
+      $(document).ready(function() {
+        $('#productList').DataTable({
+            "pagingType": "full_numbers",
+            "language": {
+              "decimal":        "",
+              "emptyTable":     "沒有可顯示的資料",
+              "info":           "顯示從 _START_ 到 _END_ 共 _TOTAL_ 筆資料",
+              "infoEmpty":      "顯示從 0 到 0 共 0 筆資料",
+              "infoFiltered":   "(從 _MAX_ 筆篩選出)",
+              "infoPostFix":    "",
+              "thousands":      ",",
+              "lengthMenu":     "顯示 _MENU_ 筆資料",
+              "loadingRecords": "載入中...",
+              "processing":     "執行中...",
+              "search":         "篩選資料: ",
+              "zeroRecords":    "查無符合資料",
+              "paginate": {
+                  "first":      "第一筆",
+                  "last":       "最後一筆",
+                  "next":       "下一筆",
+                  "previous":   "上一筆"
+              },
+              "aria": {
+                "sortAscending":  ": activate to sort column ascending",
+                "sortDescending": ": activate to sort column descending"
+              }
+            },
+            "order": [[ 0, "asc" ]],
+            scrollY:        '25rem',
+            scrollX:        true,
+            searching:      false,
+            scrollCollapse: true,
+            fixedColumns:   {
+                left: 3,
+                right: 1,
+            }
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="img/favicon.ico" rel="icon" type="image/x-icon">
+    <title>版位詳情</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/flatpickr.css" rel="stylesheet">
+    <link href="css/vue-select.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/table.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+  </head>
+  <body>
+    <header class="navbar navbar-inverse fixed-top active" id="header">
+      <div class="navbar-brand"><a id="menu-toggle"><span class="material-icons">menu</span></a>
+        <h1><a href="./index.html"><span>fun市集</span>後台</a></h1>
+      </div>
+      <ul class="topbar-menu">
+        <li><span class="greeting">Have a Good Time</span></li>
+        <li>
+          <div class="btn-group">
+            <button class="dropdown-toggle topbar-btn" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="material-icons">notifications</span><span class="red-dot"></span></button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <ul class="dropdown-list">
+                <li class="dropdown-item"><a class="dropdown-info"><span class="b-caption">[審核通過] 小丸子帽子</span></a>
+                  <div class="date"><span>今天</span><span>16:55</span></div>
+                </li>
+                <li class="dropdown-item read">
+                  <div class="dropdown-info">
+                    <p class="b-caption">[審核通過] 小丸子鞋子</p>
+                  </div>
+                  <div class="date"><span>8-12</span></div>
+                </li>
+                <li class="dropdown-item read">
+                  <div class="dropdown-info">
+                    <p class="b-caption">[審核通過] 小丸子裙子</p>
+                  </div>
+                  <div class="date"><span>8-12</span></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="btn-group">
+            <button class="dropdown-toggle topbar-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="material-icons">person_outline</span></button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <ul class="dropdown-list">
+                <li class="dropdown-item read"><a class="dropdown-info" href="./login.html"><span class="b-caption">登出</span></a></li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </header>
+    <div class="container-fluid" id="main-content">
+      <div class="row">
+        <div class="expand" id="sidebar-wrapper">
+          <ul id="sidebar"></ul>
+          <div class="overlay show"></div>
+        </div>
+        <div class="col wrap">
+          <div class="row">
+            <div id="gotop"><span class="material-icons">arrow_upward</span></div>
+            <div class="col content-top">
+              <div class="breadcrum">fun市集後台>商城管理>官方旗艦店>版位詳情</div>
+            </div>
+          </div>
+          <div class="row" id="app">
+            <div class="content animated fadeIn">
+              <ul class="nav nav-tabs">
+              </ul>
+              <form class="form-wrap" id="basic-form" @submit.prevent="saveForm()" method="post">
+                <div class="form-top">
+                  <h2 class="text-h3">版位詳情</h2>
+                </div>
+                <fieldset>
+                  <div class="b-text-field d-block">
+                    <label class="d-flex align-items-center">官方旗艦店<span>*</span></label>
+                    <p class="readonly">小丸子</p>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label>首頁顯示排序<span class="tooltip-btn" data-toggle="tooltip" data-placement="right" title="7筆為一單位，前1至7筆可手動設定排序，其餘為系統隨機排序"><span class="material-icons">info</span></span></label>
+                    <p class="readonly">1</p>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label>店鋪圖<span>*</span><span class="tooltip-btn pl-xs" data-toggle="tooltip" data-placement="right" data-html="true" :title="slotTypeDemo"><span class="material-icons">info</span></span></label>
+                    <div class="store-demo">
+                      <div class="demo-img object-fit position-relative">
+                        <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/maxresdefault-1590898973.jpg" alt="">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label>橫幅banner<span>*</span><span class="tooltip-btn pl-xs" data-toggle="tooltip" data-placement="right" data-html="true" :title="slotTypeDemo2"><span class="material-icons">info</span></span></label>
+                    <div class="store-banner-demo">
+                      <div class="demo-img object-fit position-relative">
+                        <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/maxresdefault-1590898973.jpg" alt="">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label class="d-flex align-items-center">方旗艦店描述<span>*</span></label>
+                    <p class="readonly">官方廠商可以加上一些他們遊戲的宣傳敘述，簡短的即可，讓user多一個管道認識該廠商。官方廠商可以加上一些他們遊戲的宣傳敘述，簡短的即可，讓user多一個管道認識該廠商。</p>
+                  </div>
+                </fieldset>
+                <div class="b-form-button">
+                  <button class="b-btn-secondary text" data-size="lg" type="button" onclick="window.location.href='./7.2_official-list.html'">返回官方旗艦店清單</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="footer">
+            <div class="copyright">&copy;2021 GASH Co, Ltd. All Right Reserved. </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/vue.min.js"></script>
+    <!-- jQuery-->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap Core JavaScript-->
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/flatpickr.js"></script>
+    <!-- multiselector-->
+    <script src="js/vue-select.js"></script>
+    <!-- Custom JavaScript-->
+    <script src="js/sidebar.js"></script>
+    <script src="js/custom.js"></script>
+    <script>
+      currentPage('官方旗艦店');
+      // 預覽圖片
+      var jQfn = function (){
+          
+      }
+      
+      var vm = new Vue({
+          el: '#app',
+          data() {
+              return {
+                slotTypeDemo:  `
+                      <p>店鋪圖</p>
+                      <img class='w-100' src='./img/demo/ad-4.png', alt=''/>
+                  `,
+                  slotTypeDemo2:  `
+                      <p>橫幅banner</p>
+                      <img class='w-100' src='./img/demo/ad-5.png', alt=''/>
+                  `,
+              }
+          },
+      })
+    </script>
+  </body>
+</html>

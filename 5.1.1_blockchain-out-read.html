@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="img/favicon.ico" rel="icon" type="image/x-icon">
+    <title>上鏈交易詳情</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/flatpickr.css" rel="stylesheet">
+    <link href="css/vue-select.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/table.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+  </head>
+  <body>
+    <header class="navbar navbar-inverse fixed-top active" id="header">
+      <div class="navbar-brand"><a id="menu-toggle"><span class="material-icons">menu</span></a>
+        <h1><a href="./index.html"><span>fun市集</span>後台</a></h1>
+      </div>
+      <ul class="topbar-menu">
+        <li><span class="greeting">Have a Good Time</span></li>
+        <li>
+          <div class="btn-group">
+            <button class="dropdown-toggle topbar-btn" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="material-icons">notifications</span><span class="red-dot"></span></button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <ul class="dropdown-list">
+                <li class="dropdown-item"><a class="dropdown-info"><span class="b-caption">[審核通過] 小丸子帽子</span></a>
+                  <div class="date"><span>今天</span><span>16:55</span></div>
+                </li>
+                <li class="dropdown-item read">
+                  <div class="dropdown-info">
+                    <p class="b-caption">[審核通過] 小丸子鞋子</p>
+                  </div>
+                  <div class="date"><span>8-12</span></div>
+                </li>
+                <li class="dropdown-item read">
+                  <div class="dropdown-info">
+                    <p class="b-caption">[審核通過] 小丸子裙子</p>
+                  </div>
+                  <div class="date"><span>8-12</span></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="btn-group">
+            <button class="dropdown-toggle topbar-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="material-icons">person_outline</span></button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <ul class="dropdown-list">
+                <li class="dropdown-item read"><a class="dropdown-info" href="./login.html"><span class="b-caption">登出</span></a></li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </header>
+    <div class="container-fluid" id="main-content">
+      <div class="row">
+        <div class="expand" id="sidebar-wrapper">
+          <ul id="sidebar"></ul>
+          <div class="overlay show"></div>
+        </div>
+        <div class="col wrap">
+          <div class="row">
+            <div id="gotop"><span class="material-icons">arrow_upward</span></div>
+            <div class="col content-top">
+              <div class="breadcrum">fun市集後台>區塊鏈交易管理>上鏈交易清單>上鏈交易詳情</div>
+            </div>
+          </div>
+          <div class="row" id="app">
+            <div class="content animated fadeIn">
+              <ul class="nav nav-tabs">
+              </ul>
+              <form class="form-wrap">
+                <div class="form-top">
+                  <h2 class="text-h3">上鏈交易詳情</h2>
+                </div>
+                <fieldset>
+                  <div class="detail-head">
+                    <div class="b-text-field">
+                      <label>付款單號</label>
+                      <div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-input-wrap">
+                            <p class="readonly">{{orderDetail.invoiceID}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="b-text-field">
+                      <label>訂單成立時間</label>
+                      <div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-input-wrap">
+                            <p class="readonly">{{orderDetail.publishStart}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="b-text-field">
+                      <label>訂單狀態</label>
+                      <div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-input-wrap"><span class="badge-info">{{orderDetail.status}}</span></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="b-text-field">
+                      <label>訂單更新時間</label>
+                      <div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-input-wrap">
+                            <p class="readonly">{{orderDetail.update}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="b-text-field">
+                      <label>GP單號</label>
+                      <div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-input-wrap">
+                            <p class="readonly">{{orderDetail.gpID}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="b-text-field">
+                      <label>付款金額</label>
+                      <div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-input-wrap">
+                            <p class="readonly">${{orderDetail.price}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="b-text-field">
+                      <label>付款方式</label>
+                      <div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-input-wrap">
+                            <p class="readonly">{{orderDetail.payment}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="b-text-field">
+                      <label>付款狀態</label>
+                      <div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-input-wrap">
+                            <p class="readonly">{{orderDetail.payStatus}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="b-text-field">
+                      <label>ETH(數量)</label>
+                      <div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-input-wrap">
+                            <p class="readonly">{{orderDetail.ether}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="b-text-field">
+                      <label>ETH 折合 TWD</label>
+                      <div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-input-wrap">
+                            <p class="readonly">${{orderDetail.etherTWD}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="b-text-field">
+                      <label>轉出手續費(10%)</label>
+                      <div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-input-wrap">
+                            <p class="readonly">${{orderDetail.fee}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="text-h4">上鏈資產</div>
+                  <div class="table">
+                    <table width="100%"> 
+                      <thead class="bg-gray"> 
+                        <tr> 
+                          <td>類別</td>
+                          <td>名稱</td>
+                          <td>供應商</td>
+                          <td>數量</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>{{orderDetail.item.category}}</td>
+                          <td>{{orderDetail.item.name}}</td>
+                          <td>
+                            <p>{{orderDetail.item.cp}}</p>
+                            <p class="b-caption">{{orderDetail.item.cpID}}</p>
+                          </td>
+                          <td>{{orderDetail.item.quantity}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="table table-list marginTop-1rem">
+                    <table class="w-100">
+                      <thead> 
+                        <tr> 
+                          <td class="w-5rem">#</td>
+                          <td>資產ID</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="item in assetsList">
+                          <td>{{item.number}}</td>
+                          <td>{{item.assetsID}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <hr>
+                  <div class="text-h4">上鏈交易資訊</div>
+                  <div class="table table-list marginBottom-2rem">
+                    <table class="w-100">
+                      <thead> 
+                        <tr> 
+                          <td class="w-5rem">#</td>
+                          <td>TokenID</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="item in tokenList">
+                          <td>{{item.number}}</td>
+                          <td>{{item.tokenID}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="table break-all">
+                    <table width="100%"> 
+                      <thead class="bg-gray"> 
+                        <tr> 
+                          <td class="w-3">bf! openID</td>
+                          <td class="w-3">轉出至 Address</td>
+                          <td class="w-3">交易 Hash</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>{{orderDetail.blockchainOut.bfOpenID}}</td>
+                          <td>{{orderDetail.blockchainOut.address}}</td>
+                          <td>{{orderDetail.blockchainOut.hash}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="table">
+                    <table width="100%"> 
+                      <thead class="bg-gray"> 
+                        <tr>
+                          <td class="w-3">鏈上交易狀態</td>
+                          <td class="w-3">鏈上交易更新時間</td>
+                          <td class="w-3"></td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="w-3">{{orderDetail.blockchainOut.status}}</td>
+                          <td class="w-3">{{orderDetail.blockchainOut.update}}</td>
+                          <td class="w-3"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="table">
+                    <table width="100%"> 
+                      <thead class="bg-gray"> 
+                        <tr>
+                          <td class="w-4">GAS(數量)</td>
+                          <td class="w-4">GAS Fee</td>
+                          <td class="w-4">ETH(數量)</td>
+                          <td class="w-4">ETH 折合 TWD</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="w-4">{{orderDetail.blockchainOut.gasUse}}</td>
+                          <td class="w-4">{{orderDetail.blockchainOut.gasFee}} Gwei</td>
+                          <td class="w-4">{{orderDetail.ether}}<p class="notes">* 公式 = [產生代幣GAS] x [目前GAS Fee] /10^9</p></td>
+                          <td class="w-4">${{orderDetail.etherTWD}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <hr>
+                  <div class="text-h4">Token 資訊</div>
+                  <div class="table break-all">
+                    <table width="100%"> 
+                      <thead class="bg-gray"> 
+                        <tr>
+                          <td class="w-3">名稱</td>
+                          <td class="w-3">外部Url</td>
+                          <td class="w-3">圖片Url</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="w-3">{{orderDetail.token.name}}</td>
+                          <td class="w-3">{{orderDetail.token.outUrl}}</td>
+                          <td class="w-3">{{orderDetail.token.picUrl}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="table">
+                    <table width="100%"> 
+                      <thead class="bg-gray"> 
+                        <tr>
+                          <td>描述</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>{{orderDetail.token.desc}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="text-h6">屬性</div>
+                  <div class="table break-all">
+                    <table width="100%"> 
+                      <thead class="bg-gray"> 
+                        <tr>
+                          <td class="w-4">類別</td>
+                          <td class="w-4">定義檔編碼</td>
+                          <td class="w-4">資產ID</td>
+                          <td class="w-4">是否精品</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="w-4">{{orderDetail.token.name}}</td>
+                          <td class="w-4">{{orderDetail.token.itemID}}</td>
+                          <td class="w-4">
+                            <span class="itemID" v-for="item in itemList">{{item.itemID}}</span>
+                          </td>
+                          <td class="w-4">{{orderDetail.token.goods}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </fieldset>
+                <div class="b-form-button">
+                  <button class="b-btn-secondary text" data-size="lg" type="button" onclick="window.location.href='./5.1_blockchain-out-list.html'">返回上鏈交易清單</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="footer">
+            <div class="copyright">&copy;2021 GASH Co, Ltd. All Right Reserved. </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/vue.min.js"></script>
+    <!-- jQuery-->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap Core JavaScript-->
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/flatpickr.js"></script>
+    <!-- multiselector-->
+    <script src="js/vue-select.js"></script>
+    <!-- Custom JavaScript-->
+    <script src="js/sidebar.js"></script>
+    <script src="js/custom.js"></script>
+    <script>
+      currentPage('上鏈交易清單');
+      var jQfn = function (){
+      
+      }
+      
+      var vm = new Vue({
+          el: '#app',
+          data() {
+              return {
+                  orderDetail: {
+                      invoiceID: '12345671',
+                      publishStart: '2021/12/23 16:18',
+                      status: '上鏈完成',
+                      update: '2022/04/28 20:09',
+                      gpID: 'GP-1234567892',
+                      price: '33',
+                      payment: 'GamaPay',
+                      payStatus: '成功',
+                      ether: '0.00054',
+                      etherTWD: '30',
+                      fee: '3',
+                      item: {
+                        category: '票券',
+                        name: '新光電影票',
+                        cp: 'OO供應商',
+                        cpID: '3234980980988098',
+                        quantity: '2',
+                      },
+                      blockchainOut: {
+                        bfOpenID: '1010005000818002013',
+                        address: '0x573836367B45FFeF04c788A369dd1D91D6bc0eef',
+                        hash: '0x573836367B45FFeF04c788A369dd1D91D6bc0eef',
+                        status: '完成',
+                        update: '2022/04/28 20:09',
+                        gasUse: '46,800',
+                        gasFee: '13',
+                      },
+                      token: {
+                        name: '新光電影票',
+                        outUrl: 'https: \\abc.com.tw\123445667\123445667\123445667\123445667\123445667\123445667',
+                        picUrl: 'https: \\abc.com.tw\123445667\123445667\123445667\123445667\123445667\abc.png',
+                        desc: '(RD) 在生成Token時會有填寫描述欄位帶入此區塊資料在生成Token時會有填寫描述欄位帶入此區塊資料在生成Token時會有填寫描述欄位帶入此區塊資料在生成Token時會有填寫描述欄位帶入此區塊資料在生成Token時會有填寫描述欄位帶入此區塊資料',
+                        category: '票券',
+                        itemID: 'dfdfdsfdfaf987966l',
+                        goods: 'N',
+                      },
+                  },
+                  assetsList: [
+                    {
+                      number: '1',
+                      assetsID: '76543',
+                    },
+                    {
+                      number: '2',
+                      assetsID: '76544',
+                    },
+                  ],
+                  tokenList: [
+                    {
+                      number: '1',
+                      tokenID: '246234198763950',
+                    },
+                    {
+                      number: '2',
+                      tokenID: '246234198763951',
+                    },
+                  ],
+                  itemList: [
+                    {
+                      itemID: '76543',
+                    },
+                    {
+                      itemID: '75757',
+                    },
+                  ],
+              }
+          },
+          watch: {
+          },
+          methods: {
+          },
+      })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="img/favicon.ico" rel="icon" type="image/x-icon">
+    <title>撥款提領紀錄</title>
+    <!--  Bootstrap Core CSS-->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- datepicker-->
+    <link href="css/flatpickr.css" rel="stylesheet">
+    <!-- DataTables-->
+    <link href="css/datatables.min.css" rel="stylesheet"> 
+    <!-- vue select-->
+    <link href="css/vue-select.css" rel="stylesheet">
+    <!--  Custom CSS -->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/table.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+  </head>
+  <body>
+    <header class="navbar navbar-inverse fixed-top active" id="header">
+      <div class="navbar-brand"><a id="menu-toggle"><span class="material-icons">menu</span></a>
+        <h1><a href="./index.html"><span>fun市集</span>後台</a></h1>
+      </div>
+      <ul class="topbar-menu">
+        <li><span class="greeting">Have a Good Time</span></li>
+        <li>
+          <div class="btn-group">
+            <button class="dropdown-toggle topbar-btn" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="material-icons">notifications</span><span class="red-dot"></span></button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <ul class="dropdown-list">
+                <li class="dropdown-item"><a class="dropdown-info" href="3.1.1_selling-item.html"><span class="b-caption">[商品審核] [熱門]超可愛小丸子帽子</span></a>
+                  <div class="date"><span>今天</span><span>16:55</span></div>
+                </li>
+                <li class="dropdown-item"><a class="dropdown-info" href="2.1.1_asset-detail.html"><span class="b-caption">[資產審核] 小丸子帽子</span></a>
+                  <div class="date"><span>今天</span><span>09:55</span></div>
+                </li>
+                <li class="dropdown-item read">
+                  <div class="dropdown-info">
+                    <p class="b-caption">[資產審核] 小丸子鞋子</p>
+                  </div>
+                  <div class="date"><span>8-12</span></div>
+                </li>
+                <li class="dropdown-item read">
+                  <div class="dropdown-info">
+                    <p class="b-caption">[資產審核] 小丸子裙子</p>
+                  </div>
+                  <div class="date"><span>8-12</span></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="btn-group">
+            <button class="dropdown-toggle topbar-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="material-icons">person_outline</span></button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <ul class="dropdown-list">
+                <li class="dropdown-item read"><a class="dropdown-info" href="./login.html"><span class="b-caption">登出</span></a></li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </header>
+    <!-- container-->
+    <div class="container-fluid" id="main-content">
+      <div class="row">
+        <div class="expand" id="sidebar-wrapper">
+          <ul id="sidebar"></ul>
+          <div class="overlay show"></div>
+        </div>
+        <div class="col wrap animated fadeIn" id="app">
+          <div class="row">
+            <div id="gotop"><span class="material-icons">arrow_upward</span></div>
+            <div class="col content-top">
+              <div class="breadcrum">fun市集後台>C2C管理>撥款提領紀錄</div>
+              <div class="title-wrap">
+                <div class="info">
+                  <h2 class="text-h2">撥款提領紀錄</h2>
+                </div>
+                <div class="b-caption w-100">查看C2C賣家撥款提領紀錄清單</div>
+              </div>
+<!-- 查詢區塊 -->
+              <div class="b-search-group">
+                <div class="b-text-field">
+                  <label>國碼</label>
+                  <div class="b-field-group">
+                    <div class="b-field-row">
+                      <div class="b-input-wrap">
+                        <v-select class="b-select country-codes" :options="countryCodes.option" v-model="countryCodes.value" :clearable="false"></v-select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="b-text-field"> 
+                  <label>手機</label>
+                  <div class="b-field-group"> 
+                    <div class="b-field-row">
+                      <input class="b-input" type="text" maxlength="14" pattern="09\d{2}-\d{6}" placeholder="請輸入賣家手機" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="b-text-field">
+                  <label>信箱</label>
+                  <div class="b-field-group"> 
+                    <div class="b-field-row">
+                      <input class="b-input" type="text" placeholder="請輸入賣家信箱" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="b-text-field">
+                  <label>bf!openID</label>
+                  <div class="b-field-group"> 
+                    <div class="b-field-row">
+                      <input class="b-input" type="text" maxlength="18" placeholder="請輸入賣家bf!openID" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="b-search-buttons">
+                  <button class="b-btn-default ladda-button" data-size="md" data-style="slide-left" type="button"><span class="ladda-label"><i class="fa fa-search"></i>查詢</span><span class="ladda-spinner"></span>
+                    <div class="ladda-progress" style="width:0"></div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+<!-- 清單 list -->
+          <div class="row">
+            <div class="content">
+              <div class="b-table-wrap">
+                <div class="b-table-title"></div>
+                <div class="table-responsive">
+                  <table class="table table-hover" id="productList" width="100%">
+                    <thead> 
+                      <th>bf!openID</th>
+                      <th>國碼</th>
+                      <th>手機</th>
+                      <th>信箱</th>
+                      <th>更新時間</th>
+                      <th>操作功能</th>
+                    </thead>
+                    <tbody>
+                      <template> 
+                        <tr v-for="item,idx in dataGrid">
+                          <td><span>{{item.openId}}</span></td>
+                          <td><span>{{item.countryCodes}}</span></td>
+                          <td><span>{{item.tel}}</span></td>
+                          <td><span>{{item.mail}}</span></td>
+                          <td><span>{{item.update_time}}</span></td>
+                          <td>
+                            <button class="b-btn-default text m-none px-xs" data-size="sm" onclick="window.location.href='8.1.1_appropriation-detail.html'">查看撥款</button>
+                            <button class="b-btn-default text m-none px-xs" data-size="sm" onclick="window.location.href='8.1.2_withdraw-detail.html'">提領歷程</button>
+                          </td>
+                        </tr>
+                      </template>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="footer">
+            <div class="copyright">&copy;2021 GASH Co, Ltd. All Right Reserved. </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Vue-->
+    <script src="js/vue.min.js"></script>
+    <!-- jQuery-->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap Core JavaScript-->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- input plugin-->
+    <script src="js/datatables.min.js"></script>
+    <!-- input plugin-->
+    <script src="js/flatpickr.js"></script>
+    <!-- multiselector-->
+    <script src="js/vue-select.js"></script>
+    <!-- number-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+    <!-- Custom JavaScript-->
+    <script src="js/sidebar.js"></script>
+    <script src="js/custom.js"></script>
+    <script>
+      currentPage('撥款提領紀錄');
+      var jQfn = function (){
+      }
+      var vm = new Vue({
+          el: '#app',
+          data: {
+              dataGrid: [
+                  {
+                    openId: '397670859105374201',
+                    countryCodes: '+886',
+                    tel: '0988000000',
+                    mail: 'aaa@gashpoint.com',
+                    update_time: '2021/08/09 19:00',
+                  },
+                  {
+                    openId: '397670859105374202',
+                    countryCodes: '+886',
+                    tel: '0988000001',
+                    mail: 'aaa@gashpoint.com',
+                    update_time: '2021/08/20 19:00',
+                  },
+                  {
+                    openId: '397670859105374203',
+                    countryCodes: '+886',
+                    tel: '0988000002',
+                    mail: 'aaa@gashpoint.com',
+                    update_time: '2021/07/09 19:00',
+                  },
+                  {
+                    openId: '397670859105374204',
+                    countryCodes: '+886',
+                    tel: '0988000003',
+                    mail: 'aaa@gashpoint.com',
+                    update_time: '2022/08/09 19:00',
+                  },
+              ],
+              countryCodes: {
+                  value:{value: '+886', label: '台灣 +886' },
+                  option: [
+                      {value: '+886', label: '台灣 +886',},
+                      {value: '+86', label: '中國 +86'},
+                      {value: '+853', label: '澳門 +853'},
+                      {value: '+852', label: '香港 +852'},
+                      {value: '+850', label: '北韓 +850'},
+                      {value: '+84', label: '越南 +84'},
+                      {value: '+82', label: '南韓 +82'},
+                      {value: '+81', label: '日本 +81'},
+                      {value: '+66', label: '泰國 +66'},
+                      {value: '+65', label: '新加坡 +65'},
+                      {value: '+63', label: '菲律賓 +63'},
+                      {value: '+62', label: '印尼 +62'},
+                      {value: '+61', label: '澳洲 +61'},
+                      {value: '+60', label: '馬來西亞 +60'},
+                      {value: '+49', label: '德國 +49'},
+                      {value: '+44', label: '英國 +44'},
+                      {value: '+39', label: '義大利 +39'},
+                      {value: '+33', label: '法國 +33'},
+                      {value: '+32', label: '比利時 +32'},
+                      {value: '+31', label: '荷蘭 +31'},
+                      {value: '+1', label: '加拿大 +1'},
+                      {value: '+1', label: '美國 +1'},
+                  ]
+              },
+          },
+      })
+      $(document).ready(function() {
+        $('#productList').DataTable({
+            "pagingType": "full_numbers",
+            "language": {
+              "decimal":        "",
+              "emptyTable":     "沒有可顯示的資料",
+              "info":           "顯示從 _START_ 到 _END_ 共 _TOTAL_ 筆資料",
+              "infoEmpty":      "顯示從 0 到 0 共 0 筆資料",
+              "infoFiltered":   "(從 _MAX_ 筆篩選出)",
+              "infoPostFix":    "",
+              "thousands":      ",",
+              "lengthMenu":     "顯示 _MENU_ 筆資料",
+              "loadingRecords": "載入中...",
+              "processing":     "執行中...",
+              "search":         "篩選資料: ",
+              "zeroRecords":    "查無符合資料",
+              "paginate": {
+                  "first":      "第一筆",
+                  "last":       "最後一筆",
+                  "next":       "下一筆",
+                  "previous":   "上一筆"
+              },
+              "aria": {
+                "sortAscending":  ": activate to sort column ascending",
+                "sortDescending": ": activate to sort column descending"
+              }
+            },
+            "order": [[ 4, "desc" ]],
+            scrollY:        '25rem',
+            scrollX:        true,
+            searching:      false,
+            scrollCollapse: true,
+            fixedColumns:   {
+                left: 3,
+                right: 1,
+            }
+        });
+      });
+    </script>
+  </body>
+</html>

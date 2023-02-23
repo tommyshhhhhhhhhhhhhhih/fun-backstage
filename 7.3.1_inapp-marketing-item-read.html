@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="img/favicon.ico" rel="icon" type="image/x-icon">
+    <title>版位詳情</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/flatpickr.css" rel="stylesheet">
+    <link href="css/vue-select.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/table.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+  </head>
+  <body>
+    <header class="navbar navbar-inverse fixed-top active" id="header">
+      <div class="navbar-brand"><a id="menu-toggle"><span class="material-icons">menu</span></a>
+        <h1><a href="./index.html"><span>fun市集</span>後台</a></h1>
+      </div>
+      <ul class="topbar-menu">
+        <li><span class="greeting">Have a Good Time</span></li>
+        <li>
+          <div class="btn-group">
+            <button class="dropdown-toggle topbar-btn" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="material-icons">notifications</span><span class="red-dot"></span></button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <ul class="dropdown-list">
+                <li class="dropdown-item"><a class="dropdown-info"><span class="b-caption">[審核通過] 小丸子帽子</span></a>
+                  <div class="date"><span>今天</span><span>16:55</span></div>
+                </li>
+                <li class="dropdown-item read">
+                  <div class="dropdown-info">
+                    <p class="b-caption">[審核通過] 小丸子鞋子</p>
+                  </div>
+                  <div class="date"><span>8-12</span></div>
+                </li>
+                <li class="dropdown-item read">
+                  <div class="dropdown-info">
+                    <p class="b-caption">[審核通過] 小丸子裙子</p>
+                  </div>
+                  <div class="date"><span>8-12</span></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="btn-group">
+            <button class="dropdown-toggle topbar-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="material-icons">person_outline</span></button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <ul class="dropdown-list">
+                <li class="dropdown-item read"><a class="dropdown-info" href="./login.html"><span class="b-caption">登出</span></a></li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </header>
+    <div class="container-fluid" id="main-content">
+      <div class="row">
+        <div class="expand" id="sidebar-wrapper">
+          <ul id="sidebar"></ul>
+          <div class="overlay show"></div>
+        </div>
+        <div class="col wrap">
+          <div class="row">
+            <div id="gotop"><span class="material-icons">arrow_upward</span></div>
+            <div class="col content-top">
+              <div class="breadcrum">fun市集後台>商城管理>inAPP行銷版位>版位詳情</div>
+            </div>
+          </div>
+          <div class="row" id="app">
+            <div class="content animated fadeIn">
+              <ul class="nav nav-tabs">
+              </ul>
+              <form class="form-wrap" id="basic-form" @submit.prevent="saveForm()" method="post">
+                <div class="form-top">
+                  <h2 class="text-h3">版位詳情</h2>
+                </div>
+                <fieldset>
+                  <div class="b-text-field d-block">
+                    <label class="d-flex align-items-center">版位標題<span>*</span></label>
+                    <p class="readonly">聖誕節活動1</p>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label class="d-flex align-items-center">發布開始時間<span>*</span></label>
+                    <p class="readonly">2021/11/30 12:05:55</p>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label class="d-flex align-items-center">發布結束時間<span>*</span></label>
+                    <p class="readonly">2021/11/30 12:05:55</p>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label>版位類型<span>*</span><span class="tooltip-btn pl-xs" data-toggle="tooltip" data-placement="right" data-html="true" :title="slotTypeDemo"><span class="material-icons">info</span></span></label>
+                    <p class="readonly">彈主視覺輪播</p>
+                  </div>
+                  <!-- ”上方橫幅輪播＆下方廣告“類型，需顯示資訊欄位 -->
+                  <div class="b-text-field d-block">
+                    <label>隸屬商城＆主分類<span>*</span></label>
+                    <p class="readonly">fun市集 / 數位收藏品</p>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label class="d-flex align-items-center">選擇圖檔<span>*</span></label>
+                    <div class="b-field-group pl-xs"> 
+                      <div class="b-field-row">
+                        <div class="m-s-demo">
+                          <!-- "主視覺輪播" 顯示樣式-->
+                          <div class="inapp-demo">
+                            <div class="demo-img object-fit position-relative">
+                              <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/maxresdefault-1590898973.jpg" alt="">
+                            </div>
+                          </div>
+                          <!-- "上方橫幅輪播＆下方廣告" 顯示樣式-->
+                          <!-- <div class="banner-demo">
+                            <div class="demo-img object-fit position-relative">
+                              <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/maxresdefault-1590898973.jpg" alt="">
+                            </div>
+                          </div> -->
+                          <!-- "彈出式廣告" 顯示樣式-->
+                          <!-- <div class="popupAd-demo">
+                            <div class="demo-img object-fit position-relative">
+                              <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/maxresdefault-1590898973.jpg" alt="">
+                            </div>
+                          </div> -->
+                          <ul> 
+                            <li class="b-caption">小丸子圖片.jpg</li>
+                            <li class="b-caption">大小: 123 KB</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label>顯示排序<span class="tooltip-btn" data-toggle="tooltip" data-placement="right" title="未填寫 or 重複排序則依系統排序顯示"><span class="material-icons">info</span></span></label>
+                    <p class="readonly">1</p>
+                  </div>
+                  <!-- ”主視覺輪播“類型，需顯示資訊欄位 -->
+                  <div class="b-text-field d-block">
+                    <label class="d-flex align-items-center">主視覺輪播標題<span>*</span></label>
+                    <p class="readonly">呼叫寶藏獵人，盡情尋尋寶寶吧！</p>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label class="d-flex align-items-center">主視覺輪播描述<span>*</span></label>
+                    <p class="readonly">你可以在這裡販賣你的商品並買到！</p>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label class="d-flex align-items-center">連結網址</label>
+                    <p class="readonly">https://www.youtube.com/</p>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label class="d-flex align-items-center">連結開啟方式</label>
+                    <p class="readonly">內開</p>
+                  </div>  
+                </fieldset>
+                <div class="b-form-button">
+                  <button class="b-btn-secondary text" data-size="lg" type="button" onclick="window.location.href='./7.1_marketing-list.html'">返回inAPP行銷版位清單</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="footer">
+            <div class="copyright">&copy;2021 GASH Co, Ltd. All Right Reserved. </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/vue.min.js"></script>
+    <!-- jQuery-->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap Core JavaScript-->
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/flatpickr.js"></script>
+    <!-- multiselector-->
+    <script src="js/vue-select.js"></script>
+    <!-- Custom JavaScript-->
+    <script src="js/sidebar.js"></script>
+    <script src="js/custom.js"></script>
+    <script>
+      currentPage('inAPP行銷版位');
+      // 預覽圖片
+      var jQfn = function (){
+          
+      }
+      
+      var vm = new Vue({
+          el: '#app',
+          data() {
+              return {
+                slotTypeDemo:  `
+                      <p>主視覺輪播</p>
+                      <img class='w-100' src='./img/demo/inapp-ad-1.jpg', alt=''/>
+                      <p>上方橫幅輪播</p>
+                      <img class='w-100' src='./img/demo/inapp-ad-2.jpg', alt=''/>
+                      <p>下方廣告</p>
+                      <img class='w-100' src='./img/demo/inapp-ad-3.jpg', alt=''/>
+                      <p>彈出式廣告</p>
+                      <img class='w-100' src='./img/demo/inapp-ad-4.jpg', alt=''/>
+                  `,
+              }
+          },
+      })
+    </script>
+  </body>
+</html>
