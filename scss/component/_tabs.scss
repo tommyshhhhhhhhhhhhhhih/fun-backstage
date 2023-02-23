@@ -1,0 +1,31 @@
+// Tab 頁籤
+
+.b-tabs {
+    display: flex;
+}
+
+.b-tab-item {
+    text-align: center;
+    margin-right: .25rem;
+}
+
+.b-tab-link {
+    display: inline-block;
+    padding: .4rem 1rem;
+    min-width: 5rem;
+    line-height: 1.5;
+    color: $text-A;
+    font-size: .9rem;
+    cursor: pointer;
+    &.active {
+        background: white;
+        border-color: $gray-1;
+        border-style: solid;
+        border-width: 1px 1px 0 1px;
+        box-shadow: 0 -1px 8px $gray-05;
+        border-radius: .4rem .4rem 0 0;
+        &:hover {
+            color: inherit;
+        }
+    }
+}

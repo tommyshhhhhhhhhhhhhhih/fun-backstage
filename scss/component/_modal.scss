@@ -1,0 +1,94 @@
+/* Modal */
+
+.modal {
+    .modal-content {
+        border-radius: .25rem;
+        border: unset;
+    }
+    .modal-header {
+        border-bottom: unset;
+        padding-bottom: 0;
+        padding-top: 0;
+        .close {
+            position: relative;
+            z-index: 2;
+            padding: 0.5rem .8rem;
+            margin: 0 -1rem -2rem auto;
+        }
+    }
+
+    .modal-body {
+        padding: 2rem;
+    }
+    .modal-title {
+        font-size: 1.4rem;
+        margin-bottom: .75rem;
+        font-weight: bold;
+        color: $text-AA ;
+    }
+    p {
+        text-align: justify;
+    }
+    img {
+        max-width: 100%;
+    }
+    .modal-footer {
+        border-top: unset;
+        display: flex;
+        flex-wrap: wrap;
+        padding-right: 2rem;
+        padding-left: 2rem;
+        padding-bottom: 1rem;
+        button {
+            width: 100%;
+            max-width: 15rem;
+        }
+    }
+}
+
+// 跳窗
+.modal-img {
+    border-radius: .25rem .25rem 0 0;
+    &[data-type='error'] {
+        background: lighten($danger, 5%) url('../img/modal/modal-error.svg') center center no-repeat;
+        min-height: 3.75rem;
+    }
+    &[data-type='success'] {
+        background: $sidebar url('../img/modal/modal-success.svg') center center no-repeat;
+        min-height: 3.75rem;
+    }
+    &[data-type='warning'] {
+        // background: lighten($warning, 5%) url('../img/modal/modal-warning.svg') center center no-repeat;
+        background: $sidebar url('../img/modal/modal-warning.svg') center center no-repeat;
+        min-height: 3.75rem;
+    }
+    & + .modal-content {
+        border-radius: 0 0 .25rem .25rem;
+    } 
+    
+}
+
+@media screen and (max-width: 480px) {
+    .modal-footer {
+        flex-wrap: wrap;
+        [class*="button-"]:not(.button-icon) {
+            width: 100%;
+            flex-grow: 1;
+
+            & + [class*="button-"] {
+                margin-top: 0.5rem;
+            }
+        }
+        & > :not(:last-child) {
+            margin-right: 0;
+        }
+        & > :not(:first-child) {
+            margin-left: 0;
+        }
+    }
+}
+@media (min-width: 576px) {
+    .modal-sm {
+        min-width: 18.75rem;
+    }
+}

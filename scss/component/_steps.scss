@@ -1,0 +1,93 @@
+// 步驟
+
+.status {
+    display: flex;
+    justify-content: center;
+    // flex-wrap: wrap;
+    padding-bottom: 1rem;
+}
+.step {
+    width: 100%;
+    max-width: 11.25rem;
+    text-align: center;
+    color: white;
+    position: relative;
+
+    & + .step {
+        &:before {
+            content: "";
+            position: absolute;
+            width: calc(100% - 2rem);
+            height: 3px;
+            top: 1rem;
+            right: calc(50% + 1rem);
+            background: $Primary;
+        }
+    }
+
+    &.previous {
+        &:before {
+            background: $text-A;
+        }
+        .step-label {
+            background: $text-A;
+        }
+        .step-name {
+            color: $text-A;
+        }
+    }
+    &.next {
+        &:before {
+            background: $gray-1;
+        }
+        .step-label {
+            background: unset;
+            color: $text-A;
+            border: 1px solid $text-A;
+        }
+        .step-name {
+            color: $text-A;
+        }
+    }
+}
+.step-label {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 2rem;
+    text-align: center;
+    background: $Primary;
+    color: white;
+    line-height: 2rem;
+}
+.step-name {
+    display: block;
+    height: 1rem;
+    color: $Primary;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    padding-top: .25rem;
+}
+
+// bootstrap 進度條
+.progress.b-progress {
+    height: 0.4rem;
+    .progress-bar {
+        background-color: $Primary;
+    }
+    [aria-valuenow="100"] {
+        background: $success;
+    }
+    &.progress-bar-striped {
+        background-image: linear-gradient(
+            45deg,
+            rgba(255, 255, 255, 0.15) 25%,
+            transparent 25%,
+            transparent 50%,
+            rgba(255, 255, 255, 0.15) 50%,
+            rgba(255, 255, 255, 0.15) 75%,
+            transparent 75%,
+            transparent
+        );
+    }
+}

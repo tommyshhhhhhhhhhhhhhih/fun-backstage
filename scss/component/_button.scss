@@ -1,0 +1,399 @@
+/* button */
+
+$btnDizes: (
+    "xxs": 0.3,
+    "xs": 0.6,
+    "sm": 0.8,
+    "md": 1,
+    "lg": 1.5,
+    "xl": 2,
+);
+
+@each $name, $size in $btnDizes {
+    [class*="b-btn-"] {
+        &[data-size="#{$name}"] {
+            word-break: keep-all;
+            white-space: nowrap;
+            flex-shrink: 0;
+            padding: 0.45rem * $size 1.6rem * $size;
+            margin: 0 0.4rem * $size 0.4rem * $size 0.4rem * $size;
+            @if $name == sm {
+                min-width: unset;
+                font-size: .85rem;
+            } @else if $name == xs {
+                padding: 0.3rem .6rem;
+                min-width: unset;
+                font-size: .75rem;
+            } @else if $name == xxs {
+                padding: 0.2rem  .5rem;
+                min-width: unset;
+                font-size: .75rem;
+            } @else {
+                min-width: 6.25rem * $size;
+                font-size: 0.7rem + (0.2 * $size);
+            }
+
+            letter-spacing: (0.01rem * $size);
+            border-radius: 0.5rem * $size;
+            width: unset;
+            text-align: center;
+            &[data-loading]:before {
+                width: 0.8rem * $size;
+                height: 0.8rem * $size;
+                margin-right: 0.5rem* $size;
+                margin-left: -.5rem* $size;
+            }
+        }
+    }
+}
+
+/* 按鈕通用設定 */
+[class*="b-btn-"] {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: .125rem;
+    transition: all 0.2s ease 0s;
+    word-break: keep-all;
+    vertical-align: middle;
+    line-height: 1.3;
+
+    i {
+        padding-right: .25rem;
+        margin-left: -0.4rem;
+    }
+    .material-icons:first-of-type {
+        display: inline-block;
+        margin-left: -0.4rem;
+        // margin-top: -0.2rem;
+    }
+    input[type="file"] {
+        display: none;
+    }
+    span,
+    a {
+        color: inherit;
+        vertical-align: inherit;
+    }
+    &:before {
+        content: "";
+        transition: 0.1s;
+        background-size: 0;
+        background-position: center;
+    }
+    &[data-loading] {
+        opacity: 0.6;
+        cursor: wait;
+        &:before {
+            content: "";
+            display: inline-block;
+            vertical-align: middle;
+            width: 0.8rem;
+            height: 0.8rem;
+            margin-right: 0.5rem;
+            background-image: url("./../img/loading-white.gif");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    }
+}
+/* 文字按鈕mixin */
+@mixin button($bachground: $Primary, $text: white) {
+    color: $text;
+    background-color: $bachground;
+    border-color: $bachground;
+    border-style: solid;
+    outline: unset;
+    transition: all 0.2s ease 0s;
+    @include shadow1($bachground);
+
+    &:hover {
+        color: $text;
+        background-color: lighten($bachground, 2%);
+        border-color: lighten($bachground, 2%);
+    }
+    &:focus,
+    &:active {
+        color: $text;
+        background-color: $bachground;
+        border-color: $bachground;
+        outline: unset;
+        box-shadow: 0 0 0 0.2rem transparentize($bachground, 0.9);
+    }
+    .material-icons {
+        transition: inherit;
+    }
+    
+    &.outline,
+    &.flat,
+    &.text {
+        color: $bachground;
+        background: unset;
+        box-shadow: unset;
+        &:hover,
+        &:focus,
+        &:active {
+            color: lighten($bachground, 5%);
+            border-color: lighten($bachground, 5%);
+            background: transparentize($bachground, 0.9);
+            &:hover {
+                .material-icons[data-icon="back"] {
+                    transform: translateX(-.3125rem);
+                }
+            }
+        }
+        &[data-loading]:before {
+            background-image: url("./../img/loading.gif");
+        }
+    }
+    &.text {
+        border: unset;
+        text-decoration: underline;
+        min-width: unset;
+        &:hover,
+        &:focus,
+        &:active {
+            background: unset;
+        }
+    }
+    &.flat {
+        border: unset;
+        text-decoration: none;
+        transition: 0.15s;
+        &:hover {
+            background: unset;
+        }
+    }
+    &[disabled] {
+        background-color: $disabled-btn !important;
+        cursor: not-allowed !important;
+        color: white !important;
+        border-color: $disabled-btn !important;
+        box-shadow: unset !important;
+        &:hover,
+        &:active,
+        &:focus {
+            background-color: $disabled-btn !important;
+            color: white !important;
+            border-color: $disabled-btn !important;
+        }
+    }
+}
+
+@mixin button-light($bachground: white, $text: $text-A) {
+    color: $text;
+    background-color: $bachground;
+    border-color: darken($bachground , 7%);
+    border-style: solid;
+    outline: unset;
+    transition: all 0.2s ease 0s;
+    @include shadow1($text);
+
+    &:hover {
+        color: lighten($text, 10%);
+        background-color: darken($bachground, 1%);
+        border-color: darken($bachground, 1%);
+    }
+    &:focus,
+    &:active {
+        color: $text;
+        background-color: $bachground;
+        border-color: $bachground;
+        outline: unset;
+        @include shadow2($text);
+    }
+
+    &.outline,
+    &.flat,
+    &.text {
+        color: $text;
+        background: unset;
+        border-color: $text;
+        box-shadow: unset;
+
+        &:hover,
+        &:focus,
+        &:active {
+            color: lighten($text, 15%);
+            border-color: lighten($text, 15%);
+            background: transparentize($text, 0.95);
+        }
+    }
+    &.text {
+        border: unset;
+        text-decoration: underline;
+        min-width: unset;
+        &:hover,
+        &:focus,
+        &:active {
+            background: unset;
+        }
+    }
+    &.flat {
+        border: unset;
+        transition: 0.15s;
+    }
+    
+    &[disabled] {
+        cursor: not-allowed;
+        background-color: $disabled-btn !important;
+        color: white !important;
+        border-color: $disabled-btn !important;
+        box-shadow: unset !important;
+        &:hover,
+        &:active,
+        &:focus {
+            background-color: $disabled-btn !important;
+            color: white !important;
+            border-color: $disabled-btn !important;
+        }
+    }
+}
+
+.btn-link {
+    color: #777;
+}
+[class*="button-"].ladda-button[data-style*="slide"] .ladda-spinner {
+    margin-top: 0;
+}
+
+.b-btn-default {
+    @include button-light(white, $text-AA);
+    &[class*=b-btn-][data-loading]:before {
+        background-image: url("./../img/loading.gif");
+    }
+}
+
+.b-btn-secondary {
+    @include button($Secondary, white);
+}
+.b-btn-secondary-light {
+    @include button(white, $Secondary);
+}
+
+.b-btn-primary {
+    @include button;
+}
+.b-btn-primary-light {
+    @include button(white, $Primary);
+}
+
+.button-delete {
+    color: $text-AAA;
+    background: unset;
+    border: unset;
+    &:hover,
+    &:focus,
+    &:focus-within,
+    &:active {
+        color: $danger;
+        // background: unset;
+        border: unset;
+        outline: unset;
+    }
+    &[class*="button-"][data-size="xs"] {
+        min-width: unset;
+        padding: 0.3rem 0.5rem;
+    }
+}
+
+.b-dropdown-menu, .b-dropdown-menu.dropdown-menu {
+    .dropdown-item, .b-dropdown-item {
+        padding: .5rem 1.5rem;
+        color: $text-A;
+        &:hover, &:focus {
+            color: $text-AA;
+        }
+        &:active {
+            color: white;
+            background: $Primary;
+        }
+    }
+}
+
+.b-btn-success {
+    @include button($success, white);
+}
+.b-btn-danger {
+    @include button($danger, white);
+}
+.button-danger {
+    color: #fff;
+    background-color: $danger;
+    border-color: $danger;
+    border-style: solid;
+    outline: unset;
+    transition: all 0.2s ease 0s;
+
+    @include shadow2($danger);
+    &:hover {
+        color: #fff;
+        background-color: darken($danger, 5%);
+        border-color: darken($danger, 5%);
+    }
+    &:focus,
+    &.focus,
+    &:active,
+    &.active {
+        color: #fff;
+        background-color: $danger;
+        border-color: $danger;
+        outline: unset;
+        @include shadow3($danger);
+    }
+}
+
+.no-underline {
+    text-decoration: none !important;
+}
+
+.button-icon,
+.b-btn-icon {
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: unset;
+    border-width: 0;
+    border-radius: 2rem;
+    cursor: pointer;
+    color: $text-AA;
+    background: unset;
+    transition: 0.15s;
+    position: relative;
+
+    i {
+        padding-right: 0;
+        font-size: 1.25rem;
+    }
+    &:hover,
+    &:active {
+        color: $Primary;
+        background: $icon-hover-bg;
+        span {
+            color: $Primary;
+        }
+    }
+    &.outline {
+        border-width: 1px;
+    }
+    &[disalbed] {
+        opacity: 0.6;
+    }
+    .material-icons:first-of-type {
+        margin-left: 0 !important;
+        
+    }
+}
+
+.mobile {
+    .m-d {
+        display: none;
+    }
+}

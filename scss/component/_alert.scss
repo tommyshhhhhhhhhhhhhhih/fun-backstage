@@ -1,0 +1,58 @@
+.alert {
+    display: flex;
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+    line-height: 1.3;
+    font-size: 0.9rem;
+    border-width: 0;
+    background: unset;
+    border-radius: 0.4rem;
+    i {
+        line-height: 1.5;
+        margin-right: 0.4rem;
+    }
+    &.alert-danger {
+        background: lighten($danger, 35%);
+        border-color: $danger;
+        color: $danger;
+        span {
+            color: inherit;
+        }
+        .material-icons {
+            margin-right: 0.25rem;
+        }
+    }
+    &.alert-warning {
+        background: lighten($warning, 40%);
+        border-color: $warning;
+        color: darken($warning, 10%);
+        span {
+            color: inherit;
+        }
+        .material-icons {
+            margin-right: 0.25rem;
+        }
+    }
+    &.alert-info {
+        background: lighten($info, 40%);
+        border-color: $info;
+        color: $info;
+        span {
+            color: inherit;
+        }
+        .material-icons {
+            margin-right: 0.25rem;
+        }
+    }
+    &.alert-success {
+        background: lighten($success, 40%);
+        border-color: $success;
+        color: $success;
+        span {
+            color: inherit;
+        }
+        .material-icons {
+            margin-right: 0.25rem;
+        }
+    }
+}

@@ -1,0 +1,30 @@
+
+#pageError {
+    padding: 2rem;
+    border-radius: .5rem;
+    flex-grow: 1;
+    flex-shrink: 1;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    background-color: $Primary;
+    background-image: url("./../img/login-img_2.png");
+    background-position: 66% 74%;
+    background-size: 189%;
+    background-repeat: no-repeat;
+    @include shadow3;
+    img {
+        width: 100%;
+        max-width: 300px;
+        margin-bottom: 2rem;
+    }
+    p {
+        max-width: 300px;
+        padding-bottom: 2rem;
+        color: $text-AA;
+    }
+    .b-btn-default.outline {
+        border-color: white;
+        color: white;
+    }
+}

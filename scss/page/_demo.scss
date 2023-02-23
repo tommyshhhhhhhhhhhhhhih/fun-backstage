@@ -1,0 +1,140 @@
+.m-s-demo {
+    // position: absolute;
+    top: 5rem;
+    right: 3rem;
+}
+.popupAd-demo {
+    border-radius: 1.25rem;
+    width: 16rem;
+    border: 1px solid rgb(229, 229, 229);
+    padding: 1rem;
+    margin-bottom: .5rem;
+    background: white;
+    position: relative;
+    .demo-img {
+        position: relative;
+        display: block;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        &:before {
+            content: "";
+            display: block;
+            padding-top: 133.334%;
+        }
+    }
+}
+
+.banner-demo {
+    width: 16rem;
+    margin-bottom: .5rem;
+    position: relative;
+    .demo-img {
+        position: relative;
+        display: block;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        &:before {
+            content: "";
+            display: block;
+            padding-top: 50%;
+        }
+    }
+}
+
+.circle-demo {
+    margin: 2rem;
+    width: 11.9rem;
+    position: relative;
+
+    .demo-img {
+        position: relative;
+        display: block;
+        border-radius: 10rem;
+        box-shadow: 0 0 0 0.5rem #7de3bd, 0 0 0 0.6rem #fff, 0 0 0 1.2rem #93f0cd, 0 0 0 1.8rem #b3ffe3;
+        overflow: hidden;
+        &:before {
+            content: "";
+            display: block;
+            padding-top: 100%;
+        }
+    }
+    .break-img {
+        position: absolute;
+        top: -25%;
+        left: -25%;
+        width: 150%;
+        z-index: 1;
+        &:before {
+            content: "";
+            display: block;
+            padding-top: 100%;
+        }
+    }
+}
+
+.store-demo {
+    border-radius: 20px;
+    width: 16rem;
+    border: 1px solid rgb(229, 229, 229);
+    margin-bottom: .5rem;
+    background: white;
+    position: relative;
+    .demo-img {
+        position: relative;
+        display: block;
+        border-radius: 20px;
+        overflow: hidden;
+        &:before {
+            content: "";
+            display: block;
+            padding-top: 100%;
+        }
+    }
+}
+.store-banner-demo {
+    border-radius: .75rem;
+    width: 20rem;
+    margin-bottom: .5rem;
+    background: white;
+    position: relative;
+    .demo-img {
+        position: relative;
+        display: block;
+        border-radius: .75rem;
+        overflow: hidden;
+        &:before {
+            content: "";
+            display: block;
+            padding-top: 47%;
+        }
+    }
+}
+
+.inapp-demo {
+    width: 11.9rem;
+    position: relative;
+    .demo-img {
+        position: relative;
+        display: block;
+        border-radius: 20px;
+        overflow: hidden;
+        &:before {
+            content: "";
+            display: block;
+            padding-top: 100%;
+        }
+    }
+    .break-img {
+        position: absolute;
+        top: -25%;
+        left: -25%;
+        width: 150%;
+        z-index: 1;
+        &:before {
+            content: "";
+            display: block;
+            padding-top: 100%;
+        }
+    }
+}
+

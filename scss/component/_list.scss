@@ -1,0 +1,81 @@
+.b-list {
+    font-size: 1rem;
+    li {
+        display: flex;
+        align-items: center;
+        padding: .3rem .5rem;
+        & + li {
+            border-top: 1px solid $gray-1;
+        }
+    }
+    span {
+        display: block;
+        width: auto;
+    }
+}
+
+.dot-list-wrap {
+    width: 35vw;
+    // height: 80px;
+    overflow: hidden;
+    padding-left: 2rem;
+    position: relative;
+    .more{
+        border: none;
+        background: none;
+        font-size: .9rem;
+        color: $text-AA;
+        cursor: pointer;
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: 1;
+    }
+    ul.box{
+        height: 50px;
+        overflow: hidden;
+    }
+}
+
+.pinRecordBtn{
+    
+}
+
+
+
+.dot-list {
+    display: flex;
+    flex-direction: column;
+    color: $text-AAA;
+    padding-left: 2rem;
+    position: relative;
+    padding-bottom: 1.5rem;
+    &:before {
+        content: '';
+        display: block;
+        width: 1rem;
+        height: 1rem;
+        position: absolute;
+        z-index: 1;
+        left: 0;
+        top: 0.1rem;
+        border-radius: 1rem;
+        background-color: $bg-4;
+    }
+    &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        z-index: 0;
+        left: calc(.5rem - .04rem);
+        top: .2rem;
+        height: 100%;
+        width: .13rem;
+        background-color: $bg-4;
+    }
+    &:last-of-type {
+        &:after {
+            content: unset;
+        }
+    }
+}

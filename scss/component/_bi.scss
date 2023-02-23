@@ -1,0 +1,43 @@
+.indicator-wrap {
+    // padding: 0 1rem;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    overflow-x: auto;
+}
+
+.indicator {
+    padding: 0 1.5rem;
+    margin-bottom: 1rem;
+    flex-shrink: 0;
+    position: relative;
+    &:after {
+        content: '';
+        display: block;
+        width: .08rem;
+        background: $text-d-AAA;
+        height: 60%;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+    }
+    &:last-of-type::after {
+        content: unset;
+    }
+    label {
+        display: block;
+    }
+}
+
+.indicator-item {
+    font-size: 2rem;
+    font-weight: bold;
+    color: $text-AAAA;
+    & > span {
+        font-size: 1rem;
+
+        color: $text-AA;
+    }
+}

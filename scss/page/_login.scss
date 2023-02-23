@@ -1,0 +1,279 @@
+/*login 登入頁*/
+#IndexContent {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+    background-color: white;
+    background-image: radial-gradient(ellipse at top left, white, transparent),
+        radial-gradient(ellipse at bottom, #ee609c, transparent),
+        radial-gradient(ellipse at bottom right, #8fd3f4, transparent);
+    background-size: 400% 400%;
+    animation-name: bganime;
+    animation-duration: 8s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes bganime {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+#login {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin: 0;
+    padding: 0;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    z-index: 999;
+}
+.fullwidth {
+    width: 100%;
+}
+
+#login .thumbnail {
+    background-color: rgba(255, 255, 255, 0.8);
+    // padding: 2rem;
+    border-radius: 4px;
+    overflow: hidden;
+    @include shadow3;
+    position: relative;
+}
+
+.login-icon {
+    margin-top: -80px;
+    text-align: center;
+}
+
+.login-icon img {
+    width: 100px;
+    /*border-radius:50%;
+    border:2px solid #e5006e;*/
+}
+.login-logo {
+    text-align: center;
+    padding-top: 1rem;
+    height: 54px;
+    margin-bottom: 1rem;
+}
+
+.login-logo img {
+    max-width: 9rem;
+    max-height: 100%;
+}
+
+.login-form {
+    max-width: 44%;
+    width: 100%;
+    padding: 2rem;
+    padding-right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .alert{
+        max-width: 242px;
+    }
+}
+
+
+.login-img {
+    flex-grow: 1;
+    flex-shrink: 1;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    background-color: $Primary;
+    background-image: url("./../img/login-img_2.png");
+    background-position: 66% 74%;
+    background-size: 189%;
+    background-repeat: no-repeat;
+}
+
+.login-input {
+    margin-bottom: .5rem;
+    display: flex;
+    width: 21.25rem;
+    align-items: center;
+    position: relative;
+    .material-icons {
+        position: absolute;
+        height: 24px;
+        line-height: 24px;
+        top: 0;
+        bottom: 0.5rem;
+        left: 0.3rem;
+        margin: auto;
+        z-index: 1;
+        color: $gray-12;
+    }
+    input {
+        padding: .5rem .75rem .5rem 2rem;
+        flex-grow: 1;
+        max-width: unset;
+        margin-right: 0;
+    }
+}
+
+.login-input-label {
+    font-size: .8rem;
+    color: $text-A;
+    width: 21.25rem;
+    text-align: left;
+}
+
+.login-link {
+    font-size: 15px;
+    text-align: center;
+    padding: 1rem;
+}
+.login-link > ul > li > a:hover {
+    text-decoration: none;
+}
+
+.login-footer {
+    color: $text-A;
+    font-size: 12px;
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    bottom: -1.5rem;
+}
+.ladda-button .ladda-progress {
+    position: absolute;
+    width: 0;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: #1abc9c !important;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.1s linear all !important;
+}
+
+.greeting {
+    text-align: center;
+    color: $text-A;
+}
+
+.center-fixed {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+}
+
+#pw {
+    min-width: 300px;
+    display: flex;
+    align-items: center;
+    width: 50%;
+    max-height: 100vh;
+    overflow: auto;
+    fieldset {
+        width: 100%;
+    }
+    .b-text-field-column {
+        margin-right: 0;
+    }
+    .form-wrap {
+        padding: 3rem 3rem 1rem 3rem;
+        
+    }
+    input {
+        max-width: unset;
+    }
+    .b-form-button {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        text-align: center;
+        justify-content: center;
+        margin-left: -1rem;
+    }
+    .b-input-hint, .b-input-caption {
+        text-align: left;
+        font-size: 0.8rem;
+        display: block;
+        line-height: 1;
+    }
+    
+}
+
+
+@media (min-width: 1200px) {
+    #login {
+        max-width: 990px;
+    }
+    #pw {
+        max-width: 32rem;
+    }
+}
+
+// @media (max-width: 1200px) {
+//     .login-form {
+//         max-width: 50%;
+//     }
+    
+// }
+@media (max-width: 767px) {
+    #pw {
+        width: 60%;
+        .form-wrap {
+            padding: 2rem 2rem 0rem 2rem;
+        }
+    }
+    #login {
+        width: 60%;
+        padding: 1rem;
+    }
+    #login .thumbnail {
+        padding: 1.25rem;
+        margin-bottom: 10px;
+        // background: unset;
+        // box-shadow: unset;
+    }
+    .login-form {
+        flex-grow: 1;
+        padding: 2rem 5rem;
+        max-width: unset;
+    }
+    .login-icon {
+        margin-top: -60px;
+    }
+    .login-footer {
+        display: none;
+    }
+}
+@media screen and (max-width: 578px) {
+    #login {
+        width: 80%;
+    }
+    #pw {
+        width: 90%;
+        
+    }
+    .material-icons {
+        top: .8rem;
+        line-height: 1;
+    }
+    
+}
+
+@media screen and (max-width: 480px) {
+    #login {
+        width: 100%;
+    }
+    .login-form {
+        padding: 2rem 1rem;
+    }
+}
