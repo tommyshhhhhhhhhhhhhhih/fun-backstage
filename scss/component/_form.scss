@@ -332,6 +332,10 @@ input.error {
         max-width: 11.25rem;
         max-height: 11.25rem;
     }
+    &[data-size='backpack'] {
+        max-width: 21rem;
+        max-height: 21rem;
+    }
 }
 
 // 上架預覽

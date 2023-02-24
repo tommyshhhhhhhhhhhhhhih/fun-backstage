@@ -3,6 +3,7 @@ $badgeColor: (
     "warning": darken($warning,5%),
     "info": $info,
     "success": $success,
+    "contrast": $contrast,
     "draft": $text-A,
 );
 
@@ -27,4 +28,10 @@ $badgeColor: (
         color: white;
         background: $color;
     }
+}
+.badge-contrast{
+    margin-right: 0.5rem;
+    font-size: 0.9rem;
+    padding: 0.2rem 0.5rem;
+    line-height: 22px;
 }

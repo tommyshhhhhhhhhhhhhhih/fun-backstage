@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="img/favicon.ico" rel="icon" type="image/x-icon">
+    <title>資產詳情</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/flatpickr.css" rel="stylesheet">
+    <link href="css/vue-select.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/table.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+  </head>
+  <body>
+    <header class="navbar navbar-inverse fixed-top active" id="header">
+      <div class="navbar-brand"><a id="menu-toggle"><span class="material-icons">menu</span></a>
+        <h1><a href="./index.html"><span>fun市集</span>後台</a></h1>
+      </div>
+      <ul class="topbar-menu">
+        <li><span class="greeting">Have a Good Time</span></li>
+        <li>
+          <div class="btn-group">
+            <button class="dropdown-toggle topbar-btn" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="material-icons">notifications</span><span class="red-dot"></span></button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <ul class="dropdown-list">
+                <li class="dropdown-item"><a class="dropdown-info"><span class="b-caption">[審核通過] 小丸子帽子</span></a>
+                  <div class="date"><span>今天</span><span>16:55</span></div>
+                </li>
+                <li class="dropdown-item read">
+                  <div class="dropdown-info">
+                    <p class="b-caption">[審核通過] 小丸子鞋子</p>
+                  </div>
+                  <div class="date"><span>8-12</span></div>
+                </li>
+                <li class="dropdown-item read">
+                  <div class="dropdown-info">
+                    <p class="b-caption">[審核通過] 小丸子裙子</p>
+                  </div>
+                  <div class="date"><span>8-12</span></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="btn-group">
+            <button class="dropdown-toggle topbar-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="material-icons">person_outline</span></button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <ul class="dropdown-list">
+                <li class="dropdown-item read"><a class="dropdown-info" href="./login.html"><span class="b-caption">登出</span></a></li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </header>
+    <div class="container-fluid" id="main-content">
+      <div class="row">
+        <div class="expand" id="sidebar-wrapper">
+          <ul id="sidebar"></ul>
+          <div class="overlay show"></div>
+        </div>
+        <div class="col wrap">
+          <div class="row">
+            <div id="gotop"><span class="material-icons">arrow_upward</span></div>
+            <div class="col content-top">
+              <div class="breadcrum">fun市集後台>資產管理>資產清單>資產詳情</div>
+            </div>
+          </div>
+          <div class="row" id="app">
+            <div class="content animated fadeIn">
+              <ul class="nav nav-tabs">
+              </ul>
+              <form class="form-wrap" id="basic-form" @submit.prevent="saveForm()" method="post">
+                <div class="form-top">
+                  <h2 class="text-h3">資產詳情</h2>
+                </div>
+                <fieldset>
+									<!-- 基本資訊 -->
+									<div class="detail-head">
+										<div class="b-text-field">
+											<label>原始數量</label>
+											<div class="b-field-group">
+												<div class="b-field-row">
+													<div class="b-input-wrap">
+														<p class="readonly">{{ticket.quantity}}</p>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="b-text-field">
+											<label>已發放數量</label>
+											<div class="b-field-group">
+												<div class="b-field-row">
+													<div class="b-input-wrap">
+														<p class="readonly">{{ticket.released}}</p>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="b-text-field">
+											<label>已核銷數量</label>
+											<div class="b-field-group">
+												<div class="b-field-row">
+													<div class="b-input-wrap">
+														<p class="readonly">{{ticket.reimbursed}}</p>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="b-text-field">
+											<label>更新時間</label>
+											<div class="b-field-group">
+												<div class="b-field-row">
+													<div class="b-input-wrap">
+														<p class="readonly">{{ticket.updateTime}}</p>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="b-text-field">
+											<label>建立時間</label>
+											<div class="b-field-group">
+												<div class="b-field-row">
+													<div class="b-input-wrap">
+														<p class="readonly">{{ticket.addTime}}</p>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<hr>
+                  <!-- 定義檔設定 -->
+                  <div class="text-h5">定義檔設定</div>
+                  <div class="b-text-field d-block">
+                    <label>資產類別<span>*</span></label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <div class="b-input-wrap">
+													<p class="readonly">{{assets}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="b-text-field d-block">
+                    <label>供應商<span>*</span></label>
+                    <div class="b-field-group">
+                      <div class="b-field-row">
+                        <div class="b-input-wrap">
+													<p class="readonly">{{cp}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- 資產：票券 新增顯示欄位-->
+                  <template v-if="assetsOption.value.value === 'ticket'" key="ticketTypes">
+                    <div class="b-text-field d-block">
+                      <label>票券來源<span>*</span></label>
+                      <div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-input-wrap">
+														<p class="readonly">{{ticket.type}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+										<div class="b-text-field d-block m-top-30">
+											<label>水位ID</label>
+											<div class="b-field-row mb-none">
+												<div class="d-flex align-items-start">
+													<input class="b-input id" id="copyContent" readonly :value="ticket.levelID" v-model="ticket.levelID">
+													<button class="b-btn-default outline mb-none" data-size="sm" type="button" @click="copyID('#copyContent')"> 
+														<template v-if="ticket.levelIDCopyBtn"><span>已複製 </span></template>
+														<template v-else> <span class="material-icons ml-none mr-xxs fz-sm">copy</span><span>複製</span></template>
+													</button>
+												</div>
+											</div>
+										</div>
+                  </template>
+									<div class="b-text-field d-block m-top-30">
+										<label>ItemCode</label>
+										<div class="b-field-row mb-none">
+											<div class="d-flex align-items-start">
+												<input class="b-input id" id="copyContent2" readonly :value="itemCode" v-model="itemCode">
+												<button class="b-btn-default outline mb-none" data-size="sm" type="button" @click="copyID('#copyContent2')"> 
+													<template v-if="itemCodeCopyBtn"><span>已複製 </span></template>
+													<template v-else> <span class="material-icons ml-none mr-xxs fz-sm">copy</span><span>複製</span></template>
+												</button>
+											</div>
+										</div>
+									</div>
+                  <hr>
+                  <!-- 資產：票券-原始票券 新增顯示欄位-->
+                  <!-- <div v-show="assetsOption.value.value === 'ticket' && ticket.typeOption.value.value === 'original'" key="ticketOriginal"> -->
+                    <div class="text-h5">原始票券設定</div>
+                    <div class="b-text-field d-block">
+                      <label>資產名稱<span>*</span></label>
+											<div class="b-field-group">
+												<div class="b-field-row">
+													<div class="b-input-wrap">
+														<p class="readonly">{{ticket.original.ticketName}}</p>
+													</div>
+												</div>
+											</div>
+                    </div>
+                    <div class="b-text-field d-block">
+                      <label>資產群組<span>*</span></label>
+											<div class="b-field-group">
+												<div class="b-field-row">
+													<div class="b-input-wrap">
+														<p class="readonly">{{group}}</p>
+													</div>
+												</div>
+											</div>
+                    </div>
+                    <div class="b-text-field d-block">
+                      <label>水位上限(限5億內)<span>*</span></label>
+                      <div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-input-wrap">
+														<p class="readonly">{{ticket.original.stock}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="b-text-field d-block">
+                      <label>資產描述<span>*</span></label>
+                      <div class="b-field-row">
+                        <div class="b-input-wrap">
+													<p class="readonly">{{ticket.original.describe}}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="b-text-field d-block">
+                      <label>核銷方式<span>*</span></label>
+											<div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-input-wrap">
+														<p class="readonly">{{ticket.original.checkWay}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  <!-- </div> -->
+                  <!-- 資產：票券-SUPER POINT票券 新增顯示欄位-->
+                  <!-- <div v-show="assetsOption.value.value === 'ticket' && ticket.typeOption.value.value === 'superPoint'" key="ticketSuperPoint"> -->
+                    <div class="text-h5">SUPER POINT 票券設定</div>
+										<div class="b-text-field d-block">
+                      <label>票券ID<span>*</span></label>
+											<div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-input-wrap">
+														<p class="readonly">{{ticket.superPoint.ticketID}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+										<div class="b-text-field d-block">
+											<label>資產名稱<span>*</span></label>
+											<div class="b-field-group">
+												<div class="b-field-row">
+													<div class="b-input-wrap">
+														<p class="readonly">{{ticket.superPoint.ticketName}}</p>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="b-text-field d-block">
+											<label>資產群組<span>*</span></label>
+											<div class="b-field-group">
+												<div class="b-field-row">
+													<div class="b-input-wrap">
+														<p class="readonly">{{group}}</p>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="b-text-field d-block">
+											<label>水位上限(限21億內)<span>*</span></label>
+											<div class="b-field-group">
+												<div class="b-field-row">
+													<div class="b-input-wrap">
+														<p class="readonly">{{ticket.superPoint.stock}}</p>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="b-text-field d-block">
+											<label>採購價<span>*</span></label>
+											<div class="b-field-group">
+                        <div class="b-field-row">
+                          <div class="b-input-wrap">
+														<p class="readonly">${{ticket.superPoint.price}}</p>
+                          </div>
+                        </div>
+                      </div>
+										</div>
+										<div class="b-text-field d-block">
+											<label>核銷方式</label>
+											<div class="b-field-group">
+												<div class="b-field-row">
+													<p class="readonly">{{ticket.superPoint.reimbursement}}</p>
+												</div>
+											</div>
+										</div>
+										<div class="b-text-field d-block">
+											<label>消費通路</label>
+											<div class="b-field-group">
+												<div class="b-field-row">
+													<div class="b-input-wrap">
+														<p class="readonly">{{ticket.superPoint.channelsName}}</p>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="b-text-field d-block">
+											<label>消費地區</label>
+											<div class="b-field-group">
+												<div class="b-field-row">
+													<p class="readonly">
+														<template v-for="item in ticket.superPoint.areaGroup">
+															<span class="badge-contrast">{{item.label}}</span>
+														</template>
+													</p>
+												</div>
+											</div>
+										</div>
+										<div class="b-text-field d-block">
+											<label>資產描述<span>*</span></label>
+											<div class="b-field-row">
+												<div class="b-input-wrap">
+													<p class="readonly">{{ticket.superPoint.describe}}</p>
+												</div>
+											</div>
+										</div>
+										<hr>
+										<div class="text-h5">數據追蹤設定</div>
+										<div class="b-text-field d-block">
+											<label>大分類<span>*</span></label>
+											<div class="b-field-group">
+												<div class="b-field-row">
+													<div class="b-input-wrap">
+														<p class="readonly">{{primaryCategory}}</p>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="b-text-field d-block">
+											<label>中分類<span>*</span></label>
+											<div class="b-field-group">
+												<div class="b-field-row">
+													<div class="b-input-wrap">
+														<p class="readonly">{{secondaryCategory}}</p>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="b-text-field d-block">
+											<label>小分類<span>*</span></label>
+											<div class="b-field-group">
+												<div class="b-field-row">
+													<div class="b-input-wrap">
+														<p class="readonly">{{minorCategory}}</p>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="b-text-field d-block">
+											<label>追蹤標籤 free Tag</label>
+											<div class="b-field-group">
+												<div class="b-field-row">
+													<div class="b-input-wrap">
+														<template v-for="item in freeTag">
+															<span class="badge-contrast">{{item.value}}</span>
+														</template>
+													</div>
+												</div>
+											</div>
+										</div>
+									<!-- </div> -->
+									<hr>
+									<div class="b-text-field d-block">
+										<label>資產圖片<span>*</span><span class="tooltip-btn pl-xs" data-toggle="tooltip" data-placement="right" data-html="true" :title="previewBackpack"><span class="material-icons">info</span></span></label>
+										<div class="b-field-group pl-xs"> 
+											<div class="b-field-row">
+												<div class="upload-img-preview">
+													<img class="preview" data-size="backpack" :src="previewImg.value">
+													<ul> 
+														<li class="b-caption">{{previewImg.name}}</li>
+														<li class="b-caption">大小：{{previewImg.size}} KB</li>
+													</ul>
+												</div>
+                      </div>
+										</div>
+									</div>
+									<div class="b-text-field d-block">
+										<label>資產操作規則<span>*</span>(可複選)</label>
+										<div class="b-field-group pl-xs">
+											<template v-for="item in assetRule">
+												<div class="b-checkbox">
+													<input type="checkbox" :id="item.name" v-model="item.value" disabled required>
+													<label class="pr-xs" :for="item.name">{{item.label}}</label>
+													<!-- <div class="tooltip-btn" data-toggle="tooltip" data-placement="right" :title="item.tooltip"><span class="material-icons">info</span></div> -->
+												</div>
+											</template>
+										</div>
+									</div>
+									<hr>
+									<div class="text-h5">活動設定</div>
+									<div class="b-text-field d-block">
+										<label>活動開始時間<span>*</span></label>
+										<div class="b-field-row">
+											<div class="b-input-wrap">
+												<p class="readonly">{{dateRangeStart}}</p>
+											</div>
+											<div class="b-input-wrap">
+												<p class="readonly">{{dateRangeStartTime}}</p>
+											</div>
+										</div>
+										<label>活動結束時間<span>*</span></label>
+										<div class="b-field-row">
+											<div class="b-input-wrap">
+												<p class="readonly">{{dateRangeEnd}}</p>
+											</div>
+											<div class="b-input-wrap">
+												<p class="readonly">{{dateRangeEndTime}}</p>
+											</div>
+										</div>
+									</div>
+									<div class="b-text-field d-block">
+										<label>活動網址＆連結開啟方式<span>*</span></label>
+										<div class="b-field-group">
+											<div class="b-field-row">
+												<div class="b-input-wrap">
+													<p class="readonly">{{ticket.activityLink}}：{{ticket.link}}</p>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="b-text-field d-block mb-md">
+										<label>索取限制<span>*</span></label>
+										<div class="b-field-group">
+											<div class="b-field-row">
+												<div class="b-input-wrap">
+													<p class="readonly">{{ticket.limitation.value}} {{ticket.limitation.count}} 張/會員</p>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- 資產：票券來源 SUPER POINT 票券 顯示欄位 -->
+									<!-- <div v-show="assetsOption.value.value === 'ticket' && ticket.typeOption.value.value === 'superPoint'" key="ticketsuperPoint"> -->
+										<hr>
+										<div class="text-h5">掛帳設定</div>
+										<div class="b-text-field d-block">
+											<label>公司<span>*</span></label>
+											<div class="b-field-group">
+												<div class="b-field-row">
+													<p class="readonly">{{ticket.superPoint.accountCompany}}</p>
+												</div>
+											</div>
+										</div>
+										<div class="b-text-field d-block">
+											<label>部門<span>*</span></label>
+											<div class="b-field-group">
+												<div class="b-field-row">
+													<p class="readonly">{{ticket.superPoint.accountDepartment}}</p>
+												</div>
+											</div>
+										</div>
+										<div class="b-text-field d-block">
+											<label>產品<span>*</span></label>
+											<div class="b-field-group">
+												<div class="b-field-row">
+													<p class="readonly">{{ticket.superPoint.accountPdName}}</p>
+												</div>
+											</div>
+										</div>
+									<!-- </div> -->
+                </fieldset>
+								<div class="b-form-button">
+                  <button class="b-btn-secondary text" data-size="lg" type="button" onclick="window.location.href='./2.1_assets-list.html'">返回資產清單</button>
+                </div>
+              </form>
+              <!-- popup 送出確認 -->
+              <div class="modal fade" id="successConfirm" data-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm" role="document">
+                  <div class="modal-img" data-type="warning"></div>
+                  <div class="modal-content">
+                    <div class="modal-body text-center">
+                      <h3 class="modal-title">送出確認</h3>
+											<p>送出修改後將會影響已發放出去的資產，確定執行？</p>
+                    </div>
+                    <div class="modal-footer justify-content-center pt-none">
+                      <button class="b-btn-default" data-size="lg" type="button" onclick="window.location= './2.1_assets-list.html'">確定</button>
+                      <button class="b-btn-default text no-underline" data-size="md" type="button" data-dismiss="modal">關閉</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="footer">
+            <div class="copyright">&copy;2022 GASH Co, Ltd. All Right Reserved. </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/vue.min.js"></script>
+    <!-- jQuery-->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap Core JavaScript-->
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/flatpickr.js"></script>
+    <script src='js/bootstrap-tagsinput.min.js'></script>
+    <!-- multiselector-->
+    <script src="js/vue-select.js"></script>
+    <!-- Custom JavaScript-->
+    <script src="js/sidebar.js"></script>
+    <script src="js/custom.js"></script>
+    <script>
+      currentPage('資產清單');
+      var jQfn = function (){
+				//活動時間
+				flatpickr('#dateStart',{
+					static: true,
+					dateFormat: "Y/m/d",
+					minDate: new Date(),
+				})
+				flatpickr('#dateEnd',{
+					static: true,
+					dateFormat: "Y/m/d",
+					minDate: vm.dateRangeStart,
+				})
+				flatpickr('#dateStartTime',{
+					enableTime: true,
+					enableSecond: true,
+					noCalendar: true,
+					dateFormat: "H:i",
+					time_24hr: true,
+					minTime: new Date(),
+				})
+				flatpickr('#dateEndTime',{
+					enableTime: true,
+					enableSecond: true,
+					noCalendar: true,
+					dateFormat: "H:i",
+					time_24hr: true,
+					minTime: vm.dateRangeStartTime,
+				})
+      }
+      
+      var vm = new Vue({
+				el: '#app',
+				data() {
+					return {
+						//資產類別對應之供應商、群組
+						assets: '票券',
+						cp: '樂點股份有限公司(我不是胖虎2022)',
+						itemCode: '2bcace46-c2c8-11ea-b3de-0242ac130004',
+						itemCodeCopyBtn: false,
+						assetsOption: {
+							value: {
+								value: 'ticket', 
+								label: '票券',
+								group: [
+									{label: '票券群組1', value: '票券群組1'},
+									{label: '票券群組2', value: '票券群組2'},
+									{label: '票券群組3', value: '票券群組3'}
+								],
+							},
+						},
+						group: '票券群組1',
+						//數據追蹤設定
+						primaryCategory: '美食與生活',
+						secondaryCategory: '美食1',
+						minorCategory: '兌換券',
+						categoryOption: {
+							value: {
+								value: '美食與生活', 
+								label: '美食與生活',
+								secondary: [
+									{label: '美食1', value: '美食1'},
+									{label: '美食2', value: '美食2'},
+									{label: '美食3', value: '美食3'}
+								],
+								minor: [
+									{label: '兌換券', value: '兌換券'},
+									{label: '購物金', value: '購物金'},
+									{label: '網美景點', value: '網美景點'}
+								],
+							},
+						},
+						freeTag: [
+							{
+								value: 'Amsterdam',
+							},
+							{
+								value: 'Washington',
+							},
+							{
+								value: 'Sydney',
+							},
+							{
+								value: 'Beijing',
+							},
+							{
+								value: 'Cairo',
+							},
+						],
+						//資產圖片
+						previewImg:{
+							value: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/maxresdefault-1590898973.jpg',
+							name: '截圖-2023-02-01-下午2.25.37.jpg',
+							size: '49.83',
+							alert: '',
+							// validation: true,
+						},
+						previewBackpack: `
+							<p>資產圖片顯示區塊</p>
+							<div class='d-flex'>
+								<div class='w-100 pr-xs'>
+									<p>商品清單</p>
+									<img class='w-100' src='./img/demo/IIO-list.jpg', alt=''/>
+								</div>
+								<div class='w-100 pr-xs'>
+									<p>商品內頁</p>
+									<img class='w-100' src='./img/demo/IIO-big.jpg', alt=''/>
+								</div>
+							</div>
+						`,
+						//資產操作規則
+						assetRule: [
+							{
+								label: '贈與',
+								name: 'give',
+								value: true,
+								show: ['item','ticket','collection'],
+								tooltip: '打開贈與功能，則該資產在beanfun!生態圈中，可讓使用者自由贈與給beanfun!中的任一好友。',
+							},
+							{
+								label: '交換',
+								name: 'exchange',
+								value: true,
+								show: ['item','ticket','collection'],
+								tooltip: '打開贈與功能，則該資產在beanfun!生態圈中，可讓使用者自由與beanfun!中的任一好友進行交換。',
+							},
+							{
+								label: '刊登(fun市集)',
+								name: 'publish',
+								value: true,
+								show: ['item','ticket','collection'],
+								tooltip: '打開贈與功能，則該資產在beanfun!生態圈中，可讓使用者自由將資產刊登到fun市集進行販售。',
+							},
+							{
+								label: '啟用區塊鏈',
+								name: 'bc',
+								show: ['item','collection'],
+								value: false,
+								tooltip: '打開贈與功能，則該資產在beanfun!生態圈中，可讓使用者自由將該資產上練。',
+							},
+							{
+								label: '區塊鏈回背包',
+								name: 'bcBack',
+								show: ['item','collection'],
+								value: false,
+								tooltip: '打開贈與功能，則該資產在beanfun!生態圈中，可讓使用者自由將該資產上練。',
+							},
+							{
+								label: '放入遊戲',
+								name: 'itg',
+								show: ['item'],
+								value: false,
+								tooltip: '打開贈與功能，則該資產在beanfun!生態圈中，可讓使用者將資產放入遊戲進行運用。',
+							},
+							{
+								label: '自遊戲回背包',
+								name: 'gti',
+								show: ['item'],
+								value: false,
+								tooltip: '打開贈與功能，則該資產在beanfun!生態圈中，可讓使用者將遊戲中的資產轉換回背包。',
+							},
+							// {
+						//     label: '可轉為實體商品',
+						//     name: 'real',
+						//     show: ['item','ticket','collection'],
+						//     value: false,
+						//     tooltip: '打開贈與功能，則該資產在beanfun!生態圈中，可轉換為實體商品。',
+							// },
+						],
+						//活動時間
+						dateRangeStart: '2022/08/01',
+						dateRangeStartTime: '12:00',
+						dateRangeEnd: '2023/08/02',
+						dateRangeEndTime: '12:00',
+
+						ticket: {
+							quantity: '500',
+							released: '400',
+							reimbursed: '120',
+							updateTime: '2023/02/22 10:55:12',
+							addTime: '2022/12/22 10:55:12',
+							type: '原始票券',
+							levelID: '1234', 
+							levelIDCopyBtn: false,
+
+							typeOption:{
+								value: {
+									label: '原始票券',
+									value: 'original',
+									option: [
+										{label: '原始票券', value: 'original'},
+										{label: 'SUPER POINT 票券', value: 'superPoint'},
+									]
+								},
+							},
+										
+							original: {
+								//票券名稱
+								ticketName: '原始票券7-ELEVEN 200元購物金',
+								nameCount: {
+									placeholder: '請輸入票券名稱',
+									maxlength: 20,
+								},
+								stock: '500', //水位上限
+								describe: '原始票券兌換說明票券效期：多效期商品，季效期(3月底/6月底/9月底/12月底)使用本券請至7-ELEVEN門市櫃檯直接出示本券掃碼兌換請將螢幕亮度調到最大。 使用時須符合本券載明之品牌與規格。商品兌換後，無法提取。兌換說明票券效期：多效期商品，季效期(3月底/6月底/9月底/12月底)使用本券請至7-ELEVEN門市櫃檯直接出示本券掃碼兌換請將螢幕亮度調到最大。 使用時須符合本券載明之品牌與規格。商品兌換後，無法提取。', //資產描述
+								//核銷方式
+								checkWay: '輸入代碼：ABC123',
+							},
+
+							superPoint: {
+								ticketID: '1234',
+								//票券名稱
+								ticketName: '7-ELEVEN 200元購物金',
+								nameCount: {
+									placeholder: '請輸入票券名稱',
+									maxlength: 20,
+								},
+								stock: '1000', //水位上限
+								price: '120', //採購價
+								reimbursement: '第三方序號', //核銷方式
+								//消費通路
+								channelsName: '7-11超商',
+								channelsCount: {
+									placeholder: '請輸入消費通路',
+									maxlength: 20,
+								},
+								//消費地區
+								areaGroup: [
+									{label: '臺北市', value: 'TaipeiCity'},
+									{label: '基隆市', value: 'Keelung'},
+								],
+								describe: '兌換說明票券效期：多效期商品，季效期(3月底/6月底/9月底/12月底)使用本券請至7-ELEVEN門市櫃檯直接出示本券掃碼兌換請將螢幕亮度調到最大。 使用時須符合本券載明之品牌與規格。商品兌換後，無法提取。兌換說明票券效期：多效期商品，季效期(3月底/6月底/9月底/12月底)使用本券請至7-ELEVEN門市櫃檯直接出示本券掃碼兌換請將螢幕亮度調到最大。 使用時須符合本券載明之品牌與規格。商品兌換後，無法提取。', //資產描述
+								//掛帳設定
+								accountCompany: '樂點',
+								accountDepartment: '產品研發部門',
+								accountPdName: '0229_揪票通',
+							},
+
+							//活動網址＆連結開啟方式
+							activityLink: '內開',
+							link: 'https://www.google.com.tw/?hl=zh_TW',
+							//索取限制
+							limitation: {
+									value: '限領',
+									count: 2
+							},
+						},
+						saveBtnStatus: { //送出 btn
+								disabled: false,
+								loading: false,
+								label: '送出'
+						},
+						errorClass:'validate-error', //未填錯誤訊息
+					}
+				},
+        watch: {
+					"previewImg.value": function () {
+						if(this.previewImg.value) {
+								this.previewImg.validation = ''
+						} 
+					},
+        },
+        methods: {
+					backpackImgPreview: function(e) {
+						const file = e.target.files[0];
+						this.previewImg.name = file.name;
+						if( file.size / 1024 < 80) {
+								this.previewImg.value = URL.createObjectURL(file);
+								this.previewImg.size = (file.size / 1024).toFixed(2);
+								this.previewImg.alert = ''
+						} else {
+								this.previewImg.value = '';
+								this.previewImg.size = '';
+								this.previewImg.alert = '檔案尺寸過大'
+						}
+					},
+					saveForm: function (){
+						// this.submitBtnStatus.disabled = true  
+						// this.submitBtnStatus.loading = true  
+						// this.validationEmpty(this.showAlert)
+						window.setTimeout(function(){
+							$('#successConfirm').modal('show')
+						}, 500);
+					},
+					copyID: function(id) {
+						let copyText = document.querySelector(id);
+						// console.log(copyText);
+						if (id === '#copyContent') {
+								vm.copyBtn = true
+						}else {
+								vm.copyBtn2 = true
+						}
+						copyText.select();
+						document.execCommand("copy");
+						window.setTimeout(function(){
+								vm.copyBtn = false
+								vm.copyBtn2 = false
+						}, 2000);
+					},
+        },
+				mounted: function () {
+					this.$nextTick(function () {
+						jQfn()
+					})
+				},
+				updated: function () {
+					this.$nextTick(function () {
+						jQfn()
+					})
+				}
+      })
+    </script>
+  </body>
+</html>
