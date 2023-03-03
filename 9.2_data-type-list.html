@@ -150,7 +150,7 @@
                     <div class="category-head">
                       <p class="text-h5 pb-md">中分類</p>
                       <div class="category-btn">
-                        <button class="b-btn-default text m-none px-xs" @click="addMediumForm">新增</button>
+                        <button class="b-btn-default text m-none px-xs" @click="addMediumForm" :disabled="!mainList">新增</button>
                         <button class="b-btn-default text m-none px-xs" @click="deleteMediumForm" :disabled="!mediumList">刪除</button>
                       </div>
                     </div>
@@ -216,7 +216,7 @@
                     <div class="category-head">
                       <p class="text-h5 pb-md">小分類</p>
                       <div class="category-btn">
-                        <button class="b-btn-default text m-none px-xs" @click="addSmallForm">新增</button>
+                        <button class="b-btn-default text m-none px-xs" @click="addSmallForm" :disabled="!mediumList">新增</button>
                         <button class="b-btn-default text m-none px-xs" @click="deleteSmallForm" :disabled="!smallList">刪除</button>
                       </div>
                     </div>
