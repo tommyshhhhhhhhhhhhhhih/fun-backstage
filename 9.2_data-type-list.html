@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="img/favicon.ico" rel="icon" type="image/x-icon">
+    <title>類別設定</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/flatpickr.css" rel="stylesheet">
+    <link href="css/datatables.min.css" rel="stylesheet">
+    <link href="css/vue-select.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/table.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+  </head>
+  <body>
+    <header class="navbar navbar-inverse fixed-top active" id="header">
+      <div class="navbar-brand"><a id="menu-toggle"><span class="material-icons">menu</span></a>
+        <h1><a href="./index.html"><span>fun市集</span>後台</a></h1>
+      </div>
+      <ul class="topbar-menu">
+        <li><span class="greeting">Have a Good Time</span></li>
+        <li>
+          <div class="btn-group">
+            <button class="dropdown-toggle topbar-btn" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="material-icons">notifications</span><span class="red-dot"></span></button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <ul class="dropdown-list">
+                <li class="dropdown-item"><a class="dropdown-info"><span class="b-caption">[審核通過] 小丸子帽子</span></a>
+                  <div class="date"><span>今天</span><span>16:55</span></div>
+                </li>
+                <li class="dropdown-item read">
+                  <div class="dropdown-info">
+                    <p class="b-caption">[審核通過] 小丸子鞋子</p>
+                  </div>
+                  <div class="date"><span>8-12</span></div>
+                </li>
+                <li class="dropdown-item read">
+                  <div class="dropdown-info">
+                    <p class="b-caption">[審核通過] 小丸子裙子</p>
+                  </div>
+                  <div class="date"><span>8-12</span></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="btn-group">
+            <button class="dropdown-toggle topbar-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="material-icons">person_outline</span></button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <ul class="dropdown-list">
+                <li class="dropdown-item read"><a class="dropdown-info" href="./login.html"><span class="b-caption">登出</span></a></li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </header>
+    <div class="container-fluid" id="main-content">
+      <div class="row">
+        <div class="expand" id="sidebar-wrapper">
+          <ul id="sidebar"></ul>
+          <div class="overlay show"></div>
+        </div>
+        <div class="col wrap animated fadeIn" id="app">
+          <div class="row">
+            <div id="gotop"><span class="material-icons">arrow_upward</span></div>
+            <div class="col content-top">
+              <div class="breadcrum">fun市集後台>群組類別管理>類別設定</div>
+              <div class="title-wrap">
+                <div class="info">
+                  <h2 class="text-h2">類別設定</h2>
+                </div>
+                <div class="toolbar"></div>
+                <div class="b-caption w-100">管理資產大中小分類別與標籤項目回傳給數據中心</div>
+              </div>
+              <div class="data-type-list bg-gray-1 p-md">
+                <div class="category-list">
+                  <ul class="scroll-item">
+                    <div class="category-head">
+                      <p class="text-h5 pb-md">大分類</p>
+                      <div class="category-btn">
+                        <button class="b-btn-default text m-none px-xs" @click="addMainForm">新增</button>
+                        <button class="b-btn-default text m-none px-xs" @click="deleteMainForm" :disabled="!mainList">刪除</button>
+                      </div>
+                    </div>
+                    <form>
+                      <li class="category-item">
+                        <input type="radio" id="mainList01" v-model="mainList" value="美食與生活" name="美食與生活">
+                        <label for="mainList01">
+                          <p>美食與生活</p>
+                          <span class="material-icons">chevron_right</span>
+                        </label>
+                      </li>
+                      <li class="category-item">
+                        <input type="radio" id="mainList02" v-model="mainList" value="旅遊" name="旅遊">
+                        <label for="mainList02">
+                          <p>旅遊</p>
+                          <span class="material-icons">chevron_right</span>
+                        </label>
+                      </li>
+                      <li class="category-item">
+                        <input type="radio" id="mainList03" v-model="mainList" value="偶像娛樂" name="偶像娛樂">
+                        <label for="mainList03">
+                          <p>偶像娛樂</p>
+                          <span class="material-icons">chevron_right</span>
+                        </label>
+                      </li>
+                      <li class="category-item">
+                        <input type="radio" id="mainList04" v-model="mainList" value="動漫影音" name="動漫影音">
+                        <label for="mainList04">
+                          <p>動漫影音</p>
+                          <span class="material-icons">chevron_right</span>
+                        </label>
+                      </li>
+                      <li class="category-item">
+                        <input type="radio" id="mainList05" v-model="mainList" value="bf!社團" name="bf!社團">
+                        <label for="mainList05">
+                          <p>bf!社團</p>
+                          <span class="material-icons">chevron_right</span>
+                        </label>
+                      </li>
+                      <li class="category-item">
+                        <input type="radio" id="mainList06" v-model="mainList" value="玩具公仔" name="玩具公仔">
+                        <label for="mainList06">
+                          <p>玩具公仔</p>
+                          <span class="material-icons">chevron_right</span>
+                        </label>
+                      </li>
+                      <li class="category-item">
+                        <input type="radio" id="mainList07" v-model="mainList" value="電玩遊戲" name="電玩遊戲">
+                        <label for="mainList07">
+                          <p>電玩遊戲</p>
+                          <span class="material-icons">chevron_right</span>
+                        </label>
+                      </li>
+                      <li class="category-item">
+                        <input type="radio" id="mainList08" v-model="mainList" value="健身運動" name="健身運動">
+                        <label for="mainList08">
+                          <p>健身運動</p>
+                          <span class="material-icons">chevron_right</span>
+                        </label>
+                      </li>
+                    </form>
+                  </ul>
+                  <ul class="scroll-item">
+                    <div class="category-head">
+                      <p class="text-h5 pb-md">中分類</p>
+                      <div class="category-btn">
+                        <button class="b-btn-default text m-none px-xs" @click="addMediumForm">新增</button>
+                        <button class="b-btn-default text m-none px-xs" @click="deleteMediumForm" :disabled="!mediumList">刪除</button>
+                      </div>
+                    </div>
+                    <form v-if="mainList === '美食與生活'">
+                      <li class="category-item">
+                        <input type="radio" id="mediumList01" v-model="mediumList" value="兌換券" name="兌換券">
+                        <label for="mediumList01">
+                          <p>兌換券</p>
+                          <span class="material-icons">chevron_right</span>
+                        </label>
+                      </li>
+                      <li class="category-item">
+                        <input type="radio" id="mediumList02" v-model="mediumList" value="購物金" name="購物金">
+                        <label for="mediumList02">
+                          <p>購物金</p>
+                          <span class="material-icons">chevron_right</span>
+                        </label>
+                      </li>
+                    </form>
+                    <form v-if="mainList === '旅遊'">
+                      <li class="category-item">
+                        <input type="radio" id="mediumList01" v-model="mediumList" value="網美景點" name="網美景點">
+                        <label for="mediumList01">
+                          <p>網美景點</p>
+                          <span class="material-icons">chevron_right</span>
+                        </label>
+                      </li>
+                      <li class="category-item">
+                        <input type="radio" id="mediumList02" v-model="mediumList" value="賞櫻步道" name="賞櫻步道">
+                        <label for="mediumList02">
+                          <p>賞櫻步道</p>
+                          <span class="material-icons">chevron_right</span>
+                        </label>
+                      </li>
+                    </form>
+                    <form v-if="mainList === '偶像娛樂'">
+                      <li class="category-item">
+                        <input type="radio" id="mediumList01" v-model="mediumList" value="原子少年" name="原子少年">
+                        <label for="mediumList01">
+                          <p>原子少年</p>
+                          <span class="material-icons">chevron_right</span>
+                        </label>
+                      </li>
+                      <li class="category-item">
+                        <input type="radio" id="mediumList02" v-model="mediumList" value="未來少女" name="未來少女">
+                        <label for="mediumList02">
+                          <p>未來少女</p>
+                          <span class="material-icons">chevron_right</span>
+                        </label>
+                      </li>
+                    </form>
+                    <form v-if="mainList === '動漫影音'">
+                      <li class="category-item">
+                        <input type="radio" id="mediumList01" v-model="mediumList" value="我與鬼成為家人的那件事" name="我與鬼成為家人的那件事">
+                        <label for="mediumList01">
+                          <p>我與鬼成為家人的那件事</p>
+                          <span class="material-icons">chevron_right</span>
+                        </label>
+                      </li>
+                    </form>
+                  </ul>
+                  <ul class="scroll-item">
+                    <div class="category-head">
+                      <p class="text-h5 pb-md">小分類</p>
+                      <div class="category-btn">
+                        <button class="b-btn-default text m-none px-xs" @click="addSmallForm">新增</button>
+                        <button class="b-btn-default text m-none px-xs" @click="deleteSmallForm" :disabled="!smallList">刪除</button>
+                      </div>
+                    </div>
+                    <form v-if="mainList === '美食與生活' && mediumList === '兌換券'">                      
+                      <li class="category-item">
+                        <input type="radio" id="smallList01" v-model="smallList" value="便利商店" name="便利商店">
+                        <label for="smallList01">
+                          <p>便利商店</p>
+                          <span class="material-icons">chevron_right</span>
+                        </label>
+                      </li>
+                      <li class="category-item">
+                        <input type="radio" id="smallList02" v-model="smallList" value="3C" name="3C">
+                        <label for="smallList02">
+                          <p>3C</p>
+                          <span class="material-icons">chevron_right</span>
+                        </label>
+                      </li>
+                      <li class="category-item">
+                        <input type="radio" id="smallList03" v-model="smallList" value="大賣場" name="大賣場">
+                        <label for="smallList03">
+                          <p>大賣場</p>
+                          <span class="material-icons">chevron_right</span>
+                        </label>
+                      </li>
+                    </form>
+                    <form v-if="mainList === '美食與生活' && mediumList === '購物金'">                      
+                      <li class="category-item">
+                        <input type="radio" id="smallList01" v-model="smallList" value="便利商店" name="便利商店">
+                        <label for="smallList01">
+                          <p>便利商店</p>
+                          <span class="material-icons">chevron_right</span>
+                        </label>
+                      </li>
+                      <li class="category-item">
+                        <input type="radio" id="smallList02" v-model="smallList" value="有閒購物" name="有閒購物">
+                        <label for="smallList02">
+                          <p>有閒購物</p>
+                          <span class="material-icons">chevron_right</span>
+                        </label>
+                      </li>
+                    </form>
+                    <form v-if="mainList === '旅遊' && mediumList === '網美景點'">                      
+                      <li class="category-item">
+                        <input type="radio" id="smallList01" v-model="smallList" value="經國七海文化園區" name="經國七海文化園區">
+                        <label for="smallList01">
+                          <p>經國七海文化園區</p>
+                          <span class="material-icons">chevron_right</span>
+                        </label>
+                      </li>
+                      <li class="category-item">
+                        <input type="radio" id="smallList02" v-model="smallList" value="不只是圖書館" name="不只是圖書館">
+                        <label for="smallList02">
+                          <p>不只是圖書館</p>
+                          <span class="material-icons">chevron_right</span>
+                        </label>
+                      </li>
+                    </form>
+                    <form v-if="mainList === '旅遊' && mediumList === '賞櫻步道'">                      
+                      <li class="category-item">
+                        <input type="radio" id="smallList01" v-model="smallList" value="太極嶺步道" name="太極嶺步道">
+                        <label for="smallList01">
+                          <p>太極嶺步道</p>
+                          <span class="material-icons">chevron_right</span>
+                        </label>
+                      </li>
+                      <li class="category-item">
+                        <input type="radio" id="smallList02" v-model="smallList" value="風尾步道" name="風尾步道">
+                        <label for="smallList02">
+                          <p>風尾步道</p>
+                          <span class="material-icons">chevron_right</span>
+                        </label>
+                      </li>
+                    </form>
+                    <form v-if="mainList === '偶像娛樂' && mediumList === '原子少年'">                      
+                      <li class="category-item">
+                        <input type="radio" id="smallList01" v-model="smallList" value="金星" name="金星">
+                        <label for="smallList01">
+                          <p>金星</p>
+                          <span class="material-icons">chevron_right</span>
+                        </label>
+                      </li>
+                      <li class="category-item">
+                        <input type="radio" id="smallList02" v-model="smallList" value="地球" name="地球">
+                        <label for="smallList02">
+                          <p>地球</p>
+                          <span class="material-icons">chevron_right</span>
+                        </label>
+                      </li>
+                      <li class="category-item">
+                        <input type="radio" id="smallList03" v-model="smallList" value="火星" name="火星">
+                        <label for="smallList03">
+                          <p>火星</p>
+                          <span class="material-icons">chevron_right</span>
+                        </label>
+                      </li>
+                      <li class="category-item">
+                        <input type="radio" id="smallList04" v-model="smallList" value="木星" name="木星">
+                        <label for="smallList04">
+                          <p>木星</p>
+                          <span class="material-icons">chevron_right</span>
+                        </label>
+                      </li>
+                    </form>
+                    <form v-if="mainList === '動漫影音' && mediumList === '我與鬼成為家人的那件事'">                      
+                      <li class="category-item">
+                        <input type="radio" id="smallList01" v-model="smallList" value="beanfun!" name="beanfun!">
+                        <label for="smallList01">
+                          <p>beanfun!</p>
+                          <span class="material-icons">chevron_right</span>
+                        </label>
+                      </li>
+                      <li class="category-item">
+                        <input type="radio" id="smallList02" v-model="smallList" value="奇幻靈異" name="奇幻靈異">
+                        <label for="smallList02">
+                          <p>奇幻靈異</p>
+                          <span class="material-icons">chevron_right</span>
+                        </label>
+                      </li>
+                    </form>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- popup 新增大分類 -->
+          <div class="modal fade" id="addMain" data-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm" role="document">
+              <div class="modal-img" data-type="warning"></div>
+              <div class="modal-content">
+                <div class="modal-body text-center">
+                  <h3 class="modal-title">新增大分類</h3>
+                  <div class="b-text-field">
+                    <label>大分類名稱<span>*</span></label>
+                    <div class="b-input-wrap">
+                      <input class="b-input max-w-none mr-none" type="text" v-model="ticketName" :maxlength="nameCount.maxlength" placeholder="請輸入大分類名稱" required>
+                      <div class="b-input-box">
+                        <!-- 當此分類有重複名稱請顯示下方提示訊息 -->
+                        <span class="wrong">*此分類名稱已重複使用</span>
+                        <span class="b-input-hint">({{ticketName.length}}/{{nameCount.maxlength}})</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer justify-content-center pt-none">
+                  <button class="b-btn-default" data-size="lg" type="button" onclick="window.location= './9.2_data-type-list.html'">確定</button>
+                  <button class="b-btn-default text no-underline" data-size="md" type="button" data-dismiss="modal">關閉</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- popup 新增中分類 -->
+          <div class="modal fade" id="addMedium" data-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm" role="document">
+              <div class="modal-img" data-type="warning"></div>
+              <div class="modal-content">
+                <div class="modal-body text-center">
+                  <h3 class="modal-title">新增中分類</h3>
+                  <div class="b-text-field">
+                    <label>中分類名稱<span>*</span></label>
+                    <div class="b-input-wrap">
+                      <input class="b-input max-w-none mr-none" type="text" v-model="ticketName" :maxlength="nameCount.maxlength" placeholder="請輸入中分類名稱" required>
+                      <div class="b-input-box">
+                        <!-- 當此分類有重複名稱請顯示下方提示訊息 -->
+                        <span class="wrong">*此分類名稱已重複使用</span>
+                        <span class="b-input-hint">({{ticketName.length}}/{{nameCount.maxlength}})</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer justify-content-center pt-none">
+                  <button class="b-btn-default" data-size="lg" type="button" onclick="window.location= './9.2_data-type-list.html'">確定</button>
+                  <button class="b-btn-default text no-underline" data-size="md" type="button" data-dismiss="modal">關閉</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- popup 新增小分類 -->
+          <div class="modal fade" id="addSmall" data-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm" role="document">
+              <div class="modal-img" data-type="warning"></div>
+              <div class="modal-content">
+                <div class="modal-body text-center">
+                  <h3 class="modal-title">新增小分類</h3>
+                  <div class="b-text-field">
+                    <label>小分類名稱<span>*</span></label>
+                    <div class="b-input-wrap">
+                      <input class="b-input max-w-none mr-none" type="text" v-model="ticketName" :maxlength="nameCount.maxlength" placeholder="請輸入小分類名稱" required>
+                      <div class="b-input-box">
+                        <!-- 當此分類有重複名稱請顯示下方提示訊息 -->
+                        <span class="wrong">*此分類名稱已重複使用</span>
+                        <span class="b-input-hint">({{ticketName.length}}/{{nameCount.maxlength}})</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer justify-content-center pt-none">
+                  <button class="b-btn-default" data-size="lg" type="button" onclick="window.location= './9.2_data-type-list.html'">確定</button>
+                  <button class="b-btn-default text no-underline" data-size="md" type="button" data-dismiss="modal">關閉</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- popup 刪除大分類 -->
+          <div class="modal fade" id="deleteMain" data-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm" role="document">
+              <div class="modal-img" data-type="warning"></div>
+              <div class="modal-content">
+                <div class="modal-body text-center">
+                  <h3 class="modal-title">刪除分類</h3>
+                  <p>注意:若有綁定的子項目將無法完成刪除動作。請問是否確認刪除 <b>{{mainList}}</b> 項目呢?</p>
+                </div>
+                <div class="modal-footer justify-content-center pt-none">
+                  <button class="b-btn-default" data-size="lg" type="button" data-dismiss="modal" @click="failForm">確定</button>
+                  <button class="b-btn-default text no-underline" data-size="md" type="button" data-dismiss="modal">關閉</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- popup 刪除中分類 -->
+          <div class="modal fade" id="deleteMedium" data-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm" role="document">
+              <div class="modal-img" data-type="warning"></div>
+              <div class="modal-content">
+                <div class="modal-body text-center">
+                  <h3 class="modal-title">刪除分類</h3>
+                  <p>注意:若有綁定的子項目將無法完成刪除動作。請問是否確認刪除 <b>{{mediumList}}</b> 項目呢?</p>
+                </div>
+                <div class="modal-footer justify-content-center pt-none">
+                  <button class="b-btn-default" data-size="lg" type="button" data-dismiss="modal" @click="failForm">確定</button>
+                  <button class="b-btn-default text no-underline" data-size="md" type="button" data-dismiss="modal">關閉</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- popup 刪除小分類 -->
+          <div class="modal fade" id="deleteSmall" data-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm" role="document">
+              <div class="modal-img" data-type="warning"></div>
+              <div class="modal-content">
+                <div class="modal-body text-center">
+                  <h3 class="modal-title">刪除分類</h3>
+                  <p>注意:若有綁定的子項目將無法完成刪除動作。請問是否確認刪除 <b>{{smallList}}</b> 項目呢?</p>
+                </div>
+                <div class="modal-footer justify-content-center pt-none">
+                  <button class="b-btn-default" data-size="lg" type="button" data-dismiss="modal" @click="failForm">確定</button>
+                  <button class="b-btn-default text no-underline" data-size="md" type="button" data-dismiss="modal">關閉</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- popup 刪除失敗 -->
+          <div class="modal fade" id="failConfirm" data-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm" role="document">
+              <div class="modal-img" data-type="warning"></div>
+              <div class="modal-content">
+                <div class="modal-body text-center">
+                  <h3 class="modal-title">刪除失敗</h3>
+                  <p>尚有子分類項目，請先刪除相關子分類後重新操作</p>
+                </div>
+                <div class="modal-footer justify-content-center pt-none">
+                  <button class="b-btn-default" data-size="lg" type="button" data-dismiss="modal">確定</button>
+                  <button class="b-btn-default text no-underline" data-size="md" type="button" data-dismiss="modal">關閉</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="footer">
+            <div class="copyright">&copy;2022 GASH Co, Ltd. All Right Reserved. </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Vue-->
+    <script src="js/vue.min.js"></script>
+    <!-- jQuery-->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap Core JavaScript-->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- table plugin-->
+    <script src="js/datatables.min.js"></script>
+    <!-- input plugin-->
+    <script src="js/flatpickr.js"></script>
+    <!-- multiselector-->
+    <script src="js/vue-select.js"></script>
+    <!-- Custom JavaScript-->
+    <script src="js/sidebar.js"></script>
+    <script src="js/custom.js"></script>
+    <script>
+      currentPage('類別設定');
+      var vm = new Vue({
+          el: '#app',
+          data: {
+            loading: false,
+            //新增分類
+            ticketName: '',
+            nameCount: {
+              // placeholder: '請輸入小分類名稱',
+              maxlength: 15,
+            },
+            //大中小分類
+            mainList: '',
+            mediumList: '',
+            smallList: '',
+          },
+          methods: {
+            addMainForm: function (){
+              // this.submitBtnStatus.disabled = true  
+              // this.submitBtnStatus.loading = true  
+              // this.validationEmpty(this.showAlert)
+              window.setTimeout(function(){
+                $('#addMain').modal('show')
+              }, 500);
+            },
+            addMediumForm: function (){
+              // this.submitBtnStatus.disabled = true  
+              // this.submitBtnStatus.loading = true  
+              // this.validationEmpty(this.showAlert)
+              window.setTimeout(function(){
+                $('#addMedium').modal('show')
+              }, 500);
+            },
+            addSmallForm: function (){
+              // this.submitBtnStatus.disabled = true  
+              // this.submitBtnStatus.loading = true  
+              // this.validationEmpty(this.showAlert)
+              window.setTimeout(function(){
+                $('#addSmall').modal('show')
+              }, 500);
+            },
+            deleteMainForm: function (){
+              // this.submitBtnStatus.disabled = true  
+              // this.submitBtnStatus.loading = true  
+              // this.validationEmpty(this.showAlert)
+              window.setTimeout(function(){
+                $('#deleteMain').modal('show')
+              }, 500);
+            },
+            deleteMediumForm: function (){
+              // this.submitBtnStatus.disabled = true  
+              // this.submitBtnStatus.loading = true  
+              // this.validationEmpty(this.showAlert)
+              window.setTimeout(function(){
+                $('#deleteMedium').modal('show')
+              }, 500);
+            },
+            deleteSmallForm: function (){
+              // this.submitBtnStatus.disabled = true  
+              // this.submitBtnStatus.loading = true  
+              // this.validationEmpty(this.showAlert)
+              window.setTimeout(function(){
+                $('#deleteSmall').modal('show')
+              }, 500);
+            },
+
+            failForm: function (){
+              // this.submitBtnStatus.disabled = true  
+              // this.submitBtnStatus.loading = true  
+              // this.validationEmpty(this.showAlert)
+              window.setTimeout(function(){
+                $('#failConfirm').modal('show')
+              }, 500);
+            },
+          },
+      })
+      $(document).ready(function() {
+          $('#productList').DataTable({
+              "pagingType": "full_numbers",
+              "language": {
+                  "decimal":        "",
+                  "emptyTable":     "沒有可顯示的資料",
+                  "info":           "顯示從 _START_ 到 _END_ 共 _TOTAL_ 筆資料",
+                  "infoEmpty":      "顯示從 0 到 0 共 0 筆資料",
+                  "infoFiltered":   "(從 _MAX_ 筆篩選出)",
+                  "infoPostFix":    "",
+                  "thousands":      ",",
+                  "lengthMenu":     "顯示 _MENU_ 筆資料",
+                  "loadingRecords": "載入中...",
+                  "processing":     "執行中...",
+                  "search":         "篩選資料: ",
+                  "zeroRecords":    "查無符合資料",
+                  "paginate": {
+                      "first":      "第一筆",
+                      "last":       "最後一筆",
+                      "next":       "下一筆",
+                      "previous":   "上一筆"
+                  },
+                  "aria": {
+                      "sortAscending":  ": activate to sort column ascending",
+                      "sortDescending": ": activate to sort column descending"
+                  }
+              },
+              "order": [[ 0, "asc" ]],
+              scrollY:        '25rem',
+              scrollX:        true,
+              searching:      false,
+              scrollCollapse: true,
+              fixedColumns:   {
+                  left: 1,
+                  right: 1,
+              }
+          });
+      
+      } );
+    </script>
+  </body>
+</html>

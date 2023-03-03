@@ -166,7 +166,20 @@ input[type="radio"] {
     margin-top: -0.8rem;
     padding-right: 0;
 }
-
+.b-input-box{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    .wrong{
+        font-size: .7rem;
+        color: #FE9531;
+    }
+    .b-input-hint{
+        width: auto;
+        line-height: 19px;
+    }
+}
 .b-input-hint {
     font-size: 0.8rem;
     display: block;

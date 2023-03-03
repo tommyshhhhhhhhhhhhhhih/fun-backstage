@@ -71,6 +71,67 @@ td.w-4{
 }
 
 
+// 9.2_data-type-list.html
+.data-type-list{
+  .category-list{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    padding: 2.5rem 0;
+    background-color: #fff;
+    ul.scroll-item{
+      width: calc(100% / 3);
+      padding: 1.5rem;
+      border-right: 1px rgba(0,0,0,.1) solid;
+      &:last-child{
+        border: none;
+      }
+      .category-head{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        .category-btn{
+          button{
+            font-size: .85rem;
+            &:last-child{
+              padding-right: 0 !important;
+            }
+            &.b-btn-default[disabled]{
+              color: #e2e2e2 !important;
+              background: none !important;
+            }
+          }
+        }
+      }
+      form{
+        max-height: 40vh;
+        overflow-y: scroll;
+      }
+      li.category-item{
+        label{
+          display: flex;
+          justify-content: space-between;
+          padding: .5rem;
+          color: #727272;
+          span.material-icons{
+            line-height: 24px;
+          }
+        }
+        input{
+          display: none;
+        }
+        input:checked{
+          & + label{
+            background-color: $Primary;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}
+
   
 
 
