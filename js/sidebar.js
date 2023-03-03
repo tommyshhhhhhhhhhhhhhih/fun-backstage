@@ -82,6 +82,16 @@ let menuItem = [
       { label: '撥款提領紀錄', icon: "paid", link: './8.1_payment-list.html' },
     ]
   },
+  {
+    type: "group",
+    icon: 'group_work',
+    active: "true",
+    label: "群組類別管理",
+    child: [
+      // { label: '群組管理', icon: "category", link: './9.1_group-list.html' },
+      { label: '類別設定', icon: "auto_awesome_mosaic", link: './9.2_data-type-list.html' },
+    ]
+  },
   // {
   //   type: "group",
   //   icon: 'person_off',
