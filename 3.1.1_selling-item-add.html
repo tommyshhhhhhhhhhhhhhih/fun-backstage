@@ -510,7 +510,9 @@
                     </div>
                   </template>
                   <div class="b-text-field d-block" :class="eventFreebie.validation">
-                    <label>贈獎活動<span class="tooltip-btn pl-xs" data-toggle="tooltip" data-placement="right" title="現階段由開發建置活動，提供所需欄位資料。手動填入活動名稱、活動期間、MPS event key對應MPS欄位"><span class="material-icons">info</span></span></label>
+                    <label>贈獎活動
+                      <!-- <span class="tooltip-btn pl-xs" data-toggle="tooltip" data-placement="right" title="現階段由開發建置活動，提供所需欄位資料。手動填入活動名稱、活動期間、MPS event key對應MPS欄位"><span class="material-icons">info</span></span> -->
+                    </label>
                     <div class="b-field-group">
                       <template v-for="item, idx in itemProperty">
                         <div class="d-flex mb-none">
@@ -533,7 +535,9 @@
                     </div>
                   </div>
                   <div class="b-text-field d-block">
-                    <label>上架數量<span class="tooltip-btn pl-xs" data-toggle="tooltip" data-placement="right" title="請先填寫預計上架數量，於審核通過後，再上傳相應 PIN 碼才會列入商品庫存。如果資產不需 PIN 碼核銷，則後續不需上傳。"><span class="material-icons">info</span></span></label>
+                    <label>上架數量
+                      <!-- <span class="tooltip-btn pl-xs" data-toggle="tooltip" data-placement="right" title="請先填寫預計上架數量，於審核通過後，再上傳相應 PIN 碼才會列入商品庫存。如果資產不需 PIN 碼核銷，則後續不需上傳。"><span class="material-icons">info</span></span> -->
+                    </label>
                     <div class="b-field-group">
                       <div class="b-field-row mb-none">
                         <input class="b-input m-none" type="number" v-model="formData.stock" placeholder="請輸入上架數量">
